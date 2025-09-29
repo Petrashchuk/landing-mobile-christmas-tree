@@ -1,6 +1,6 @@
 // server.js
-const express = require("express");
 const path = require("path");
+const express = require("express");
 const fetch = require("node-fetch");
 const crypto = require("crypto");
 require("dotenv").config();
@@ -14,7 +14,17 @@ const __dirname = path.resolve();
 // Парсинг form-data
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"), {
+    setHeaders: (res, filePath) => {
+        if (/\.(jpg|jpeg|png|gif|webp|svg)$/i.test(filePath)) {
+            // Кешуємо картинки 30 днів
+            res.setHeader("Cache-Control", "public, max-age=2592000");
+        } else if (filePath.endsWith(".html")) {
+            // HTML не кешуємо
+            res.setHeader("Cache-Control", "no-cache");
+        }
+    }
+}));
 
 // GET /
 app.get("/", (req, res) => {
