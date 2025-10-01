@@ -6,13 +6,13 @@ const crypto = require("crypto");
 require("dotenv").config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Шлях до поточної директорії
 const __dirname = path.resolve();
 
 // Парсинг form-data
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public"), {
     setHeaders: (res, filePath) => {
@@ -39,12 +39,12 @@ app.post("/order", async (req, res) => {
         const orderData = extractOrderData(req.body);
         await sendTelegramNotification(orderData);
         await sendFacebookCAPI(
-            { ...orderData, ip: req.ip, agent: req.headers["user-agent"] },
+            {...orderData, ip: req.ip, agent: req.headers["user-agent"]},
             req.headers.referer
         );
 
         if (req.headers["content-type"] && req.headers["content-type"].includes("application/json")) {
-            return res.json({ redirect: redirectUrl });
+            return res.json({redirect: redirectUrl});
         }
         return redirectThankYou(res, orderData);
     } catch (error) {
@@ -61,7 +61,7 @@ app.listen(PORT, () => {
 
 // Витягуємо дані замовлення з req.body
 function extractOrderData(body) {
-    const { name, phone, type, size, event_id } = body;
+    const {name, phone, type, size, event_id} = body;
     return {
         name,
         phone,
@@ -72,7 +72,7 @@ function extractOrderData(body) {
 }
 
 // Відправка повідомлення в Telegram
-async function sendTelegramNotification({ name, phone, type, size }) {
+async function sendTelegramNotification({name, phone, type, size}) {
     const token = process.env.TELEGRAM_TOKEN;
     const chat_id = process.env.TELEGRAM_CHAT_ID;
     const message = `
@@ -91,7 +91,7 @@ async function sendTelegramNotification({ name, phone, type, size }) {
 }
 
 // Відправка події в Facebook CAPI
-async function sendFacebookCAPI({ name, phone, type, size, event_id, ip, agent }, referer) {
+async function sendFacebookCAPI({name, phone, type, size, event_id, ip, agent}, referer) {
     const token = process.env.FB_ACCESS_TOKEN;
     const pixelId = process.env.FB_PIXEL_ID;
 
@@ -123,7 +123,7 @@ async function sendFacebookCAPI({ name, phone, type, size, event_id, ip, agent }
 
     const response = await fetch(fbUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(eventData),
     });
     const data = await response.json();
@@ -131,8 +131,8 @@ async function sendFacebookCAPI({ name, phone, type, size, event_id, ip, agent }
 }
 
 // Редірект на сторінку дяки
-function redirectThankYou(res, { name }) {
-    const queryParams = new URLSearchParams({ name }).toString();
+function redirectThankYou(res, {name}) {
+    const queryParams = new URLSearchParams({name}).toString();
     res.redirect(`/thank-you.html?${queryParams}`);
 }
 
