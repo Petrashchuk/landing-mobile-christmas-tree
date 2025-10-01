@@ -268,43 +268,27 @@ document.getElementById("order_form").addEventListener("submit", async function 
 
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
-
-            if (typeof fbq === "function") {
-                fbq(
-                    "track",
-                    "Lead",
-                    {
-                        content_name: data.type,
-                        content_category: data.size,
-                    },
-                    { eventID: event_id }
-                );
+            if (typeof fbq === 'function') {
+                fbq('track', 'Lead', {
+                    content_name: data.type,
+                    content_category: data.size,
+                }, {
+                    eventID: event_id
+                });
             }
-
-            // відправка на сервер
-            const response = await fetch("/order", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
+            const response = await fetch('/order', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
             });
 
-            if (!response.ok) {
-                throw new Error("Сервер повернув помилку");
-            }
-
-            // пробуємо зчитати JSON
-            let json = null;
-            try {
-                json = await response.json();
-            } catch (e) {
-                // якщо не JSON → нехай буде null
-            }
-
+            // якщо сервер повертає JSON з redirect
+            const json = await response.json();
             if (json?.redirect) {
-                window.location.href = json.redirect;
+                window.location.href = json.redirect; // вручну робимо редірект
             } else {
-                // fallback (якщо сервер віддав HTML чи пусту відповідь)
-                window.location.href = `/thank-you.html?name=${encodeURIComponent(data.name)}`;
+                // fallback: якщо сервер віддав 200/HTML, можна парсити або перейти вручну
+                console.warn('No redirect url in response', json);
             }
 
         } catch (error) {
