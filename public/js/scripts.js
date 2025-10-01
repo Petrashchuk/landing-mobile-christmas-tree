@@ -279,7 +279,11 @@ document.getElementById("order_form").addEventListener("submit", async function 
             const response = await fetch('/order', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
+                body: JSON.stringify({
+                    ...data,
+                    _fbp: getFbClientId(),
+                    _fbc: getFbClickId()
+                })
             });
 
             // якщо сервер повертає JSON з redirect
@@ -315,3 +319,18 @@ function generateEventId() {
         return v.toString(16);
     });
 }
+
+
+function getCookieValue(cookieName) {
+    const match = document.cookie.match(new RegExp('(^| )' + cookieName + '=([^;]+)'));
+    return match ? match[2] : null;
+}
+
+function getFbClientId() {
+    return getCookieValue('_fbp');
+}
+
+function getFbClickId() {
+    return getCookieValue('_fbc');
+}
+

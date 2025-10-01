@@ -94,7 +94,7 @@ async function sendTelegramNotification({name, phone, type, size}) {
 }
 
 // Facebook CAPI
-async function sendFacebookCAPI({name, phone, type, size, event_id, ip, agent}, referer) {
+async function sendFacebookCAPI({name, phone, type, size, event_id, ip, agent, _fbp, _fbc}, referer) {
     if (!process.env.FB_ACCESS_TOKEN || !process.env.FB_PIXEL_ID) return;
 
     const fbUrl = `https://graph.facebook.com/v23.0/${process.env.FB_PIXEL_ID}/events?access_token=${process.env.FB_ACCESS_TOKEN}`;
@@ -108,6 +108,8 @@ async function sendFacebookCAPI({name, phone, type, size, event_id, ip, agent}, 
                 action_source: 'website',
                 event_source_url: referer || 'https://land.yalynkahub.com.ua/',
                 user_data: {
+                    fbp: _fbp,
+                    fbc: _fbc,
                     em: hashSHA256(phone),
                     client_ip_address: ip,
                     client_user_agent: agent,
@@ -123,9 +125,14 @@ async function sendFacebookCAPI({name, phone, type, size, event_id, ip, agent}, 
     };
 
     try {
+        const params = {};
+        if (process.env.FB_TEST_CODE) params.test_event_code = process.env.FB_TEST_CODE;
+
         const response = await axios.post(fbUrl, eventData, {
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
+            params
         });
+
         if (!response.data.events_received) throw new Error('Facebook CAPI error');
         console.log('Facebook CAPI send successfully!!!');
 
