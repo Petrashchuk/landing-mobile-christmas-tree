@@ -4,6 +4,7 @@
   "description": "",
   "license": "ISC",
   "author": "",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -12,9 +13,9 @@
     "start:prod": "node dist/bundle.js"
   },
   "dependencies": {
+    "axios": "^1.12.2",
     "dotenv": "^17.2.2",
-    "express": "^5.1.0",
-    "node-fetch": "^3.3.2"
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",
