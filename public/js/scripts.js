@@ -166,12 +166,12 @@ function loadSizes(treeName) {
     if (treeSizes[treeName]) {
         sizeSelect.disabled = false;
 
-        const sizes = treeSizes[treeName];
-        const middleIndex = Math.floor(sizes.length / 2); // знаходимо середній індекс
+         const sizes = treeSizes[treeName];
+        // const middleIndex = Math.floor(sizes.length / 2); // знаходимо середній індекс
 
         sizes.forEach((size, index) => {
-            const selected = index === middleIndex ? "selected" : "";
-            sizeSelect.insertAdjacentHTML("beforeend", `<option value="${size}" ${selected}>${size}</option>`);
+            // const selected = index === middleIndex ? "selected" : "";
+            sizeSelect.insertAdjacentHTML("beforeend", `<option value="${size}">${size}</option>`);
         });
 
     } else {
