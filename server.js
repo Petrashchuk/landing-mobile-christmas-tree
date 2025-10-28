@@ -121,7 +121,6 @@ async function sendFacebookCAPI({name, phone, type, size, price, event_id, ip, a
     const fbUrl = `https://graph.facebook.com/v23.0/${process.env.FB_PIXEL_ID}/events?access_token=${process.env.FB_ACCESS_TOKEN}`;
 
     const {firstName, lastName} = splitName(name);
-    const cleanPrice = parseFloat(price.replace(/\D/g, '')); // видаляє все крім цифр
 
     const eventData = {
         data: [
@@ -143,7 +142,7 @@ async function sendFacebookCAPI({name, phone, type, size, price, event_id, ip, a
                 custom_data: {
                     content_name: type,
                     content_category: size,
-                    value: cleanPrice,
+                    value: price,
                     currency: 'UAH',
                     client_ip_address: ip,
                     client_user_agent: agent,
