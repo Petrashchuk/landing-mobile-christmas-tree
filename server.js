@@ -93,11 +93,21 @@ async function sendTelegramNotification({name, phone, type, size}) {
     }
 }
 
+function splitName(fullName = '') {
+    const parts = fullName.trim().split(/\s+/);
+    return {
+        firstName: parts[0] || '',
+        lastName: parts.slice(1).join(' ') || '',
+    };
+}
+
 // Facebook CAPI
 async function sendFacebookCAPI({name, phone, type, size, event_id, ip, agent, _fbp, _fbc}, referer) {
     if (!process.env.FB_ACCESS_TOKEN || !process.env.FB_PIXEL_ID) return;
 
     const fbUrl = `https://graph.facebook.com/v23.0/${process.env.FB_PIXEL_ID}/events?access_token=${process.env.FB_ACCESS_TOKEN}`;
+
+    const { firstName, lastName } = splitName(name);
 
     const eventData = {
         data: [
@@ -110,7 +120,9 @@ async function sendFacebookCAPI({name, phone, type, size, event_id, ip, agent, _
                 user_data: {
                     fbp: _fbp,
                     fbc: _fbc,
-                    em: hashSHA256(phone),
+                    ph: phone ? hashSHA256(phone) : undefined,
+                    fn: firstName ? hashSHA256(firstName) : undefined,
+                    ln: lastName ? hashSHA256(lastName) : undefined,
                     client_ip_address: ip,
                     client_user_agent: agent,
                 },
