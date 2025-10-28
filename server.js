@@ -61,13 +61,26 @@ app.post('/order', async (req, res) => {
 
 // ----------------- Functions -----------------
 
+function parseSizeAndPrice(str) {
+    // Використовуємо регулярний вираз для розбору рядка
+    const match = str.match(/([\d.,]+\s*м)\D*?(\d+)/);
+    if (!match) return null; // якщо не збіглося
+
+    const size = match[1].trim();       // "1.5 м"
+    const price = Number(match[2]);     // 2090
+
+    return {size, price};
+}
+
 function extractOrderData(body) {
     const {name, phone, type, size, event_id} = body;
+    const {size: parsedSize, price} = parseSizeAndPrice(size);
     return {
         name,
         phone,
         type,
-        size,
+        size: parsedSize,
+        price,
         event_id: event_id || crypto.randomUUID(),
     };
 }
@@ -102,12 +115,13 @@ function splitName(fullName = '') {
 }
 
 // Facebook CAPI
-async function sendFacebookCAPI({name, phone, type, size, event_id, ip, agent, _fbp, _fbc}, referer) {
+async function sendFacebookCAPI({name, phone, type, size, price, event_id, ip, agent, _fbp, _fbc}, referer) {
     if (!process.env.FB_ACCESS_TOKEN || !process.env.FB_PIXEL_ID) return;
 
     const fbUrl = `https://graph.facebook.com/v23.0/${process.env.FB_PIXEL_ID}/events?access_token=${process.env.FB_ACCESS_TOKEN}`;
 
-    const { firstName, lastName } = splitName(name);
+    const {firstName, lastName} = splitName(name);
+    const cleanPrice = parseFloat(price.replace(/\D/g, '')); // видаляє все крім цифр
 
     const eventData = {
         data: [
@@ -129,6 +143,8 @@ async function sendFacebookCAPI({name, phone, type, size, event_id, ip, agent, _
                 custom_data: {
                     content_name: type,
                     content_category: size,
+                    value: cleanPrice,
+                    currency: 'UAH',
                     client_ip_address: ip,
                     client_user_agent: agent,
                 },
@@ -141,7 +157,7 @@ async function sendFacebookCAPI({name, phone, type, size, event_id, ip, agent, _
         if (process.env.FB_TEST_CODE) params.test_event_code = process.env.FB_TEST_CODE;
 
         const response = await axios.post(fbUrl, eventData, {
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             params
         });
 
