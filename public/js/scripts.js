@@ -281,7 +281,8 @@ document.getElementById("order_form").addEventListener("submit", async function 
                 body: JSON.stringify({
                     ...data,
                     _fbp: getFbClientId(),
-                    _fbc: getFbClickId()
+                    _fbc: getFbClickId(),
+                    ...getUtmParams() // utm_source/medium/campaign/content/term з URL → CRM-атрибуція
                 })
             });
 
@@ -323,6 +324,16 @@ function generateEventId() {
 function getCookieValue(cookieName) {
     const match = document.cookie.match(new RegExp('(^| )' + cookieName + '=([^;]+)'));
     return match ? match[2] : null;
+}
+
+function getUtmParams() {
+    const params = new URLSearchParams(window.location.search);
+    const out = {};
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(k => {
+        const v = params.get(k);
+        if (v) out[k] = v;
+    });
+    return out;
 }
 
 function getFbClientId() {

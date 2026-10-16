@@ -38,15 +38,20 @@ app.post('/order', async (req, res) => {
         const nameEncoded = encodeURIComponent(orderData.name || 'Гість');
         const redirectUrl = `/thank-you.html?name=${nameEncoded}`;
 
-        // Telegram
-        await sendTelegramNotification(orderData);
-
-        // Facebook CAPI
-        await sendFacebookCAPI({
-            ...orderData,
-            ip: req.ip,
-            agent: req.headers['user-agent']
-        }, req.headers.referer);
+        // Усі три приймачі — незалежні й best-effort: падіння одного не має
+        // ламати оформлення (клієнт усе одно побачить «дякуємо»).
+        await Promise.allSettled([
+            // Telegram
+            sendTelegramNotification(orderData),
+            // Facebook CAPI
+            sendFacebookCAPI({
+                ...orderData,
+                ip: req.ip,
+                agent: req.headers['user-agent']
+            }, req.headers.referer),
+            // Orderli CRM — створюємо замовлення в CRM продавця
+            sendCrmOrder({...orderData, utm: extractUtm(req.body)}),
+        ]);
 
         if (req.headers['content-type']?.includes('application/json')) {
             return res.json({redirect: redirectUrl});
@@ -165,6 +170,72 @@ async function sendFacebookCAPI({name, phone, type, size, price, event_id, ip, a
 
     } catch (err) {
         console.error('Помилка при відправці Facebook CAPI:', err.message);
+    }
+}
+
+// Витягуємо UTM-мітки з тіла запиту (фронт прокидає їх з URL-параметрів
+// посадкової). Повертаємо лише непорожні — CRM приймає гнучкий «плоский» формат.
+function extractUtm(body = {}) {
+    const utm = {};
+    for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term']) {
+        const v = body[key];
+        if (typeof v === 'string' && v.trim()) utm[key] = v.trim().slice(0, 200);
+    }
+    return utm;
+}
+
+// Orderli CRM — публічний API інжесту замовлень (POST /api/v1/public/orders,
+// авторизація через API-ключ продавця). Замовлення з'являється у CRM зі
+// статусом «Новий», мапиться у власне джерело аналітики/маршрутизації та
+// йде в авто-розподіл між менеджерами. Best-effort: ніколи не кидає —
+// проблема з CRM не має зривати оформлення на лендінгу.
+async function sendCrmOrder({name, phone, type, size, price, event_id, utm}) {
+    if (!process.env.CRM_API_URL || !process.env.CRM_API_KEY) return;
+
+    const {firstName, lastName} = splitName(name);
+    const source = process.env.CRM_ORDER_SOURCE || 'Лендінг ялинки';
+
+    const payload = {
+        client: {
+            phone,
+            first_name: firstName || 'Клієнт',
+            ...(lastName ? {last_name: lastName} : {}),
+        },
+        items: [
+            {
+                name: type || 'Ялинка',
+                ...(size ? {variant: size} : {}),
+                quantity: 1,
+                price: Number(price) || 0, // публічний API приймає гривні
+            },
+        ],
+        payment_type: 'cod',
+        source,
+        // Ідемпотентність: повторний сабміт з тим самим event_id не задвоїть
+        // замовлення (CRM дедуплікує за external_id у межах продавця).
+        external_id: `landing:${event_id}`,
+        comment: `Замовлення з лендінгу${size ? ` · ${type} ${size}` : ''}`.trim(),
+        ...(utm && Object.keys(utm).length ? utm : {}),
+    };
+
+    const base = process.env.CRM_API_URL.replace(/\/+$/, '');
+
+    try {
+        const response = await axios.post(`${base}/api/v1/public/orders`, payload, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${process.env.CRM_API_KEY}`,
+            },
+            timeout: 15000,
+        });
+        const data = response.data?.data;
+        console.log(
+            `Orderli CRM order ${response.data?.duplicate ? 'deduped' : 'created'}:`,
+            data?.order_number || data?.id,
+        );
+    } catch (err) {
+        // Логуємо тіло помилки CRM (валідація/тариф/ключ), але не кидаємо далі.
+        console.error('Помилка при створенні замовлення в CRM:', err.response?.data || err.message);
     }
 }
 
