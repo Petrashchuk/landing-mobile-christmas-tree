@@ -9,7 +9,10 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "build": "webpack --config webpack.config.js",
-    "start:prod": "node dist/bundle.js"
+    "start:prod": "node dist/bundle.js",
+    "docker:build": "docker build -t yalynka-landing .",
+    "docker:stop": "docker rm -f yalynka-landing || true",
+    "docker:restart": "npm run docker:build && npm run docker:stop && docker run -d --name yalynka-landing --env-file .env -p 3000:3000 --restart unless-stopped yalynka-landing"
   },
   "dependencies": {
     "axios": "^1.12.2",
