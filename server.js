@@ -64,6 +64,73 @@ app.post('/order', async (req, res) => {
     }
 });
 
+// ---------------- Nova Poshta proxy ----------------
+// Проксі до API Нової Пошти, щоб NP_API_KEY лишався на сервері (не світився у
+// фронті). Три каскадні довідники: області → міста → відділення. Усі best-effort —
+// на помилці повертають порожній список, щоб форма не падала.
+
+async function npCall(calledMethod, methodProperties = {}) {
+    const {data} = await axios.post('https://api.novaposhta.ua/v2.0/json/', {
+        apiKey: process.env.NP_API_KEY,
+        modelName: 'Address',
+        calledMethod,
+        methodProperties: {Language: 'UA', ...methodProperties},
+    }, {timeout: 15000});
+    return data;
+}
+
+// GET /np/areas — список областей (Ref + назва)
+app.get('/np/areas', async (req, res) => {
+    if (!process.env.NP_API_KEY) return res.json({items: []});
+    try {
+        const d = await npCall('getAreas', {});
+        res.json({items: (d.data || []).map((a) => ({ref: a.Ref, name: a.Description}))});
+    } catch (err) {
+        console.error('NP getAreas:', err.message);
+        res.json({items: []});
+    }
+});
+
+// GET /np/cities?areaRef=&q= — міста в області за пошуковим рядком
+app.get('/np/cities', async (req, res) => {
+    const areaRef = String(req.query.areaRef || '').trim();
+    const q = String(req.query.q || '').trim();
+    if (!process.env.NP_API_KEY || q.length < 2) return res.json({items: []});
+    try {
+        const props = {FindByString: q, Limit: '20', Page: '1'};
+        if (areaRef) props.AreaRef = areaRef;
+        const d = await npCall('getCities', props);
+        res.json({
+            items: (d.data || []).map((c) => ({
+                ref: c.Ref, name: c.Description, area: c.AreaDescription || '',
+            })),
+        });
+    } catch (err) {
+        console.error('NP getCities:', err.message);
+        res.json({items: []});
+    }
+});
+
+// GET /np/warehouses?cityRef=&q= — відділення/поштомати міста
+app.get('/np/warehouses', async (req, res) => {
+    const cityRef = String(req.query.cityRef || '').trim();
+    const q = String(req.query.q || '').trim();
+    if (!process.env.NP_API_KEY || !cityRef) return res.json({items: []});
+    try {
+        const props = {CityRef: cityRef, Limit: '50', Page: '1'};
+        if (q) props.FindByString = q;
+        const d = await npCall('getWarehouses', props);
+        res.json({
+            items: (d.data || []).map((w) => ({
+                ref: w.Ref, number: w.Number, name: w.Description,
+            })),
+        });
+    } catch (err) {
+        console.error('NP getWarehouses:', err.message);
+        res.json({items: []});
+    }
+});
+
 // ----------------- Functions -----------------
 
 function parseSizeAndPrice(str) {
@@ -78,7 +145,7 @@ function parseSizeAndPrice(str) {
 }
 
 function extractOrderData(body) {
-    const {name, phone, type, size, event_id} = body;
+    const {name, phone, type, size, event_id, comment} = body;
     const {size: parsedSize, price} = parseSizeAndPrice(size);
     return {
         name,
@@ -87,14 +154,39 @@ function extractOrderData(body) {
         size: parsedSize,
         price,
         event_id: event_id || crypto.randomUUID(),
+        comment: typeof comment === 'string' ? comment.trim().slice(0, 1000) : '',
+        delivery: extractDelivery(body),
+    };
+}
+
+// Доставка Нова Пошта (на відділення) — зібрана фронтом із Ref'ами. Валідна
+// лише коли є і місто, і відділення; інакше замовлення йде без адреси (продавець
+// уточнить вручну). Формат — під delivery_address публічного API CRM.
+function extractDelivery(body = {}) {
+    const cityRef = String(body.city_ref || '').trim();
+    const warehouseRef = String(body.warehouse_ref || '').trim();
+    if (!cityRef || !warehouseRef) return null;
+    return {
+        delivery_type: 'warehouse',
+        city_ref: cityRef,
+        city_name: String(body.city_name || '').slice(0, 200),
+        warehouse_ref: warehouseRef,
+        warehouse_number: String(body.warehouse_number || '').slice(0, 20),
+        warehouse_description: String(body.warehouse_description || '').slice(0, 500),
     };
 }
 
 // Telegram notification
-async function sendTelegramNotification({name, phone, type, size}) {
+async function sendTelegramNotification({name, phone, type, size, delivery, comment}) {
     if (!process.env.TELEGRAM_TOKEN || !process.env.TELEGRAM_CHAT_ID) return;
 
-    const message = `<b>Ім'я користувача:</b> ${name}\n<b>Телефон:</b> ${phone}\n<b>Вид:</b> ${type}\n<b>Розмір:</b> ${size}`;
+    let message = `<b>Ім'я користувача:</b> ${name}\n<b>Телефон:</b> ${phone}\n<b>Вид:</b> ${type}\n<b>Розмір:</b> ${size}`;
+    if (delivery) {
+        message += `\n<b>Нова Пошта:</b> ${delivery.city_name}, ${delivery.warehouse_description || '№' + delivery.warehouse_number}`;
+    }
+    if (comment) {
+        message += `\n<b>Коментар:</b> ${comment}`;
+    }
     const telegramUrl = `https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`;
 
     try {
@@ -189,17 +281,25 @@ function extractUtm(body = {}) {
 // статусом «Новий», мапиться у власне джерело аналітики/маршрутизації та
 // йде в авто-розподіл між менеджерами. Best-effort: ніколи не кидає —
 // проблема з CRM не має зривати оформлення на лендінгу.
-async function sendCrmOrder({name, phone, type, size, price, event_id, utm}) {
+async function sendCrmOrder({name, phone, type, size, price, event_id, utm, delivery, comment}) {
     if (!process.env.CRM_API_URL || !process.env.CRM_API_KEY) return;
 
     const {firstName, lastName} = splitName(name);
     const source = process.env.CRM_ORDER_SOURCE || 'Лендінг ялинки';
+
+    // Коментар клієнта + мета лендінгу (вид+розмір) в одному полі.
+    const crmComment = [
+        comment,
+        `Лендінг: ${type || 'Ялинка'}${size ? ` ${size}` : ''}`,
+    ].filter(Boolean).join(' · ').slice(0, 2000);
 
     const payload = {
         client: {
             phone,
             first_name: firstName || 'Клієнт',
             ...(lastName ? {last_name: lastName} : {}),
+            // Адреса Нової Пошти (відділення) — CRM префіллить нею форму ТТН.
+            ...(delivery ? {delivery_address: delivery} : {}),
         },
         items: [
             {
@@ -214,7 +314,10 @@ async function sendCrmOrder({name, phone, type, size, price, event_id, utm}) {
         // Ідемпотентність: повторний сабміт з тим самим event_id не задвоїть
         // замовлення (CRM дедуплікує за external_id у межах продавця).
         external_id: `landing:${event_id}`,
-        comment: `Замовлення з лендінгу${size ? ` · ${type} ${size}` : ''}`.trim(),
+        comment: crmComment,
+        // Повертаному клієнту оновити збережену адресу на щойно обрану (сайт/CMS
+        // чекаут авторитетний щодо місця доставки — інакше ТТН візьме стару).
+        ...(delivery ? {refresh_client_delivery: true} : {}),
         ...(utm && Object.keys(utm).length ? utm : {}),
     };
 

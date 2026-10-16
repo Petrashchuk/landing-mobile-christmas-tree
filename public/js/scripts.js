@@ -258,6 +258,25 @@ document.getElementById("order_form").addEventListener("submit", async function 
         showError(phone, "Будь ласка, введіть повний номер телефону.");
     }
 
+    // Нова Пошта: область → місто → відділення
+    const npArea = document.getElementById("npArea");
+    clearError(npArea);
+    if (!npArea.value) {
+        showError(npArea, "Будь ласка, виберіть область.");
+    }
+
+    const npCity = document.getElementById("npCity");
+    clearError(npCity);
+    if (!document.getElementById("npCityRef").value) {
+        showError(npCity, "Виберіть місто зі списку.");
+    }
+
+    const npWarehouse = document.getElementById("npWarehouse");
+    clearError(npWarehouse);
+    if (!document.getElementById("npWarehouseRef").value) {
+        showError(npWarehouse, "Виберіть відділення зі списку.");
+    }
+
     // Якщо все добре — відправляємо
     if (isValid) {
 
@@ -339,6 +358,163 @@ function getUtmParams() {
 function getFbClientId() {
     return getCookieValue('_fbp');
 }
+
+/* ---------------- Nova Poshta picker (область → місто → відділення) ---------------- */
+(function () {
+    const area = document.getElementById("npArea");
+    const city = document.getElementById("npCity");
+    const cityList = document.getElementById("npCityList");
+    const warehouse = document.getElementById("npWarehouse");
+    const whList = document.getElementById("npWarehouseList");
+    if (!area || !city || !warehouse) return;
+
+    const cityRefEl = document.getElementById("npCityRef");
+    const cityNameEl = document.getElementById("npCityName");
+    const whRefEl = document.getElementById("npWarehouseRef");
+    const whNumEl = document.getElementById("npWarehouseNumber");
+    const whDescEl = document.getElementById("npWarehouseDesc");
+
+    function debounce(fn, ms) {
+        let t;
+        return function (...args) {
+            clearTimeout(t);
+            t = setTimeout(() => fn.apply(this, args), ms);
+        };
+    }
+
+    async function fetchJson(url) {
+        try {
+            const r = await fetch(url);
+            return await r.json();
+        } catch (e) {
+            console.error("NP fetch error:", e);
+            return {items: []};
+        }
+    }
+
+    function renderList(listEl, items, onPick, emptyText) {
+        listEl.innerHTML = "";
+        if (!items.length) {
+            const li = document.createElement("li");
+            li.className = "np-empty";
+            li.textContent = emptyText;
+            listEl.appendChild(li);
+            listEl.classList.add("open");
+            return;
+        }
+        items.forEach((it) => {
+            const li = document.createElement("li");
+            li.textContent = it.label;
+            li.addEventListener("mousedown", (ev) => {
+                ev.preventDefault(); // не губимо фокус до кліку
+                onPick(it);
+                listEl.classList.remove("open");
+            });
+            listEl.appendChild(li);
+        });
+        listEl.classList.add("open");
+    }
+
+    function resetCity() {
+        city.value = "";
+        cityRefEl.value = "";
+        cityNameEl.value = "";
+        cityList.classList.remove("open");
+    }
+
+    function resetWarehouse() {
+        warehouse.value = "";
+        whRefEl.value = "";
+        whNumEl.value = "";
+        whDescEl.value = "";
+        warehouse.disabled = true;
+        whList.classList.remove("open");
+    }
+
+    // 1) Області — одразу при завантаженні
+    fetchJson("/np/areas").then((data) => {
+        (data.items || []).forEach((a) => {
+            const opt = document.createElement("option");
+            opt.value = a.ref;
+            opt.textContent = a.name;
+            area.appendChild(opt);
+        });
+    });
+
+    // 2) Вибір області → розблокувати місто
+    area.addEventListener("change", function () {
+        resetWarehouse();
+        resetCity();
+        city.disabled = !this.value;
+    });
+
+    // 3) Пошук міста
+    const onCityInput = debounce(async function () {
+        resetWarehouse();
+        cityRefEl.value = "";
+        cityNameEl.value = "";
+        const q = city.value.trim();
+        if (q.length < 2) {
+            cityList.classList.remove("open");
+            return;
+        }
+        const data = await fetchJson(
+            `/np/cities?areaRef=${encodeURIComponent(area.value)}&q=${encodeURIComponent(q)}`
+        );
+        const items = (data.items || []).map((c) => ({
+            ref: c.ref,
+            label: c.area ? `${c.name}, ${c.area} обл.` : c.name,
+            name: c.name,
+            area: c.area,
+        }));
+        renderList(cityList, items, (it) => {
+            city.value = it.label;
+            cityRefEl.value = it.ref;
+            cityNameEl.value = it.label;
+            warehouse.disabled = false;
+            warehouse.value = "";
+            warehouse.focus();
+        }, "Місто не знайдено");
+    }, 300);
+    city.addEventListener("input", onCityInput);
+
+    // 4) Пошук/перелік відділень
+    const onWarehouseInput = debounce(async function () {
+        whRefEl.value = "";
+        whNumEl.value = "";
+        whDescEl.value = "";
+        if (!cityRefEl.value) return;
+        const q = warehouse.value.trim();
+        const data = await fetchJson(
+            `/np/warehouses?cityRef=${encodeURIComponent(cityRefEl.value)}&q=${encodeURIComponent(q)}`
+        );
+        const items = (data.items || []).map((w) => ({
+            ref: w.ref,
+            number: w.number,
+            name: w.name,
+            label: w.name,
+        }));
+        renderList(whList, items, (it) => {
+            warehouse.value = it.label;
+            whRefEl.value = it.ref;
+            whNumEl.value = it.number;
+            whDescEl.value = it.name;
+        }, "Відділення не знайдено");
+    }, 300);
+    warehouse.addEventListener("input", onWarehouseInput);
+    // Фокус на порожньому полі → показати найближчі відділення
+    warehouse.addEventListener("focus", function () {
+        if (cityRefEl.value && !warehouse.value.trim()) onWarehouseInput();
+    });
+
+    // Сховати списки при кліку поза полями
+    document.addEventListener("click", function (e) {
+        if (!e.target.closest(".np-autocomplete")) {
+            cityList.classList.remove("open");
+            whList.classList.remove("open");
+        }
+    });
+})();
 
 function getFbClickId() {
     return getCookieValue('_fbc');

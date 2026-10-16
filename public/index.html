@@ -1053,6 +1053,36 @@
 
                 <input class="field" type="text" name="name" placeholder="Введіть Ваше ім'я">
                 <input class="field mask_phone" type="tel" name="phone" placeholder="Введіть Ваш телефон">
+
+                <!-- Доставка Новою Поштою -->
+                <div class="np-note">🚚 Доставка Новою Поштою на відділення</div>
+
+                <select class="field np-field" name="np_area" id="npArea">
+                    <option value="" selected disabled>Регіон / Область</option>
+                </select>
+
+                <div class="np-autocomplete">
+                    <input class="field np-field" type="text" name="np_city" id="npCity"
+                           placeholder="Місто" autocomplete="off" disabled>
+                    <ul class="np-list" id="npCityList"></ul>
+                </div>
+
+                <div class="np-autocomplete">
+                    <input class="field np-field" type="text" name="np_warehouse" id="npWarehouse"
+                           placeholder="Відділення / Поштомат" autocomplete="off" disabled>
+                    <ul class="np-list" id="npWarehouseList"></ul>
+                </div>
+
+                <!-- Приховані поля з Ref'ами Нової Пошти для CRM -->
+                <input type="hidden" name="city_ref" id="npCityRef">
+                <input type="hidden" name="city_name" id="npCityName">
+                <input type="hidden" name="warehouse_ref" id="npWarehouseRef">
+                <input type="hidden" name="warehouse_number" id="npWarehouseNumber">
+                <input type="hidden" name="warehouse_description" id="npWarehouseDesc">
+
+                <textarea class="field np-field np-comment" name="comment" id="orderComment"
+                          placeholder="Коментар до замовлення (необов'язково)"></textarea>
+
                 <button type="submit" class="button">Придбати зараз</button>
                 <div style="font-style: italic; text-align: center;margin-top: 5%">🎄 Ваша ялинка чекає на вас!</div>
                 <div style="display: flex; justify-content: center; padding-top: 5%;"><img style="width: 40%"
