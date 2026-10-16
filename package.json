@@ -11,7 +11,7 @@
     "build": "webpack --config webpack.config.js",
     "start:prod": "node dist/bundle.js",
     "docker:build": "docker build -t yalynka-landing .",
-    "docker:stop": "docker rm -f yalynka-landing || true",
+    "docker:stop": "docker rm -f yalynka-landing 2>/dev/null || true; docker ps -q --filter publish=3000 | xargs -r docker rm -f",
     "docker:restart": "npm run docker:build && npm run docker:stop && docker run -d --name yalynka-landing --env-file .env -p 3000:3000 --restart unless-stopped yalynka-landing"
   },
   "dependencies": {
