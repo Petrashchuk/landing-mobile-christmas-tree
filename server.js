@@ -38,11 +38,11 @@ app.post('/order', async (req, res) => {
         const nameEncoded = encodeURIComponent(orderData.name || 'Гість');
         const redirectUrl = `/thank-you.html?name=${nameEncoded}`;
 
-        // Усі три приймачі — незалежні й best-effort: падіння одного не має
-        // ламати оформлення (клієнт усе одно побачить «дякуємо»).
+        // Приймачі — незалежні й best-effort: падіння одного не має ламати
+        // оформлення (клієнт усе одно побачить «дякуємо»). Сповіщення в Telegram
+        // іде НЕ звідси, а через CRM-бот (@orderlicrmbot): замовлення створюється
+        // в Orderli, а CRM сам малює картку з кнопками у підключеній групі.
         await Promise.allSettled([
-            // Telegram
-            sendTelegramNotification(orderData),
             // Facebook CAPI
             sendFacebookCAPI({
                 ...orderData,
@@ -177,32 +177,6 @@ function extractDelivery(body = {}) {
 }
 
 // Telegram notification
-async function sendTelegramNotification({name, phone, type, size, delivery, comment}) {
-    if (!process.env.TELEGRAM_TOKEN || !process.env.TELEGRAM_CHAT_ID) return;
-
-    let message = `<b>Ім'я користувача:</b> ${name}\n<b>Телефон:</b> ${phone}\n<b>Вид:</b> ${type}\n<b>Розмір:</b> ${size}`;
-    if (delivery) {
-        message += `\n<b>Нова Пошта:</b> ${delivery.city_name}, ${delivery.warehouse_description || '№' + delivery.warehouse_number}`;
-    }
-    if (comment) {
-        message += `\n<b>Коментар:</b> ${comment}`;
-    }
-    const telegramUrl = `https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`;
-
-    try {
-        const response = await axios.get(telegramUrl, {
-            params: {
-                chat_id: process.env.TELEGRAM_CHAT_ID,
-                parse_mode: 'html',
-                text: message,
-            },
-        });
-        if (!response.data.ok) throw new Error('Telegram API error');
-    } catch (err) {
-        console.error('Помилка при відправці Telegram:', err.message);
-    }
-}
-
 function splitName(fullName = '') {
     const parts = fullName.trim().split(/\s+/);
     return {
