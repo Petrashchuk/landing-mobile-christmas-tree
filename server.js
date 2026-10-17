@@ -293,11 +293,9 @@ async function sendCrmOrder({name, phone, type, size, price, event_id, utm, deli
     const {firstName, lastName} = splitName(name);
     const source = process.env.CRM_ORDER_SOURCE || 'Лендінг ялинки';
 
-    // Коментар клієнта + мета лендінгу (вид+розмір) в одному полі.
-    const crmComment = [
-        comment,
-        `Лендінг: ${type || 'Ялинка'}${size ? ` ${size}` : ''}`,
-    ].filter(Boolean).join(' · ').slice(0, 2000);
+    // Лише коментар клієнта. Вид/розмір товару видно в позиції замовлення
+    // (SKU-прив'язка), тому в коментар їх більше не дублюємо.
+    const crmComment = (comment || '').trim().slice(0, 2000);
 
     const payload = {
         client: {
@@ -322,7 +320,7 @@ async function sendCrmOrder({name, phone, type, size, price, event_id, utm, deli
         // Ідемпотентність: повторний сабміт з тим самим event_id не задвоїть
         // замовлення (CRM дедуплікує за external_id у межах продавця).
         external_id: `landing:${event_id}`,
-        comment: crmComment,
+        ...(crmComment ? {comment: crmComment} : {}),
         // Повертаному клієнту оновити збережену адресу на щойно обрану (сайт/CMS
         // чекаут авторитетний щодо місця доставки — інакше ТТН візьме стару).
         ...(delivery ? {refresh_client_delivery: true} : {}),
