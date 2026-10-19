@@ -109,6 +109,8 @@ function updateDate() {
 window.onload = function () {
     updateDate();
     setInterval(updateDate, 86400000); // 86400000 мілісекунд в одній добі
+    var fy = document.getElementById("footerYear");
+    if (fy) fy.textContent = new Date().getFullYear();
 }
 
 
@@ -183,8 +185,25 @@ function loadSizes(treeName) {
 
 
 // коли змінюється select з видом
+// Показуємо ціну обраного розміру одразу (парситься з value "1.5 м - 2290грн"),
+// щоб клієнт бачив суму ще до відправки форми.
+const priceDisplay = document.getElementById("priceDisplay");
+function updatePrice() {
+    if (!priceDisplay) return;
+    const m = (sizeSelect.value || "").match(/(\d[\d\s]*)\s*грн/i);
+    if (m) {
+        priceDisplay.textContent = "До сплати: " + m[1].replace(/\s/g, "") + " грн";
+        priceDisplay.style.display = "block";
+    } else {
+        priceDisplay.textContent = "";
+        priceDisplay.style.display = "none";
+    }
+}
+sizeSelect.addEventListener("change", updatePrice);
+
 treeSelect.addEventListener("change", function () {
     loadSizes(this.value);
+    updatePrice();
 });
 
 // автопідстановка при кліку на кнопку
