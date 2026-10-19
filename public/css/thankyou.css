@@ -2278,7 +2278,7 @@ footer .logo img {
     max-width: 225px;
     height: 75px;
     margin: 0 auto;
-    background: url("../images/new-price.png") no-repeat center center / 100% 100%;
+    background: url("../images/new-price.webp") no-repeat center center / 100% 100%;
     position: absolute;
     top: 50%;
     transform: translate3d(0, -50%, 0);
