@@ -13,6 +13,24 @@
     <meta property="og:image" content="https://land.yalynkahub.com.ua/ktn.png">
     <meta property="og:locale" content="uk_UA">
     <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Штучні ялинки Yalynka (ПВХ, литі, у горщику)",
+      "image": "https://land.yalynkahub.com.ua/images/poster1.webp",
+      "description": "Преміальні штучні ялинки від виробника: ПВХ, литі та у горщику. Розміри 1.0–3.0 м, сертифікат якості, доставка по Україні, оплата при отриманні.",
+      "brand": { "@type": "Brand", "name": "Yalynka" },
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "UAH",
+        "lowPrice": "500",
+        "highPrice": "10400",
+        "availability": "https://schema.org/InStock",
+        "seller": { "@type": "Organization", "name": "Yalynka", "url": "https://land.yalynkahub.com.ua/" }
+      }
+    }
+    </script>
     <link rel="shortcut icon" href="ktn.png" type="image/png">
     <link rel="stylesheet" href="css/push.css">
     <link rel="stylesheet" href="css/nastyle.css">
@@ -39,6 +57,21 @@
       .addon-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 55; }
       .addon-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 60; background: #fff; border-radius: 14px; padding: 26px 20px 20px; max-width: 320px; width: 88%; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.3); }
       .addon-popup .x { position: absolute; top: 8px; right: 14px; font-size: 22px; line-height: 1; color: #999; cursor: pointer; }
+      /* Липка кнопка «Замовити» (моб) */
+      .sticky-cta { position: fixed; left: 50%; bottom: 14px; transform: translate(-50%, 140%); z-index: 50; background: #F77A1E; color: #fff; padding: 14px 30px; border-radius: 30px; font-weight: 800; font-size: 16px; text-decoration: none; box-shadow: 0 6px 22px rgba(0,0,0,.35); transition: transform .3s ease; white-space: nowrap; }
+      .sticky-cta.show { transform: translate(-50%, 0); }
+      /* Відлік до Нового року */
+      .ny-countdown { max-width: 400px; margin: 14px auto 0; padding: 10px 14px; background: #fff3e8; border: 1px dashed #F77A1E; border-radius: 10px; color: #c0392b; font-weight: 700; font-size: 15px; text-align: center; }
+      .ny-countdown b { color: #F77A1E; font-size: 18px; }
+      /* FAQ-акордеон */
+      .faq { max-width: 440px; margin: 0 auto; padding: 10px 14px 24px; }
+      .faq__item { border-bottom: 1px solid #eaeaea; }
+      .faq__q { width: 100%; text-align: left; background: none; border: none; padding: 15px 28px 15px 4px; font-size: 15px; font-weight: 600; color: #333; cursor: pointer; position: relative; }
+      .faq__q::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 20px; color: #F77A1E; }
+      .faq__item.open .faq__q::after { content: "–"; }
+      .faq__a { max-height: 0; overflow: hidden; transition: max-height .3s ease; color: #555; font-size: 14px; line-height: 1.5; }
+      .faq__item.open .faq__a { max-height: 320px; }
+      .faq__a p { padding: 0 4px 15px; margin: 0; }
     </style>
 
     <script defer src="js/jquery.min.js"></script>
@@ -255,6 +288,7 @@
             <a href="#order_form" class="button">Замовити зі знижкою</a>
         </div>
         <div class="products_count">* Залишилось <b>17</b> шт по знижці</div>
+        <div class="ny-countdown">🎄 До Нового року залишилось <b id="nyDays">—</b> днів — встигни замовити!</div>
     </div>
 
     <br>
@@ -937,6 +971,35 @@
         </div>
     </section>
 
+    <!-- ───── FAQ ───── -->
+    <section class="faq" id="faq">
+        <h2 class="title gold" style="text-align:center;">Часті запитання</h2>
+        <div class="faq__item">
+            <button class="faq__q" type="button">З якого матеріалу ялинки?</button>
+            <div class="faq__a"><p>Залежно від моделі — ПВХ, литі (PE) або у горщику. Усі без запаху, з сертифікатом якості та екологічно безпечні.</p></div>
+        </div>
+        <div class="faq__item">
+            <button class="faq__q" type="button">Яку висоту обрати?</button>
+            <div class="faq__a"><p>Орієнтуйтесь на висоту стелі — обирайте ялинку щонайменше на 30–40 см нижчу за стелю, щоб вистачило місця для зірки/верхівки.</p></div>
+        </div>
+        <div class="faq__item">
+            <button class="faq__q" type="button">Скільки триває доставка?</button>
+            <div class="faq__a"><p>Відправляємо Новою Поштою протягом 1–2 днів після підтвердження. Доставка по Україні зазвичай займає 2–3 дні.</p></div>
+        </div>
+        <div class="faq__item">
+            <button class="faq__q" type="button">Як оплатити?</button>
+            <div class="faq__a"><p>Накладений платіж — ви оплачуєте замовлення при отриманні на відділенні Нової Пошти, оглянувши товар.</p></div>
+        </div>
+        <div class="faq__item">
+            <button class="faq__q" type="button">Чи складно зібрати ялинку?</button>
+            <div class="faq__a"><p>Ні, збирання займає 10–15 хвилин: секції з'єднуються між собою, а гілки легко розправляються. Жодних інструментів не потрібно.</p></div>
+        </div>
+        <div class="faq__item">
+            <button class="faq__q" type="button">Чи є гарантія та повернення?</button>
+            <div class="faq__a"><p>Так. Ви можете оглянути товар при отриманні, а також обміняти чи повернути його протягом 14 днів згідно із законодавством України.</p></div>
+        </div>
+    </section>
+
     <section class="vote_section gray_theme">
 
         <h2 class="title">Ви задоволені <span>покупкою?</span></h2>
@@ -1194,7 +1257,7 @@
     <!-- Зміна числа -->
 
     <script defer src="js/jquery.maskedinput.min.js"></script>
-    <script defer src="js/scripts.js?v=6"></script>
+    <script defer src="js/scripts.js?v=7"></script>
 
 </div>
 
@@ -1206,5 +1269,8 @@
     <p style="color:#555;font-size:14px;margin:0;line-height:1.4;">Впишіть назву в <b>коментар до замовлення</b> нижче або просто скажіть оператору під час дзвінка — додамо до вашої посилки.</p>
     <button type="button" class="addon-close" style="margin-top:16px;background:#F77A1E;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-weight:700;cursor:pointer;">Зрозуміло</button>
 </div>
+
+<!-- Липка кнопка замовлення (моб) -->
+<a href="#order_form" class="sticky-cta">🎄 Замовити ялинку</a>
 </body>
 </html>

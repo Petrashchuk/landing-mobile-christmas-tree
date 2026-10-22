@@ -239,6 +239,41 @@ treeSelect.addEventListener("change", function () {
     ov.addEventListener("click", closePop);
 })();
 
+// Відлік днів до Нового року
+(function () {
+    var el = document.getElementById("nyDays");
+    if (!el) return;
+    var now = new Date();
+    var nextNY = new Date(now.getFullYear() + 1, 0, 1);
+    el.textContent = Math.max(0, Math.ceil((nextNY - now) / 86400000));
+})();
+
+// FAQ-акордеон
+(function () {
+    document.querySelectorAll(".faq__q").forEach(function (q) {
+        q.addEventListener("click", function () { q.parentElement.classList.toggle("open"); });
+    });
+})();
+
+// Липка кнопка «Замовити» — показати після прокрутки, сховати коли форма у видимості
+(function () {
+    var cta = document.querySelector(".sticky-cta");
+    if (!cta) return;
+    var form = document.getElementById("order_form");
+    function upd() {
+        var y = window.scrollY || window.pageYOffset || 0;
+        var show = y > 500;
+        if (show && form) {
+            var r = form.getBoundingClientRect();
+            if (r.top < window.innerHeight && r.bottom > 0) show = false;
+        }
+        cta.classList.toggle("show", show);
+    }
+    window.addEventListener("scroll", upd, { passive: true });
+    window.addEventListener("resize", upd);
+    upd();
+})();
+
 // автопідстановка при кліку на кнопку
 document.querySelectorAll(".order-form-wrapper-btn .button").forEach(btn => {
     btn.addEventListener("click", function () {
