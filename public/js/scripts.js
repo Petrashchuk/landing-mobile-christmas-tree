@@ -206,6 +206,27 @@ treeSelect.addEventListener("change", function () {
     updatePrice();
 });
 
+// Сірий placeholder для select'ів форми, поки не обрано реальне значення
+// (щоб «Виберіть…»/«Регіон/Область» виглядали як підказка, а не як заповнене поле).
+(function () {
+    function isPlaceholder(sel) {
+        var o = sel.options[sel.selectedIndex];
+        return !o || o.value === "" || o.disabled || /^Виберіть/.test((o.textContent || "").trim());
+    }
+    function mark(sel) { if (sel) sel.classList.toggle("is-placeholder", isPlaceholder(sel)); }
+    var ids = ["treeSelect", "sizeSelect", "npArea"];
+    ids.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        mark(el);
+        el.addEventListener("change", function () { mark(el); });
+    });
+    // sizeSelect перемальовується при зміні дерева — перемаркувати після цього
+    if (treeSelect) treeSelect.addEventListener("change", function () {
+        setTimeout(function () { mark(document.getElementById("sizeSelect")); }, 0);
+    });
+})();
+
 // автопідстановка при кліку на кнопку
 document.querySelectorAll(".order-form-wrapper-btn .button").forEach(btn => {
     btn.addEventListener("click", function () {
