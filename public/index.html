@@ -26,6 +26,19 @@
       .order_form .field::placeholder,
       .order_form .np-comment::placeholder { color: #9a9a9a; opacity: 1; }
       .order_form .field.is-placeholder { color: #9a9a9a; }
+      /* Секція допродажу «Доповнення до ялинки» */
+      .addons { max-width: 440px; margin: 0 auto; padding: 8px 12px 24px; text-align: center; }
+      .addons__sub { color: #555; font-size: 14px; margin: 2px 0 16px; }
+      .addons__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .addon-card { background: #f7f7f7; border: 1px solid #eee; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; }
+      .addon-card img { width: 100%; height: 120px; object-fit: contain; border-radius: 8px; background: #fff; }
+      .addon-name { font-size: 13px; font-weight: 600; margin: 8px 0 2px; min-height: 34px; line-height: 1.25; }
+      .addon-price { color: #F77A1E; font-weight: 800; font-size: 17px; margin-bottom: 8px; }
+      .addon-order { margin-top: auto; background: #F77A1E; color: #fff; border: none; border-radius: 8px; padding: 9px; font-weight: 700; font-size: 14px; cursor: pointer; }
+      .addon-order:active { transform: scale(.98); }
+      .addon-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 55; }
+      .addon-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 60; background: #fff; border-radius: 14px; padding: 26px 20px 20px; max-width: 320px; width: 88%; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.3); }
+      .addon-popup .x { position: absolute; top: 8px; right: 14px; font-size: 22px; line-height: 1; color: #999; cursor: pointer; }
     </style>
 
     <script defer src="js/jquery.min.js"></script>
@@ -880,6 +893,50 @@
         </div>
     </div>
 
+    <!-- ───── ДОПОВНЕННЯ ДО ЯЛИНКИ (допродаж) ───── -->
+    <section class="addons" id="addons">
+        <h2 class="title gold">🎁 Доповнення до ялинки</h2>
+        <p class="addons__sub">Гірлянди від 195 ₴ · Набори іграшок 1090 ₴ — зробіть ялинку завершеною</p>
+        <div class="addons__grid">
+            <div class="addon-card">
+                <img loading="lazy" src="garlands/rosa-50m.webp" alt="Гірлянда Роса 50 м">
+                <div class="addon-name">Гірлянда Роса 50 м · 500 LED</div>
+                <div class="addon-price">595 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+            <div class="addon-card">
+                <img loading="lazy" src="garlands/hvoyna-30m.webp" alt="Гірлянда Хвойна Лапа 30 м">
+                <div class="addon-name">Хвойна Лапа 30 м · 900 LED</div>
+                <div class="addon-price">1075 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+            <div class="addon-card">
+                <img loading="lazy" src="garlands/rosa-100m.webp" alt="Гірлянда Роса 100 м">
+                <div class="addon-name">Гірлянда Роса 100 м · 1000 LED</div>
+                <div class="addon-price">1090 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+            <div class="addon-card">
+                <img loading="lazy" src="toys/бархат/red.jpg" alt="Набір іграшок Оксамит">
+                <div class="addon-name">Набір іграшок «Оксамит»</div>
+                <div class="addon-price">1090 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+            <div class="addon-card">
+                <img loading="lazy" src="toys/блиск/gold.jpg" alt="Набір іграшок Блиск">
+                <div class="addon-name">Набір іграшок «Блиск»</div>
+                <div class="addon-price">1090 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+            <div class="addon-card">
+                <img loading="lazy" src="toys/асорті/green.jpg" alt="Набір іграшок Асорті">
+                <div class="addon-name">Набір іграшок «Асорті»</div>
+                <div class="addon-price">1090 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+        </div>
+    </section>
+
     <section class="vote_section gray_theme">
 
         <h2 class="title">Ви задоволені <span>покупкою?</span></h2>
@@ -1137,8 +1194,17 @@
     <!-- Зміна числа -->
 
     <script defer src="js/jquery.maskedinput.min.js"></script>
-    <script defer src="js/scripts.js?v=5"></script>
+    <script defer src="js/scripts.js?v=6"></script>
 
+</div>
+
+<!-- Попап допродажу -->
+<div class="addon-overlay"></div>
+<div class="addon-popup">
+    <span class="x addon-close">×</span>
+    <p style="font-weight:700;font-size:16px;margin:0 0 8px;">Додати доповнення? 🎁</p>
+    <p style="color:#555;font-size:14px;margin:0;line-height:1.4;">Впишіть назву в <b>коментар до замовлення</b> нижче або просто скажіть оператору під час дзвінка — додамо до вашої посилки.</p>
+    <button type="button" class="addon-close" style="margin-top:16px;background:#F77A1E;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-weight:700;cursor:pointer;">Зрозуміло</button>
 </div>
 </body>
 </html>

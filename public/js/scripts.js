@@ -227,6 +227,18 @@ treeSelect.addEventListener("change", function () {
     });
 })();
 
+// Допродаж: попап «Доповнення до ялинки» на головній
+(function () {
+    var pop = document.querySelector(".addon-popup");
+    var ov = document.querySelector(".addon-overlay");
+    if (!pop || !ov) return;
+    function openPop() { pop.style.display = "block"; ov.style.display = "block"; }
+    function closePop() { pop.style.display = "none"; ov.style.display = "none"; }
+    document.querySelectorAll(".addon-order").forEach(function (b) { b.addEventListener("click", openPop); });
+    document.querySelectorAll(".addon-close").forEach(function (c) { c.addEventListener("click", closePop); });
+    ov.addEventListener("click", closePop);
+})();
+
 // автопідстановка при кліку на кнопку
 document.querySelectorAll(".order-form-wrapper-btn .button").forEach(btn => {
     btn.addEventListener("click", function () {
