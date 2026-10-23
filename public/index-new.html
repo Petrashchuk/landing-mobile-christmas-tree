@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=480">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Yalynka — штучні ялинки від виробника | Доставка по Україні</title>
     <meta name="description" content="Преміальні штучні ялинки від виробника: ПВХ, литі та у горщику. Розміри 1.0–3.0 м, сертифікат якості, доставка Новою Поштою, оплата при отриманні.">
     <link rel="canonical" href="https://land.yalynkahub.com.ua/">
@@ -88,7 +88,7 @@
       .rail::-webkit-scrollbar { height:0; }
       .card { flex:0 0 72%; max-width:260px; scroll-snap-align:start; background:#fff; border:1px solid #eee; border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(0,0,0,.06); display:flex; flex-direction:column; }
       .card .ph { background:var(--soft); }
-      .card .ph img { width:100%; height:180px; object-fit:cover; }
+      .card .ph img { width:100%; aspect-ratio:3/4; height:auto; object-fit:contain; background:var(--soft); }
       .card .b { padding:10px 12px 12px; display:flex; flex-direction:column; flex:1; }
       .card .nm { font-size:14px; font-weight:700; min-height:38px; line-height:1.25; }
       .card .pr { color:var(--org); font-weight:800; font-size:16px; margin:6px 0 10px; }
@@ -114,6 +114,13 @@
       .catpill { flex:0 0 auto; background:#fff; border:1px solid #ddd; color:var(--grn-d); font-weight:700; font-size:13px; padding:8px 16px; border-radius:30px; cursor:pointer; white-space:nowrap; transition:.15s; }
       .catpill.on { background:var(--org); border-color:var(--org); color:#fff; }
       .card.hide { display:none; }
+
+      /* Catalog responsive grid — 2 cols mobile / 4 cols desktop */
+      .catgrid { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:repeat(2,1fr); gap:12px; padding:4px 16px 18px; }
+      .catgrid .card { flex:none; max-width:none; }
+      @media (min-width:900px) {
+        .catgrid { grid-template-columns:repeat(4,1fr); gap:20px; padding:4px 24px 26px; }
+      }
 
       /* Size hint */
       .hint { max-width:440px; margin:0 auto; background:#f4efe3; border:1px dashed var(--gold); border-radius:12px; padding:12px 14px; color:#6a5230; font-size:14px; text-align:center; }
@@ -194,7 +201,7 @@
     <p class="sub">Оберіть колір і висоту прямо на картці — ціна оновиться. Тоді «Замовити».</p>
     <div class="catpills" id="catPills"></div>
 </section>
-<div class="rail" id="catalogCards"></div>
+<div class="catgrid" id="catalogCards"></div>
 
 <section class="sec">
     <div class="hint">💡 <b>Порада:</b> обирайте ялинку на <b>30–40 см нижчу</b> за стелю — щоб вистачило місця для зірки.</div>
@@ -330,6 +337,6 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=9"></script>
+<script defer src="js/scripts.js?v=10"></script>
 </body>
 </html>

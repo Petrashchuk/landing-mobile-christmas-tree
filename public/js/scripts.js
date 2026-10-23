@@ -283,26 +283,26 @@ treeSelect.addEventListener("change", function () {
     if (!box || typeof treeSizes === "undefined") return;
     var DISCOUNT = 30; // % «старої ціни» (анкер магазину); 0 = показувати лише поточну ціну
     var CARDS = [
-        { title: "Казка", img: "trees/kazka/1.webp", cat: "Зелена", colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
-        { title: "Снігова Королева", img: "trees/snow-queen/1.webp", cat: "Білі кінчики", colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
-        { title: "Елітна з шишкою", img: "trees/elite/1.webp", cat: "З декором", colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
-        { title: "Кармен + ягідки", img: "trees/karmen/1.webp", cat: "З декором", colors: [
+        { title: "Казка", img: "trees/kazka/1.webp", cats: ["Зелена"], colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
+        { title: "Снігова Королева", img: "trees/snow-queen/1.webp", cats: ["Білі кінчики"], colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
+        { title: "Елітна з шишкою", img: "trees/elite/1.webp", cats: ["З декором"], colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
+        { title: "Кармен + ягідки", img: "trees/karmen/1.webp", cats: ["З декором"], colors: [
             { label: "Червоні", v: "Кармен + червоні ягідки", sw: "#c0392b" },
             { label: "Сині", v: "Кармен + сині ягідки", sw: "#2e5fb0" },
             { label: "Срібні", v: "Кармен + срібні ягідки", sw: "#c9ccd1" },
             { label: "Золоті", v: "Кармен + золоті ягідки", sw: "#d4af37" } ] },
-        { title: "Тріумф (лита)", img: "trees/triumph-green/1.webp", cat: "Лита", colors: [
+        { title: "Тріумф (лита)", img: "trees/triumph-green/1.webp", cats: ["Лита","Зелена","Засніжена"], colors: [
             { label: "Зелена", v: "Тріумф Зелена", sw: "#2e7d32" },
             { label: "Блакитна", v: "Тріумф Блакитна", sw: "#7fb0d8" },
             { label: "Засніжена", v: "Тріумф Засніжена", sw: "#eaf2ff" } ] },
-        { title: "Роял (лита)", img: "trees/royal-green/1.webp", cat: "Лита", colors: [
+        { title: "Роял (лита)", img: "trees/royal-green/1.webp", cats: ["Лита","Зелена","Засніжена"], colors: [
             { label: "Зелена", v: "Роял Зелена", sw: "#2e7d32" },
             { label: "Блакитна", v: "Роял Блакитна", sw: "#7fb0d8" },
             { label: "Засніжена", v: "Роял Засніжена", sw: "#eaf2ff" } ] },
-        { title: "Віденська", img: "trees/videnska/1.webp", cat: "Зелена", colors: [{ label: "Зелена", v: "Віденська", sw: "#2e7d32" }] },
-        { title: "Смерека", img: "trees/smereka/1.webp", cat: "Зелена", colors: [{ label: "Зелена", v: "Смерека", sw: "#2e7d32" }] }
+        { title: "Віденська", img: "trees/videnska/1.webp", cats: ["Лита","Зелена"], colors: [{ label: "Зелена", v: "Віденська", sw: "#2e7d32" }] },
+        { title: "Смерека", img: "trees/smereka/1.webp", cats: ["Лита","Зелена"], colors: [{ label: "Зелена", v: "Смерека", sw: "#2e7d32" }] }
     ];
-    var CATS = ["Усі", "Зелена", "Білі кінчики", "Лита", "З декором"];
+    var CATS = ["Усі", "Зелена", "Білі кінчики", "Засніжена", "Лита", "З декором"];
     function priceNum(v) { var m = (v || "").match(/(\d[\d\s]*)\s*грн/i); return m ? parseInt(m[1].replace(/\s/g, ""), 10) : 0; }
     function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
     function fillHeights(sel, model) {
@@ -324,7 +324,7 @@ treeSelect.addEventListener("change", function () {
                 pills.forEach(function (p) { p.classList.remove("on"); });
                 b.classList.add("on");
                 box.querySelectorAll(".card").forEach(function (cd) {
-                    var show = cat === "Усі" || cd.getAttribute("data-cat") === cat;
+                    var show = cat === "Усі" || (cd.getAttribute("data-cat") || "").split("|").indexOf(cat) >= 0;
                     cd.classList.toggle("hide", !show);
                 });
             });
@@ -341,7 +341,7 @@ treeSelect.addEventListener("change", function () {
         var badge = DISCOUNT > 0 ? '<span class="badge">−' + DISCOUNT + '%</span>' : "";
         var card = document.createElement("div");
         card.className = "card";
-        card.setAttribute("data-cat", c.cat);
+        card.setAttribute("data-cat", c.cats.join("|"));
         card.innerHTML =
             '<div class="ph"><img loading="lazy" src="' + c.img + '" alt="' + c.title + '">' + badge + '</div>' +
             '<div class="b"><div class="nm">' + c.title + '</div>' + swHtml +
