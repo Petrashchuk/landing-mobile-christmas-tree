@@ -131,6 +131,24 @@ app.get('/np/warehouses', async (req, res) => {
     }
 });
 
+// GET /np/streets?cityRef=&q= — вулиці міста (для адреси кур'єра)
+app.get('/np/streets', async (req, res) => {
+    const cityRef = String(req.query.cityRef || '').trim();
+    const q = String(req.query.q || '').trim();
+    if (!process.env.NP_API_KEY || !cityRef || q.length < 2) return res.json({items: []});
+    try {
+        const d = await npCall('getStreet', {CityRef: cityRef, FindByString: q, Limit: '30', Page: '1'});
+        res.json({
+            items: (d.data || []).map((s) => ({
+                ref: s.Ref, name: s.Description, type: s.StreetsType || s.StreetsTypeRef || '',
+            })),
+        });
+    } catch (err) {
+        console.error('NP getStreet:', err.message);
+        res.json({items: []});
+    }
+});
+
 // ----------------- Functions -----------------
 
 function parseSizeAndPrice(str) {

@@ -569,7 +569,10 @@
                 </div>
 
                 <div class="courier-wrap" style="display:none;">
-                    <input class="field" type="text" name="courier_address" id="courierAddress" placeholder="Вулиця, будинок, квартира" autocomplete="off">
+                    <div class="np-autocomplete">
+                        <input class="field" type="text" name="courier_address" id="courierAddress" placeholder="Вулиця, будинок, квартира" autocomplete="off">
+                        <ul class="np-list" id="npStreetList"></ul>
+                    </div>
                 </div>
 
                 <input type="hidden" name="city_ref" id="npCityRef">
@@ -793,7 +796,7 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=45"></script>
+<script defer src="js/scripts.js?v=46"></script>
 <!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
 <script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
 </body>

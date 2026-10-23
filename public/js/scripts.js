@@ -1237,12 +1237,27 @@ function getFbClientId() {
         if (cityRefEl.value && !warehouse.value.trim()) onWarehouseInput();
     });
 
+    // Вулиця для кур'єра — автопідказка (поки нема коми = ще не додали будинок)
+    var street = document.getElementById("courierAddress");
+    var streetList = document.getElementById("npStreetList");
+    if (street && streetList) {
+        var onStreetInput = debounce(async function () {
+            var q = street.value.trim();
+            if (!cityRefEl.value || q.length < 2 || q.indexOf(",") >= 0) { streetList.classList.remove("open"); return; }
+            const data = await fetchJson(`/np/streets?cityRef=${encodeURIComponent(cityRefEl.value)}&q=${encodeURIComponent(q)}`);
+            const items = (data.items || []).map((s) => ({ ref: s.ref, label: (s.type ? s.type + " " : "") + s.name, name: s.name }));
+            renderList(streetList, items, (it) => { street.value = it.label + ", "; street.focus(); }, "Вулицю не знайдено — введіть вручну");
+        }, 300);
+        street.addEventListener("input", onStreetInput);
+    }
+
     // Сховати списки при кліку поза полями
     document.addEventListener("click", function (e) {
         if (!e.target.closest(".np-autocomplete")) {
             areaList.classList.remove("open");
             cityList.classList.remove("open");
             whList.classList.remove("open");
+            if (streetList) streetList.classList.remove("open");
         }
     });
 })();
