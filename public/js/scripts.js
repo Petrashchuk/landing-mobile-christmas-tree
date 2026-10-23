@@ -302,33 +302,33 @@ treeSelect.addEventListener("change", function () {
         { title: "Казка", img: "trees/kazka/1.webp", gallery: ["trees/kazka/1.webp", "trees/kazka/2.webp", "trees/kazka/3.webp", "trees/kazka/4.webp"], cats: ["Зелена"], colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
         { title: "Снігова Королева", img: "trees/snow-queen/1.webp", gallery: ["trees/snow-queen/1.webp", "trees/snow-queen/2.webp", "trees/snow-queen/3.webp", "trees/snow-queen/4.webp"], cats: ["Білі кінчики"], colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
         { title: "Елітна з шишкою", img: "trees/elite/1.webp", gallery: ["trees/elite/1.webp", "trees/elite/2.webp", "trees/elite/3.webp", "trees/elite/4.webp"], cats: ["Білі кінчики", "З декором"], colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
-        { title: "Кармен + ягідки", img: "trees/karmen/red.webp", gallery: ["trees/karmen/red.webp", "trees/karmen/blue.webp", "trees/karmen/silver.webp", "trees/karmen/gold.webp"], cats: ["Білі кінчики", "З декором"], colors: [
-            { label: "Червоні", v: "Кармен + червоні ягідки", sw: "#c0392b", img: "trees/karmen/red.webp" },
-            { label: "Сині", v: "Кармен + сині ягідки", sw: "#2e5fb0", img: "trees/karmen/blue.webp" },
-            { label: "Срібні", v: "Кармен + срібні ягідки", sw: "#c9ccd1", img: "trees/karmen/silver.webp" },
-            { label: "Золоті", v: "Кармен + золоті ягідки", sw: "#d4af37", img: "trees/karmen/gold.webp" } ] },
-        { title: "Тріумф (лита)", img: "trees/triumph-green/1.webp", gallery: ["trees/triumph-green/1.webp", "trees/triumph-green/2.webp", "trees/triumph-green/3.webp", "trees/triumph-green/4.webp"], cats: ["Лита","Зелена","Засніжена"], colors: [
-            { label: "Зелена", v: "Тріумф Зелена", sw: "#2e7d32", img: "trees/triumph-green/1.webp" },
-            { label: "Блакитна", v: "Тріумф Блакитна", sw: "#7fb0d8", img: "trees/triumph-green/blue.webp" },
-            { label: "Засніжена", v: "Тріумф Засніжена", sw: "#eaf2ff", img: "trees/triumph-green/snow.webp" } ] },
-        { title: "Роял (лита)", img: "trees/royal-green/1.webp", gallery: ["trees/royal-green/1.webp", "trees/royal-green/2.webp", "trees/royal-green/3.webp", "trees/royal-green/4.webp"], cats: ["Лита","Зелена","Засніжена"], colors: [
-            { label: "Зелена", v: "Роял Зелена", sw: "#2e7d32", img: "trees/royal-green/1.webp" },
-            { label: "Блакитна", v: "Роял Блакитна", sw: "#7fb0d8", img: "trees/royal-green/blue.webp" },
-            { label: "Засніжена", v: "Роял Засніжена", sw: "#eaf2ff", img: "trees/royal-green/snow.webp" } ] },
+        { title: "Кармен + ягідки", img: "trees/karmen/red.webp", cats: ["Білі кінчики", "З декором"], colors: [
+            { label: "Червоні", v: "Кармен + червоні ягідки", sw: "#c0392b", img: "trees/karmen/red.webp", gallery: ["trees/karmen/red.webp", "trees/karmen/red-1.webp", "trees/karmen/red-2.webp", "trees/karmen/red-3.webp"] },
+            { label: "Сині", v: "Кармен + сині ягідки", sw: "#2e5fb0", img: "trees/karmen/blue.webp", gallery: ["trees/karmen/blue.webp", "trees/karmen/blue-1.webp", "trees/karmen/blue-2.webp", "trees/karmen/blue-3.webp"] },
+            { label: "Срібні", v: "Кармен + срібні ягідки", sw: "#c9ccd1", img: "trees/karmen/silver.webp", gallery: ["trees/karmen/silver.webp", "trees/karmen/silver-1.webp", "trees/karmen/silver-2.webp", "trees/karmen/silver-3.webp"] },
+            { label: "Золоті", v: "Кармен + золоті ягідки", sw: "#d4af37", img: "trees/karmen/gold.webp", gallery: ["trees/karmen/gold.webp", "trees/karmen/gold-1.webp", "trees/karmen/gold-2.webp", "trees/karmen/gold-3.webp"] } ] },
+        { title: "Тріумф (лита)", img: "trees/triumph-green/1.webp", cats: ["Лита","Зелена","Засніжена"], colors: [
+            { label: "Зелена", v: "Тріумф Зелена", sw: "#2e7d32", img: "trees/triumph-green/1.webp", gallery: ["trees/triumph-green/1.webp", "trees/triumph-green/2.webp", "trees/triumph-green/3.webp", "trees/triumph-green/4.webp"] },
+            { label: "Блакитна", v: "Тріумф Блакитна", sw: "#7fb0d8", img: "trees/triumph-green/blue.webp", gallery: ["trees/triumph-green/blue.webp", "trees/triumph-green/blue-1.webp", "trees/triumph-green/blue-2.webp", "trees/triumph-green/blue-3.webp"] },
+            { label: "Засніжена", v: "Тріумф Засніжена", sw: "#eaf2ff", img: "trees/triumph-green/snow.webp", gallery: ["trees/triumph-green/snow.webp", "trees/triumph-green/snow-1.webp", "trees/triumph-green/snow-2.webp", "trees/triumph-green/snow-3.webp"] } ] },
+        { title: "Роял (лита)", img: "trees/royal-green/1.webp", cats: ["Лита","Зелена","Засніжена"], colors: [
+            { label: "Зелена", v: "Роял Зелена", sw: "#2e7d32", img: "trees/royal-green/1.webp", gallery: ["trees/royal-green/1.webp", "trees/royal-green/2.webp", "trees/royal-green/3.webp", "trees/royal-green/4.webp"] },
+            { label: "Блакитна", v: "Роял Блакитна", sw: "#7fb0d8", img: "trees/royal-green/blue.webp", gallery: ["trees/royal-green/blue.webp", "trees/royal-green/blue-1.webp", "trees/royal-green/blue-2.webp", "trees/royal-green/blue-3.webp"] },
+            { label: "Засніжена", v: "Роял Засніжена", sw: "#eaf2ff", img: "trees/royal-green/snow.webp", gallery: ["trees/royal-green/snow.webp", "trees/royal-green/snow-1.webp", "trees/royal-green/snow-2.webp", "trees/royal-green/snow-3.webp"] } ] },
         { title: "Віденська", img: "trees/videnska/1.webp", gallery: ["trees/videnska/1.webp", "trees/videnska/2.webp", "trees/videnska/3.webp", "trees/videnska/4.webp"], cats: ["Лита","Зелена"], colors: [{ label: "Зелена", v: "Віденська", sw: "#2e7d32" }] },
         { title: "Смерека", img: "trees/smereka/1.webp", gallery: ["trees/smereka/1.webp", "trees/smereka/2.webp", "trees/smereka/3.webp", "trees/smereka/4.webp"], cats: ["Лита","Зелена"], colors: [{ label: "Зелена", v: "Смерека", sw: "#2e7d32" }] }
     ];
     var CATS = ["Усі", "Зелена", "Білі кінчики", "Засніжена", "Лита", "З декором"];
     // Базові характеристики з yalynkahub (референс — розмір 1.5 м)
     var SPECS = {
-        "Казка": [["Матеріал", "ПВХ (голки)"], ["Довжина голочки", "4 см"], ["Кількість гілок", "200"], ["Кількість рядів", "10"], ["Діаметр низу", "0.9 м"], ["Вага", "3.55 кг"]],
-        "Снігова Королева": [["Матеріал", "ПВХ (голки)"], ["Довжина голочки", "4 см"], ["Кількість гілок", "220"], ["Кількість рядів", "10"], ["Діаметр низу", "0.9 м"], ["Вага", "3.5 кг"]],
-        "Елітна з шишкою": [["Матеріал", "ПВХ (голки)"], ["Довжина голочки", "4 см"], ["Кількість гілок", "290"], ["Кількість рядів", "10"], ["Діаметр низу", "1.0 м"], ["Вага", "4.45 кг"]],
-        "Кармен + ягідки": [["Матеріал", "ПВХ (голки)"], ["Довжина голочки", "4 см"], ["Кількість гілок", "302"], ["Кількість рядів", "10"], ["Діаметр низу", "1.0 м"], ["Вага", "4.6 кг"]],
-        "Тріумф (лита)": [["Матеріал", "Лита (PE)"], ["Довжина голочки", "2.5 см"], ["Кількість гілок", "217"], ["Кількість рядів", "13"], ["Діаметр низу", "1.0 м"], ["Вага", "5.9 кг"]],
-        "Роял (лита)": [["Матеріал", "Лита (PE)"], ["Довжина голочки", "2.0 см"], ["Кількість гілок", "227"], ["Кількість рядів", "13"], ["Діаметр низу", "1.0 м"], ["Вага", "5.3 кг"]],
-        "Віденська": [["Матеріал", "Лита (PE)"], ["Довжина голочки", "1.5 см"], ["Кількість гілок", "289"], ["Кількість рядів", "14"], ["Діаметр низу", "1.0 м"], ["Вага", "5.2 кг"]],
-        "Смерека": [["Матеріал", "Лита (PE)"], ["Довжина голочки", "1.5 см"], ["Кількість гілок", "305"], ["Кількість рядів", "14"], ["Діаметр низу", "1.0 м"], ["Вага", "5.2 кг"]]
+        "Казка": [["Матеріал", "ПВХ (голки)"], ["Довжина голочки", "4см"], ["Кількість гілок", "200"], ["Кількість рядів", "10"], ["Кількість частин", "2"], ["Діаметр низу", "0.9м"], ["Висота до гілок", "20см"], ["Коробка", "90см/19см/19см"], ["Вага", "3.55кг"]],
+        "Снігова Королева": [["Матеріал", "ПВХ (голки)"], ["Довжина голочки", "4см"], ["Кількість гілок", "220"], ["Кількість рядів", "10"], ["Кількість частин", "2"], ["Діаметр низу", "0.9м"], ["Висота до гілок", "20см"], ["Коробка", "90см/19см/19см"], ["Вага", "3.5кг"]],
+        "Елітна з шишкою": [["Матеріал", "ПВХ (голки)"], ["Довжина голочки", "4см"], ["Кількість гілок", "290"], ["Кількість рядів", "10"], ["Кількість частин", "2"], ["Діаметр низу", "1.0м"], ["Висота до гілок", "20см"], ["Коробка", "90см/21см/21см"], ["Вага", "4.45кг"]],
+        "Кармен + ягідки": [["Матеріал", "ПВХ (голки)"], ["Довжина голочки", "4см"], ["Кількість гілок", "302"], ["Кількість рядів", "10"], ["Кількість частин", "2"], ["Діаметр низу", "1.0м"], ["Висота до гілок", "20см"], ["Коробка", "90см/21см/21см"], ["Вага", "4.6кг"]],
+        "Тріумф (лита)": [["Матеріал", "Лита (PE)"], ["Довжина голочки", "2.5см"], ["Кількість гілок", "217"], ["Кількість рядів", "13"], ["Кількість частин", "2"], ["Діаметр низу", "1.0м"], ["Висота до гілок", "25см"], ["Коробка", "96см/24см/24см"], ["Вага", "5.9кг"]],
+        "Роял (лита)": [["Матеріал", "Лита (PE)"], ["Довжина голочки", "2.0см"], ["Кількість гілок", "227"], ["Кількість рядів", "13"], ["Кількість частин", "2"], ["Діаметр низу", "1.0м"], ["Висота до гілок", "25см"], ["Коробка", "96см/24см/24см"], ["Вага", "5.3кг"]],
+        "Віденська": [["Матеріал", "Лита (PE)"], ["Довжина голочки", "1.5см"], ["Кількість гілок", "289"], ["Кількість рядів", "14"], ["Кількість частин", "2"], ["Діаметр низу", "1.0м"], ["Висота до гілок", "25см"], ["Коробка", "96см/24см/24см"], ["Вага", "5.2кг"]],
+        "Смерека": [["Матеріал", "Лита (PE)"], ["Довжина голочки", "1.5см"], ["Кількість гілок", "305"], ["Кількість рядів", "14"], ["Кількість частин", "2"], ["Діаметр низу", "1.0м"], ["Висота до гілок", "25см"], ["Коробка", "96см/24см/24см"], ["Вага", "5.2кг"]]
     };
     function priceNum(v) { var m = (v || "").match(/(\d[\d\s]*)\s*грн/i); return m ? parseInt(m[1].replace(/\s/g, ""), 10) : 0; }
     function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
@@ -418,22 +418,21 @@ treeSelect.addEventListener("change", function () {
         else { qvPrice.textContent = fmt(p) + " ₴"; qvEcon.textContent = ""; }
     }
     function setQvImg(src) { qvImg.src = src; qvIdx = qvGallery.indexOf(src); if (qvIdx < 0) qvIdx = 0; if (qvThumbs) qvThumbs.querySelectorAll("img").forEach(function (t) { t.classList.toggle("on", t.getAttribute("data-src") === src); }); }
+    function qvRenderThumbs() {
+        if (!qvThumbs) return;
+        qvThumbs.innerHTML = "";
+        if (qvGallery.length > 1) {
+            qvGallery.forEach(function (src) {
+                var t = document.createElement("img"); t.loading = "lazy"; t.src = src; t.setAttribute("data-src", src);
+                t.addEventListener("click", function () { setQvImg(src); });
+                qvThumbs.appendChild(t);
+            });
+        }
+    }
+    function qvSetGallery(g) { qvGallery = (g && g.length) ? g.slice() : [qvImg.src]; qvRenderThumbs(); setQvImg(qvGallery[0]); }
     function openQuickView(c) {
         if (!qv) return;
-        qvGallery = (c.gallery && c.gallery.length) ? c.gallery.slice() : [c.img];
         qvImg.alt = c.title;
-        setQvImg(qvGallery[0]);
-        // мініатюри
-        if (qvThumbs) {
-            qvThumbs.innerHTML = "";
-            if (qvGallery.length > 1) {
-                qvGallery.forEach(function (src, i) {
-                    var t = document.createElement("img"); t.loading = "lazy"; t.src = src; t.setAttribute("data-src", src); t.className = i === 0 ? "on" : "";
-                    t.addEventListener("click", function () { setQvImg(src); });
-                    qvThumbs.appendChild(t);
-                });
-            }
-        }
         if (qvBadge) { qvBadge.textContent = DISCOUNT > 0 ? ("−" + DISCOUNT + "%") : ""; qvBadge.style.display = DISCOUNT > 0 ? "block" : "none"; }
         qvTitle.textContent = c.title;
         if (qvSpecs) {
@@ -445,10 +444,12 @@ treeSelect.addEventListener("change", function () {
         if (c.colors.length > 1) {
             c.colors.forEach(function (col, i) {
                 var b = document.createElement("button"); b.type = "button"; b.className = "sw" + (i === 0 ? " on" : ""); b.style.background = col.sw; b.title = col.label;
-                b.addEventListener("click", function () { qvColors.querySelectorAll(".sw").forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on"); qvModel = col.v; if (col.img) { qvImg.src = col.img; if (qvThumbs) qvThumbs.querySelectorAll("img").forEach(function (t) { t.classList.remove("on"); }); } fillHeights(qvHeight, col.v); qvRefresh(); });
+                b.addEventListener("click", function () { qvColors.querySelectorAll(".sw").forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on"); qvModel = col.v; qvSetGallery(col.gallery || [col.img]); fillHeights(qvHeight, col.v); qvRefresh(); });
                 qvColors.appendChild(b);
             });
         }
+        var g0 = (c.colors[0] && c.colors[0].gallery) ? c.colors[0].gallery : (c.gallery || [c.img]);
+        qvSetGallery(g0);
         fillHeights(qvHeight, qvModel); qvRefresh();
         qv.classList.add("show"); qv.setAttribute("aria-hidden", "false"); if (qvOv) qvOv.classList.add("show");
     }
@@ -521,33 +522,36 @@ treeSelect.addEventListener("change", function () {
         var thumbsEl = card.querySelector(".card-thumbs");
         var thumbEls = [];
         function setThumbActive(src) { thumbEls.forEach(function (t) { t.classList.toggle("on", t.src.indexOf(src) >= 0); }); }
+        function colorGal(i) { return (multi && c.colors[i] && c.colors[i].gallery && c.colors[i].gallery.length) ? c.colors[i].gallery : (c.gallery || [c.img]); }
+        function buildThumbs(gallery, activeSrc) {
+            if (!thumbsEl) return;
+            thumbsEl.innerHTML = ""; thumbEls = [];
+            if (gallery && gallery.length > 1) {
+                gallery.forEach(function (src) {
+                    var t = document.createElement("img"); t.loading = "lazy"; t.src = src; t.className = (src === activeSrc ? "on" : "");
+                    t.addEventListener("click", function (e) { e.stopPropagation(); currentBase = src; cardImg.src = src; setThumbActive(src); });
+                    thumbEls.push(t); thumbsEl.appendChild(t);
+                });
+            }
+        }
         function pickColor(i) {
             var col = c.colors[i]; if (!col) return;
             model = col.v;
             if (clName) clName.textContent = col.label;
             swEls.forEach(function (x, xi) { x.classList.toggle("on", xi === i); });
-            if (col.img) { currentBase = col.img; cardImg.src = col.img; setThumbActive(col.img); }
+            var g = colorGal(i);
+            currentBase = col.img || g[0];
+            cardImg.src = currentBase;
+            buildThumbs(g, currentBase);   // мініатюри = галерея обраного кольору
             fillHeights(hsel, model); refresh();
         }
         card.pickColorByLabel = function (label) {
             for (var i = 0; i < c.colors.length; i++) { if (c.colors[i].label === label) { pickColor(i); return true; } }
             return false;
         };
-        // мініатюри: для різнокольорових — фото кольорів; інакше — галерея
-        var thumbSrcs = multi ? c.colors.map(function (col) { return col.img; }).filter(Boolean) : ((c.gallery && c.gallery.length > 1) ? c.gallery : []);
-        if (thumbsEl && thumbSrcs.length > 1) {
-            thumbSrcs.forEach(function (src) {
-                var t = document.createElement("img"); t.loading = "lazy"; t.src = src; t.className = (src === c.img ? "on" : "");
-                t.addEventListener("click", function (e) {
-                    e.stopPropagation();
-                    if (multi) { for (var i = 0; i < c.colors.length; i++) { if (c.colors[i].img === src) { pickColor(i); break; } } }
-                    else { currentBase = src; cardImg.src = src; setThumbActive(src); }
-                });
-                thumbEls.push(t); thumbsEl.appendChild(t);
-            });
-        }
+        buildThumbs(colorGal(0), c.img);   // стартові мініатюри першого кольору
         swEls.forEach(function (b, bi) { b.addEventListener("click", function () { pickColor(bi); }); });
-        // наведення → наступне фото галереї (лише одноколірні); повернення → поточне
+        // наведення → наступне фото галереї (лише одноколірні)
         var cg = (!multi && c.gallery && c.gallery.length > 1) ? c.gallery : null;
         if (cg) {
             ph.addEventListener("mouseenter", function () { cardImg.src = cg[1]; });
