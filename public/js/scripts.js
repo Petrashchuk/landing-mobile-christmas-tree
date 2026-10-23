@@ -353,7 +353,7 @@ treeSelect.addEventListener("change", function () {
         var key = item.name + "|" + (item.variant || "");
         var ex = cart.filter(function (i) { return (i.name + "|" + (i.variant || "")) === key; })[0];
         if (ex) ex.qty = (ex.qty || 1) + 1;
-        else cart.push({ name: item.name, variant: item.variant || "", price: Number(item.price) || 0, img: item.img || "", qty: 1 });
+        else cart.push({ name: item.name, variant: item.variant || "", price: Number(item.price) || 0, old: Number(item.old) || 0, img: item.img || "", qty: 1 });
         saveCart(); renderCart(); updateBadge(); flashCart();
     }
     function confirmLast() { return cart.length > 1 || window.confirm("Прибрати останній товар і очистити кошик?"); }
@@ -385,7 +385,8 @@ treeSelect.addEventListener("change", function () {
                 '<img src="' + (it.img || "") + '" alt="">' +
                 '<div class="ci"><div class="ci-nm">' + it.name + '</div>' +
                 (it.variant ? '<div class="ci-v">' + it.variant + '</div>' : '') +
-                '<div class="ci-pr">' + fmt(it.price) + ' ₴</div>' +
+                '<div class="ci-pr">' + fmt(it.price) + ' ₴' + (it.old && it.old > it.price ? ' <span class="ci-old">' + fmt(it.old) + ' ₴</span>' : '') + '</div>' +
+                (it.old && it.old > it.price ? '<div class="ci-econ">Економія ' + fmt((it.old - it.price) * (it.qty || 1)) + ' ₴</div>' : '') +
                 '<div class="ci-qty"><button type="button" data-a="dec">−</button><span>' + (it.qty || 1) + '</span><button type="button" data-a="inc">+</button></div>' +
                 '<button type="button" class="ci-rm">Видалити</button></div>';
             row.querySelector('[data-a="dec"]').addEventListener("click", function () { cartSetQty(idx, -1); });
@@ -458,7 +459,7 @@ treeSelect.addEventListener("change", function () {
     if (qvAdd) qvAdd.addEventListener("click", function () {
         var p = priceNum(qvHeight.value); if (!p) return;
         var variant = (qvHeight.value.split(" - ")[0] || "").trim();
-        cartAdd({ name: qvModel, variant: variant, price: p, img: qvGallery[0] || qvImg.src });
+        cartAdd({ name: qvModel, variant: variant, price: p, old: oldPrice(p), img: qvGallery[0] || qvImg.src });
         closeQuickView(); openCart();
     });
     if (qvImg) qvImg.parentNode.addEventListener("click", function () { if (window.Lightbox && qvGallery.length) window.Lightbox.open(qvGallery, qvIdx); });
@@ -499,7 +500,7 @@ treeSelect.addEventListener("change", function () {
             '<div class="b"><div class="nm">' + c.title + '</div>' + swHtml +
             '<div class="sellabel">Оберіть висоту</div><select class="h-sel"></select>' +
             '<div class="c-price"></div><div class="c-econ"></div>' +
-            '<a class="cbuy" href="#">Додати в кошик →</a></div>';
+            '<div class="cbuy-row"><a class="cbuy" href="#">Додати в кошик</a><a class="cbuy-now" href="#">Замовити</a></div></div>';
         catBox.appendChild(card);
         var hsel = card.querySelector(".h-sel");
         var priceEl = card.querySelector(".c-price");
@@ -555,13 +556,14 @@ treeSelect.addEventListener("change", function () {
         ph.addEventListener("click", function () { openQuickView(c); });
         card.querySelector(".nm").style.cursor = "pointer";
         card.querySelector(".nm").addEventListener("click", function () { openQuickView(c); });
-        card.querySelector(".cbuy").addEventListener("click", function (e) {
-            e.preventDefault();
+        function addCurrent(openAfter) {
             var p = priceNum(hsel.value); if (!p) return;
             var variant = (hsel.value.split(" - ")[0] || "").trim();
-            cartAdd({ name: model, variant: variant, price: p, img: currentBase });
-            openCart();
-        });
+            cartAdd({ name: model, variant: variant, price: p, old: oldPrice(p), img: currentBase });
+            if (openAfter) openCart();
+        }
+        card.querySelector(".cbuy").addEventListener("click", function (e) { e.preventDefault(); addCurrent(false); });
+        card.querySelector(".cbuy-now").addEventListener("click", function (e) { e.preventDefault(); addCurrent(true); });
     });
 
     // ---------- Доповнення (гірлянди/іграшки) → кошик ----------
