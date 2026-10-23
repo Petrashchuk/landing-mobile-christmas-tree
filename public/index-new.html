@@ -217,8 +217,13 @@
       .qv { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:85; width:94%; max-width:860px; max-height:92vh; overflow:auto; background:var(--bg); border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.4); }
       .qv.show { display:block; }
       .qv-x { position:absolute; top:12px; right:12px; z-index:2; width:36px; height:36px; border-radius:50%; border:none; background:#fff; color:#333; font-size:18px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.2); }
-      .qv-gallery { position:relative; background:var(--soft); }
-      .qv-gallery img { width:100%; max-height:46vh; object-fit:contain; }
+      .qv-gallery { background:var(--soft); }
+      .qv-main { position:relative; cursor:zoom-in; }
+      .qv-main img { width:100%; max-height:46vh; object-fit:contain; }
+      .qv-thumbs { display:flex; gap:8px; padding:8px 10px; overflow-x:auto; }
+      .qv-thumbs::-webkit-scrollbar { height:0; }
+      .qv-thumbs img { width:52px; height:66px; object-fit:cover; border-radius:6px; border:2px solid transparent; cursor:pointer; flex:none; }
+      .qv-thumbs img.on { border-color:var(--org); }
       .qv-badge { position:absolute; top:14px; left:14px; background:var(--org); color:#fff; font-weight:800; font-size:13px; padding:5px 10px; border-radius:8px; }
       .qv-info { padding:20px 22px 24px; }
       .qv-crumb { font-size:12px; font-weight:700; letter-spacing:.06em; color:var(--org); }
@@ -237,7 +242,7 @@
       @media (min-width:720px) {
         .qv { display:none; }
         .qv.show { display:grid; grid-template-columns:1fr 1fr; }
-        .qv-gallery img { max-height:72vh; }
+        .qv-main img { max-height:66vh; }
       }
 
       /* Order form in cart mode */
@@ -531,8 +536,8 @@
 <div class="qv" id="qv" role="dialog" aria-modal="true" aria-hidden="true">
     <button class="qv-x" id="qvX" type="button" aria-label="Закрити">✕</button>
     <div class="qv-gallery">
-        <img id="qvImg" src="" alt="">
-        <span class="qv-badge" id="qvBadge"></span>
+        <div class="qv-main"><img id="qvImg" src="" alt=""><span class="qv-badge" id="qvBadge"></span></div>
+        <div class="qv-thumbs" id="qvThumbs"></div>
     </div>
     <div class="qv-info">
         <div class="qv-crumb">YALYNKA · КАТАЛОГ</div>
@@ -572,6 +577,6 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=15"></script>
+<script defer src="js/scripts.js?v=16"></script>
 </body>
 </html>

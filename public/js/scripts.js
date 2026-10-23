@@ -299,24 +299,24 @@ treeSelect.addEventListener("change", function () {
     var catBox = document.getElementById("catalogCards");
     var DISCOUNT = 30; // % «старої ціни» (анкер магазину); 0 = показувати лише поточну ціну
     var CARDS = [
-        { title: "Казка", img: "trees/kazka/1.webp", cats: ["Зелена"], colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
-        { title: "Снігова Королева", img: "trees/snow-queen/1.webp", cats: ["Білі кінчики"], colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
-        { title: "Елітна з шишкою", img: "trees/elite/1.webp", cats: ["З декором"], colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
-        { title: "Кармен + ягідки", img: "trees/karmen/1.webp", cats: ["З декором"], colors: [
+        { title: "Казка", img: "trees/kazka/1.webp", gallery: ["trees/kazka/1.webp", "trees/kazka/2.webp", "trees/kazka/3.webp", "trees/kazka/4.webp"], cats: ["Зелена"], colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
+        { title: "Снігова Королева", img: "trees/snow-queen/1.webp", gallery: ["trees/snow-queen/1.webp", "trees/snow-queen/2.webp", "trees/snow-queen/3.webp", "trees/snow-queen/4.webp"], cats: ["Білі кінчики"], colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
+        { title: "Елітна з шишкою", img: "trees/elite/1.webp", gallery: ["trees/elite/1.webp", "trees/elite/2.webp", "trees/elite/3.webp", "trees/elite/4.webp"], cats: ["З декором"], colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
+        { title: "Кармен + ягідки", img: "trees/karmen/1.webp", gallery: ["trees/karmen/1.webp", "trees/karmen/2.webp", "trees/karmen/3.webp", "trees/karmen/4.webp"], cats: ["З декором"], colors: [
             { label: "Червоні", v: "Кармен + червоні ягідки", sw: "#c0392b" },
             { label: "Сині", v: "Кармен + сині ягідки", sw: "#2e5fb0" },
             { label: "Срібні", v: "Кармен + срібні ягідки", sw: "#c9ccd1" },
             { label: "Золоті", v: "Кармен + золоті ягідки", sw: "#d4af37" } ] },
-        { title: "Тріумф (лита)", img: "trees/triumph-green/1.webp", cats: ["Лита","Зелена","Засніжена"], colors: [
+        { title: "Тріумф (лита)", img: "trees/triumph-green/1.webp", gallery: ["trees/triumph-green/1.webp", "trees/triumph-green/2.webp", "trees/triumph-green/3.webp", "trees/triumph-green/4.webp"], cats: ["Лита","Зелена","Засніжена"], colors: [
             { label: "Зелена", v: "Тріумф Зелена", sw: "#2e7d32" },
             { label: "Блакитна", v: "Тріумф Блакитна", sw: "#7fb0d8" },
             { label: "Засніжена", v: "Тріумф Засніжена", sw: "#eaf2ff" } ] },
-        { title: "Роял (лита)", img: "trees/royal-green/1.webp", cats: ["Лита","Зелена","Засніжена"], colors: [
+        { title: "Роял (лита)", img: "trees/royal-green/1.webp", gallery: ["trees/royal-green/1.webp", "trees/royal-green/2.webp", "trees/royal-green/3.webp", "trees/royal-green/4.webp"], cats: ["Лита","Зелена","Засніжена"], colors: [
             { label: "Зелена", v: "Роял Зелена", sw: "#2e7d32" },
             { label: "Блакитна", v: "Роял Блакитна", sw: "#7fb0d8" },
             { label: "Засніжена", v: "Роял Засніжена", sw: "#eaf2ff" } ] },
-        { title: "Віденська", img: "trees/videnska/1.webp", cats: ["Лита","Зелена"], colors: [{ label: "Зелена", v: "Віденська", sw: "#2e7d32" }] },
-        { title: "Смерека", img: "trees/smereka/1.webp", cats: ["Лита","Зелена"], colors: [{ label: "Зелена", v: "Смерека", sw: "#2e7d32" }] }
+        { title: "Віденська", img: "trees/videnska/1.webp", gallery: ["trees/videnska/1.webp", "trees/videnska/2.webp", "trees/videnska/3.webp", "trees/videnska/4.webp"], cats: ["Лита","Зелена"], colors: [{ label: "Зелена", v: "Віденська", sw: "#2e7d32" }] },
+        { title: "Смерека", img: "trees/smereka/1.webp", gallery: ["trees/smereka/1.webp", "trees/smereka/2.webp", "trees/smereka/3.webp", "trees/smereka/4.webp"], cats: ["Лита","Зелена"], colors: [{ label: "Зелена", v: "Смерека", sw: "#2e7d32" }] }
     ];
     var CATS = ["Усі", "Зелена", "Білі кінчики", "Засніжена", "Лита", "З декором"];
     function priceNum(v) { var m = (v || "").match(/(\d[\d\s]*)\s*грн/i); return m ? parseInt(m[1].replace(/\s/g, ""), 10) : 0; }
@@ -389,17 +389,32 @@ treeSelect.addEventListener("change", function () {
         qvImg = document.getElementById("qvImg"), qvBadge = document.getElementById("qvBadge"),
         qvTitle = document.getElementById("qvTitle"), qvColors = document.getElementById("qvColors"),
         qvHeight = document.getElementById("qvHeight"), qvPrice = document.getElementById("qvPrice"),
-        qvEcon = document.getElementById("qvEcon"), qvAdd = document.getElementById("qvAdd");
-    var qvModel = null;
+        qvEcon = document.getElementById("qvEcon"), qvAdd = document.getElementById("qvAdd"),
+        qvThumbs = document.getElementById("qvThumbs");
+    var qvModel = null, qvGallery = [], qvIdx = 0;
     function qvRefresh() {
         var p = priceNum(qvHeight.value);
         if (!p) { qvPrice.textContent = ""; qvEcon.textContent = ""; return; }
         if (DISCOUNT > 0) { var o = oldPrice(p); qvPrice.innerHTML = fmt(p) + ' ₴ <span class="old">' + fmt(o) + ' ₴</span>'; qvEcon.textContent = "Економія " + fmt(o - p) + " ₴"; }
         else { qvPrice.textContent = fmt(p) + " ₴"; qvEcon.textContent = ""; }
     }
+    function setQvImg(src) { qvImg.src = src; qvIdx = qvGallery.indexOf(src); if (qvIdx < 0) qvIdx = 0; if (qvThumbs) qvThumbs.querySelectorAll("img").forEach(function (t) { t.classList.toggle("on", t.getAttribute("data-src") === src); }); }
     function openQuickView(c) {
         if (!qv) return;
-        qvImg.src = c.img; qvImg.alt = c.title;
+        qvGallery = (c.gallery && c.gallery.length) ? c.gallery.slice() : [c.img];
+        qvImg.alt = c.title;
+        setQvImg(qvGallery[0]);
+        // мініатюри
+        if (qvThumbs) {
+            qvThumbs.innerHTML = "";
+            if (qvGallery.length > 1) {
+                qvGallery.forEach(function (src, i) {
+                    var t = document.createElement("img"); t.loading = "lazy"; t.src = src; t.setAttribute("data-src", src); t.className = i === 0 ? "on" : "";
+                    t.addEventListener("click", function () { setQvImg(src); });
+                    qvThumbs.appendChild(t);
+                });
+            }
+        }
         if (qvBadge) { qvBadge.textContent = DISCOUNT > 0 ? ("−" + DISCOUNT + "%") : ""; qvBadge.style.display = DISCOUNT > 0 ? "block" : "none"; }
         qvTitle.textContent = c.title;
         qvModel = c.colors[0].v;
@@ -421,9 +436,10 @@ treeSelect.addEventListener("change", function () {
     if (qvAdd) qvAdd.addEventListener("click", function () {
         var p = priceNum(qvHeight.value); if (!p) return;
         var variant = (qvHeight.value.split(" - ")[0] || "").trim();
-        cartAdd({ name: qvModel, variant: variant, price: p, img: qvImg.src });
+        cartAdd({ name: qvModel, variant: variant, price: p, img: qvGallery[0] || qvImg.src });
         closeQuickView(); openCart();
     });
+    if (qvImg) qvImg.parentNode.addEventListener("click", function () { if (window.Lightbox && qvGallery.length) window.Lightbox.open(qvGallery, qvIdx); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeQuickView(); closeCart(); } });
 
     // ---------- Рендер каталогу ----------
@@ -483,6 +499,13 @@ treeSelect.addEventListener("change", function () {
             });
         });
         var ph = card.querySelector(".ph"); ph.style.cursor = "pointer";
+        // наведення → наступне фото галереї (десктоп)
+        var cardImg = ph.querySelector("img");
+        var cg = (c.gallery && c.gallery.length > 1) ? c.gallery : null;
+        if (cg) {
+            ph.addEventListener("mouseenter", function () { cardImg.src = cg[1]; });
+            ph.addEventListener("mouseleave", function () { cardImg.src = cg[0]; });
+        }
         ph.addEventListener("click", function () { openQuickView(c); });
         card.querySelector(".nm").style.cursor = "pointer";
         card.querySelector(".nm").addEventListener("click", function () { openQuickView(c); });
@@ -878,17 +901,19 @@ function getFbClickId() {
 }
 
 
-// ---------- Лайтбокс зображень (сертифікати) ----------
+// ---------- Лайтбокс зображень (сертифікати + галерея товару) ----------
 (function () {
     var ov = document.getElementById("lbOv"), img = document.getElementById("lbImg"), count = document.getElementById("lbCount");
     if (!ov || !img) return;
-    var imgs = [], idx = 0;
-    function show() { var el = imgs[idx]; if (!el) return; img.src = el.getAttribute("data-full") || el.src; img.alt = el.alt || ""; if (count) count.textContent = (idx + 1) + " / " + imgs.length; }
-    function open(list, i) { imgs = list; idx = i; show(); ov.classList.add("show"); }
+    var urls = [], idx = 0;
+    function show() { var u = urls[idx]; if (!u) return; img.src = u; if (count) count.textContent = (idx + 1) + " / " + urls.length; }
+    function open(list, i) { urls = (list || []).slice(); idx = i || 0; if (!urls.length) return; show(); ov.classList.add("show"); }
     function close() { ov.classList.remove("show"); }
-    function nav(d) { if (!imgs.length) return; idx = (idx + d + imgs.length) % imgs.length; show(); }
-    var certImgs = Array.prototype.slice.call(document.querySelectorAll(".certs-grid .cert img"));
-    certImgs.forEach(function (el, i) { el.parentNode.style.cursor = "zoom-in"; el.parentNode.addEventListener("click", function () { open(certImgs, i); }); });
+    function nav(d) { if (!urls.length) return; idx = (idx + d + urls.length) % urls.length; show(); }
+    window.Lightbox = { open: open };
+    var certEls = Array.prototype.slice.call(document.querySelectorAll(".certs-grid .cert img"));
+    var certUrls = certEls.map(function (el) { return el.getAttribute("data-full") || el.src; });
+    certEls.forEach(function (el, i) { el.parentNode.style.cursor = "zoom-in"; el.parentNode.addEventListener("click", function () { open(certUrls, i); }); });
     var x = document.getElementById("lbX"); if (x) x.addEventListener("click", close);
     var pv = document.getElementById("lbPrev"); if (pv) pv.addEventListener("click", function () { nav(-1); });
     var nx = document.getElementById("lbNext"); if (nx) nx.addEventListener("click", function () { nav(1); });
