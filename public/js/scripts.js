@@ -868,3 +868,30 @@ function getFbClickId() {
     return getCookieValue('_fbc');
 }
 
+
+// ---------- Лайтбокс зображень (сертифікати) ----------
+(function () {
+    var ov = document.getElementById("lbOv"), img = document.getElementById("lbImg"), count = document.getElementById("lbCount");
+    if (!ov || !img) return;
+    var imgs = [], idx = 0;
+    function show() { var el = imgs[idx]; if (!el) return; img.src = el.getAttribute("data-full") || el.src; img.alt = el.alt || ""; if (count) count.textContent = (idx + 1) + " / " + imgs.length; }
+    function open(list, i) { imgs = list; idx = i; show(); ov.classList.add("show"); }
+    function close() { ov.classList.remove("show"); }
+    function nav(d) { if (!imgs.length) return; idx = (idx + d + imgs.length) % imgs.length; show(); }
+    var certImgs = Array.prototype.slice.call(document.querySelectorAll(".certs-grid .cert img"));
+    certImgs.forEach(function (el, i) { el.parentNode.style.cursor = "zoom-in"; el.parentNode.addEventListener("click", function () { open(certImgs, i); }); });
+    var x = document.getElementById("lbX"); if (x) x.addEventListener("click", close);
+    var pv = document.getElementById("lbPrev"); if (pv) pv.addEventListener("click", function () { nav(-1); });
+    var nx = document.getElementById("lbNext"); if (nx) nx.addEventListener("click", function () { nav(1); });
+    ov.addEventListener("click", function (e) { if (e.target === ov) close(); });
+    document.addEventListener("keydown", function (e) {
+        if (!ov.classList.contains("show")) return;
+        if (e.key === "Escape") close(); else if (e.key === "ArrowLeft") nav(-1); else if (e.key === "ArrowRight") nav(1);
+    });
+})();
+
+// ---------- Чат-бульбашка: закривання ----------
+(function () {
+    var x = document.getElementById("cbX"), bubble = document.getElementById("chatBubble");
+    if (x && bubble) x.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); bubble.classList.add("hide"); });
+})();
