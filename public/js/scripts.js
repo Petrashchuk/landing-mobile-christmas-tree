@@ -837,6 +837,24 @@ document.querySelectorAll(".order-form-wrapper-btn .button").forEach(btn => {
 })
 
 
+// Живе очищення помилок валідації — щойно клієнт виправляє поле
+(function () {
+    var f = document.getElementById("order_form");
+    if (!f) return;
+    function clr(el) { if (!el) return; el.classList.remove("error"); var n = el.nextElementSibling; if (n && n.classList.contains("error-message")) n.remove(); }
+    f.querySelectorAll(".field").forEach(function (el) {
+        el.addEventListener("input", function () { clr(el); });
+        el.addEventListener("change", function () { clr(el); });
+    });
+    var area = document.getElementById("npArea");
+    if (area) area.addEventListener("click", function () { clr(area); });
+    f.querySelectorAll('input[name="delivery_method"]').forEach(function (r) {
+        r.addEventListener("change", function () {
+            ["courierAddress", "npWarehouse", "npCity"].forEach(function (id) { clr(document.getElementById(id)); });
+        });
+    });
+})();
+
 document.getElementById("order_form").addEventListener("submit", async function (e) {
     e.preventDefault();
     let isValid = true;
@@ -943,6 +961,12 @@ document.getElementById("order_form").addEventListener("submit", async function 
         if (ofertaLabel) ofertaLabel.classList.add("err");
     } else if (ofertaLabel) {
         ofertaLabel.classList.remove("err");
+    }
+
+    // Прокрутити до першої помилки, щоб клієнт її побачив
+    if (!isValid) {
+        var firstErr = this.querySelector(".field.error, .error");
+        if (firstErr && firstErr.scrollIntoView) firstErr.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
     // Якщо все добре — відправляємо

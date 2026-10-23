@@ -262,14 +262,15 @@
       #checkoutMount .offer_section, #checkoutMount .order_form.pat { width:100%; padding:0; }
       #checkoutMount .field { width:100% !important; max-width:none !important; background:#f1f3f6 !important; border:1.5px solid transparent !important; border-radius:12px !important; padding:14px 15px !important; margin:9px 0 !important; font-size:15px; color:#222; background-image:none !important; }
       #checkoutMount .field:focus { outline:none; border-color:var(--org) !important; background:#fff !important; }
-      #checkoutMount .field.error { border-color:#d33 !important; }
+      #checkoutMount .field.error { border-color:#d33 !important; background:#fff6f5 !important; }
       #checkoutMount textarea.field { min-height:70px; resize:vertical; }
       #checkoutMount .np-autocomplete { position:relative; width:100%; max-width:none; }
       #checkoutMount .courier-wrap { width:100%; }
       #checkoutMount .np-select { cursor:pointer; padding-right:40px !important; caret-color:transparent; }
       .np-area-wrap::after { content:""; position:absolute; right:17px; top:50%; width:8px; height:8px; border-right:2px solid #8a8378; border-bottom:2px solid #8a8378; transform:translateY(-70%) rotate(45deg); pointer-events:none; transition:transform .18s; }
       .np-area-wrap:has(.np-list.open)::after { transform:translateY(-30%) rotate(225deg); }
-      #checkoutMount .error-message { color:#d33; font-size:12px; margin:-3px 0 6px 2px; }
+      #checkoutMount .error-message { color:#d33; font-size:12px; font-weight:600; margin:-3px 0 7px 2px; display:flex; align-items:center; gap:5px; }
+      #checkoutMount .error-message::before { content:"⚠"; font-size:12px; }
       .deliv-opts { display:flex; flex-direction:column; gap:9px; }
       .deliv-opt { display:flex; align-items:center; gap:11px; border:1.5px solid #e0dccf; border-radius:12px; padding:13px 14px; cursor:pointer; background:#fff; }
       .deliv-opt input { display:none; }
@@ -500,7 +501,7 @@
     <p class="sub">Оберіть модель і розмір — ціна покажеться одразу</p>
     <div class="offer_section">
         <div class="order_form pat">
-            <form id="order_form" class="order_form" name="order-form">
+            <form id="order_form" class="order_form" name="order-form" novalidate>
                 <input type="hidden" name="event_id" id="event_id">
                 <select id="treeSelect" name="type" class="field">
                     <optgroup label="Ялинка ПВХ">
@@ -791,7 +792,7 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=40"></script>
+<script defer src="js/scripts.js?v=41"></script>
 <!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
 <script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
 </body>
