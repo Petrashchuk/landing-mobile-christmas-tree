@@ -77,6 +77,12 @@
       .hhours b { color:var(--gold); font-weight:800; }
       @media (max-width:860px) { .hhours { display:none; } }
       @media (max-width:560px) { header .hphone { display:none; } }
+      @media (max-width:719px) {
+        header { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:4px 10px; }
+        header .logo { grid-column:2; justify-self:center; }
+        .hdr-right { grid-column:3; justify-self:end; }
+        .hdr-nav { grid-column:1 / -1; }
+      }
       .hdr-nav { order:3; flex-basis:100%; display:flex; justify-content:center; gap:26px; overflow-x:auto; padding-top:8px; border-top:1px solid rgba(255,255,255,.14); margin-top:5px; }
       .hdr-nav::-webkit-scrollbar { height:0; }
       .hdr-nav a { position:relative; font-size:15px; font-weight:700; color:#fff; white-space:nowrap; padding:2px 0; opacity:.95; transition:color .15s; }
@@ -246,7 +252,8 @@
       .cart-row .ci-qty button { width:30px; height:30px; border:none; background:#fff; color:#3a2f27; font-size:17px; cursor:pointer; line-height:1; transition:background .12s; }
       .cart-row .ci-qty button:hover { background:var(--soft); }
       .cart-row .ci-qty span { min-width:34px; text-align:center; font-weight:800; font-size:14px; }
-      .cart-row .ci-rm { background:none; border:none; color:#b2493f; font-size:12.5px; cursor:pointer; padding:6px 8px; margin:8px 0 0 16px; display:inline-flex; align-items:center; gap:4px; }
+      .cart-row .ci-qty { margin-top:10px; }
+      .cart-row .ci-rm { background:none; border:none; color:#b2493f; font-size:12.5px; cursor:pointer; padding:6px 10px; margin:10px 0 0 22px; display:inline-flex; align-items:center; gap:4px; }
       .cart-row .ci-rm:hover { text-decoration:underline; }
       .cart-co { padding:16px; background:#fff; border-top:1px solid #e9e1d4; }
       .cart-total-row { display:none; }
@@ -799,7 +806,7 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=48"></script>
+<script defer src="js/scripts.js?v=49"></script>
 <!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
 <script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
 </body>

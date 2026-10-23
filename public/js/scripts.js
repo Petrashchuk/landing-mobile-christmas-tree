@@ -1339,9 +1339,13 @@ function getFbClickId() {
     });
     if (!map.length) return;
     function onScroll() {
-        var y = (window.scrollY || window.pageYOffset) + 130;
+        var sy = window.scrollY || window.pageYOffset || 0;
+        var y = sy + 140; // поправка на липкий хедер
         var cur = null;
-        map.forEach(function (m) { if (m.el.offsetTop <= y) cur = m; });
+        map.forEach(function (m) {
+            var top = m.el.getBoundingClientRect().top + sy; // абсолютна позиція секції
+            if (top <= y) cur = m;
+        });
         links.forEach(function (a) { a.classList.remove("active"); });
         if (cur) cur.a.classList.add("active");
     }
