@@ -77,15 +77,26 @@
       .saletop .marquee span { padding-right:0; }
       @keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
 
-      /* Hero банер */
-      .hero-banner { display:block; max-width:1400px; margin:0 auto; }
-      .hero-banner img { width:100%; height:auto; display:block; }
+      /* Hero банер-слайдер */
+      .hero-slider { max-width:1400px; margin:0 auto; position:relative; }
+      .hero-slider .hslide { display:block; outline:none; }
+      .hero-slider .hslide img { width:100%; height:auto; display:block; }
+      .hero-slider .owl-nav button.owl-prev, .hero-slider .owl-nav button.owl-next { position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,.85) !important; color:var(--grn-d) !important; font-size:26px !important; line-height:1; display:flex; align-items:center; justify-content:center; }
+      .hero-slider .owl-nav .owl-prev { left:12px; }
+      .hero-slider .owl-nav .owl-next { right:12px; }
+      .hero-slider .owl-dots { position:absolute; bottom:12px; left:0; right:0; text-align:center; }
+      .hero-slider .owl-dots .owl-dot span { background:rgba(255,255,255,.6) !important; }
+      .hero-slider .owl-dots .owl-dot.active span { background:var(--org) !important; }
+      @media (max-width:719px) { .hero-slider .owl-nav { display:none; } }
 
-      /* USP */
-      .usp { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; padding:16px; }
-      .usp .u { background:var(--soft); border-radius:12px; padding:12px 6px; text-align:center; }
-      .usp .u .i { font-size:24px; }
-      .usp .u .t { font-size:12px; font-weight:700; margin-top:6px; line-height:1.25; color:var(--grn-d); }
+      /* USP / переваги */
+      .usp { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(2,1fr); gap:12px; padding:18px 16px; }
+      .usp .u { background:#fff; border:1px solid #ece6da; border-radius:14px; padding:16px 12px; text-align:center; box-shadow:0 3px 12px rgba(0,0,0,.05); }
+      .usp .u .i { color:var(--org); display:flex; justify-content:center; margin-bottom:8px; }
+      .usp .u .i svg { width:30px; height:30px; }
+      .usp .u .ut { font-size:14px; font-weight:800; color:var(--grn-d); }
+      .usp .u .us { font-size:12px; color:#8a8178; margin-top:3px; line-height:1.3; }
+      @media (min-width:720px) { .usp { grid-template-columns:repeat(4,1fr); gap:16px; } }
 
       /* Horizontal card rail */
       .rail { display:flex; gap:12px; overflow-x:auto; padding:4px 16px 14px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
@@ -172,9 +183,10 @@
 
       /* Header right + cart button */
       .hdr-right { display:flex; align-items:center; gap:12px; }
-      .cartbtn { position:relative; background:transparent; border:none; color:#fff; font-size:20px; cursor:pointer; padding:4px; line-height:1; }
-      .cart-count { position:absolute; top:-6px; right:-8px; min-width:18px; height:18px; padding:0 4px; background:var(--org); color:#fff; font-size:11px; font-weight:800; border-radius:10px; display:flex; align-items:center; justify-content:center; }
-      .cart-count.empty { display:none; }
+      .cartbtn { display:inline-flex; align-items:center; gap:7px; background:var(--gold); color:#3a2a10; border:none; font-size:14px; font-weight:800; cursor:pointer; padding:8px 15px; border-radius:30px; line-height:1; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+      .cartbtn .cb-label { white-space:nowrap; }
+      .cart-count { min-width:20px; height:20px; padding:0 5px; background:var(--org); color:#fff; font-size:12px; font-weight:800; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+      @media (max-width:420px) { .cartbtn .cb-label { display:none; } }
 
       /* Cart drawer */
       .cart-ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:70; }
@@ -299,26 +311,40 @@
     </nav>
     <div class="hdr-right">
         <a class="hphone" href="tel:+380672536941">📞 +380 67 25 369 41</a>
-        <button class="cartbtn" id="cartBtn" type="button" aria-label="Кошик">🛒<span class="cart-count" id="cartCount">0</span></button>
+        <button class="cartbtn" id="cartBtn" type="button" aria-label="Кошик">🛒 <span class="cb-label">Кошик</span> <span class="cart-count" id="cartCount">0</span></button>
     </div>
 </header>
 
-<!-- HERO банер -->
-<a href="#catalog" class="hero-banner">
-    <picture>
-        <source media="(max-width:719px)" srcset="banners/trees-m.webp">
-        <img src="banners/trees.webp" alt="Штучні ялинки від виробника — знижки до −30%" fetchpriority="high">
-    </picture>
-</a>
-
-<!-- USP -->
-<div class="wrap">
-    <div class="usp">
-        <div class="u"><div class="i">🏭</div><div class="t">Власне виробництво</div></div>
-        <div class="u"><div class="i">🚚</div><div class="t">Доставка Новою Поштою</div></div>
-        <div class="u"><div class="i">💵</div><div class="t">Оплата при отриманні</div></div>
-    </div>
+<!-- HERO банер-слайдер -->
+<div class="hero-slider owl-carousel">
+    <a href="#catalog" class="hslide"><picture><source media="(max-width:719px)" srcset="banners/trees-m.webp"><img src="banners/trees.webp" alt="Штучні ялинки від виробника — знижки до −30%" fetchpriority="high"></picture></a>
+    <a href="#toys" class="hslide"><picture><source media="(max-width:719px)" srcset="banners/balls-m.webp"><img src="banners/balls.webp" alt="Новорічні іграшки — готові набори"></picture></a>
+    <a href="#garlands" class="hslide"><picture><source media="(max-width:719px)" srcset="banners/garlands-m.webp"><img src="banners/garlands.webp" alt="Гірлянди для ялинки та інтер'єру"></picture></a>
 </div>
+
+<!-- USP / переваги -->
+<section class="usp">
+    <div class="u">
+        <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l6 4V9l6 4V5l6 4v12z"/><path d="M3 21h18"/></svg></div>
+        <div class="ut">Власне виробництво</div>
+        <div class="us">Прямо від виробника, без перекупів</div>
+    </div>
+    <div class="u">
+        <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h12v11H1z"/><path d="M13 7h5l3 3v5h-8z"/><circle cx="5" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div>
+        <div class="ut">Швидка доставка</div>
+        <div class="us">Новою Поштою за 1–3 дні</div>
+    </div>
+    <div class="u">
+        <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/><circle cx="17" cy="14.5" r="1.4"/></svg></div>
+        <div class="ut">Оплата при отриманні</div>
+        <div class="us">Накладений платіж на пошті</div>
+    </div>
+    <div class="u">
+        <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div class="ut">Сертифікат якості</div>
+        <div class="us">ДСТУ 1724-92, без запаху</div>
+    </div>
+</section>
 
 <!-- КАТАЛОГ (галерея) -->
 <section class="sec" id="catalog">
@@ -422,7 +448,7 @@
         <div class="ab-img"><img loading="lazy" src="garlands/rosa-100m.webp" alt="Гірлянда Роса"></div>
     </div>
 
-    <h3 class="addons-h">Гірлянди</h3>
+    <h3 class="addons-h" id="garlands">Гірлянди</h3>
     <div class="catgrid addon-grid">
         <div class="card"><div class="ph"><img loading="lazy" src="garlands/rosa-20m.webp" alt="Гірлянда Роса 20 м"></div><div class="b"><div class="nm">Роса — 20 м, 200 LED</div><div class="c-price">195 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 20 м" data-price="195" data-img="garlands/rosa-20m.webp">Додати в кошик →</button></div></div>
         <div class="card"><div class="ph"><img loading="lazy" src="garlands/rosa-50m.webp" alt="Гірлянда Роса 50 м"></div><div class="b"><div class="nm">Роса — 50 м, 500 LED</div><div class="c-price">595 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 50 м" data-price="595" data-img="garlands/rosa-50m.webp">Додати в кошик →</button></div></div>
@@ -432,7 +458,7 @@
         <div class="card"><div class="ph"><img loading="lazy" src="garlands/hvoyna-100m.webp" alt="Хвойна Лапа 100 м"></div><div class="b"><div class="nm">Хвойна Лапа — 100 м</div><div class="c-price">2 600 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 100 м" data-price="2600" data-img="garlands/hvoyna-100m.webp">Додати в кошик →</button></div></div>
     </div>
 
-    <h3 class="addons-h">Набори іграшок</h3>
+    <h3 class="addons-h" id="toys">Набори іграшок</h3>
     <div class="catgrid addon-grid">
         <div class="card"><div class="ph"><img loading="lazy" src="toys/асорті/gold.jpg" alt="Набір Асорті"></div><div class="b"><div class="nm">Набір «Асорті»</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Асорті»" data-price="1090" data-img="toys/асорті/gold.jpg">Додати в кошик →</button></div></div>
         <div class="card"><div class="ph"><img loading="lazy" src="toys/бархат/dark-red.jpg" alt="Набір Оксамит"></div><div class="b"><div class="nm">Набір «Оксамит»</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Оксамит»" data-price="1090" data-img="toys/бархат/dark-red.jpg">Додати в кошик →</button></div></div>
@@ -546,6 +572,6 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=14"></script>
+<script defer src="js/scripts.js?v=15"></script>
 </body>
 </html>

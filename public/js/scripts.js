@@ -13,13 +13,13 @@ $(document).ready((function () {
         s -= 3600 * c;
         var i = Math.floor(s / 60);
         s -= 60 * i, $(".timer .hours").html(e(c)), $(".timer .minutes").html(e(i)), $(".timer .seconds").html(e(s)), setTimeout(t, 200)
-    }(), $(".owl-carousel").owlCarousel({
-        loop: true,         // зациклювання
-        margin: 12,         // відступи між картинками
-        nav: true,          // кнопки вперед/назад
-        navText: ["‹", "›"], // без дефолтного тексту prev/next
-        dots: true,         // точки навігації
-        autoplay: true,     // автопрогравання
+    }(), $(".reviews_list4").owlCarousel({
+        loop: true,
+        margin: 12,
+        nav: true,
+        navText: ["‹", "›"],
+        dots: true,
+        autoplay: true,
         autoplayTimeout: 3500,
         autoplayHoverPause: true,
         // адаптив: кілька відгуків у ряд (портретні фото → не на весь екран)
@@ -29,6 +29,15 @@ $(document).ready((function () {
             720:  { items: 3 },
             1000: { items: 4 }
         }
+    }), $(".hero-slider").owlCarousel({
+        items: 1,
+        loop: true,
+        nav: true,
+        navText: ["‹", "›"],
+        dots: true,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        autoplayHoverPause: true
     });
     var t = $(".voice_count b").text().replace(/\D/g, "");
 
