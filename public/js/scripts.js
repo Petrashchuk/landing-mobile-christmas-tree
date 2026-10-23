@@ -594,10 +594,32 @@ treeSelect.addEventListener("change", function () {
         var nm = card.querySelector(".nm"); var title = nm ? nm.textContent : "";
         qvTitle.textContent = title; qvImg.alt = title;
         if (qvBadge) qvBadge.style.display = "none";
-        showQvEls(true);
-        var curImg = card.querySelector(".ph img"); var cur = curImg ? curImg.getAttribute("src") : null;
-        var gal = (cur ? [cur] : []).concat(d.gallery.filter(function (g) { return g !== cur; }));
-        qvSetGallery(gal.length ? gal : d.gallery.slice());
+        // ховаємо дерево-поля, лишаємо кольори (свотчі доповнення)
+        [qvDescEl, qvLabelEl, qvHeight, qvEcon].forEach(function (el) { if (el) el.style.display = "none"; });
+        // Галерея = фото по кожному кольору (+ додаткові ракурси з сайту)
+        var cardSw = Array.prototype.slice.call(card.querySelectorAll(".addon-sw .asw"));
+        var colorImgs = cardSw.map(function (s) { return s.getAttribute("data-img"); }).filter(Boolean);
+        // кожне фото = окремий колір; якщо кольорів нема — ракурси набору
+        var gal = colorImgs.length ? colorImgs : d.gallery.slice();
+        qvSetGallery(gal);
+        // Свотчі кольорів у модалці
+        qvColors.innerHTML = "";
+        if (cardSw.length) {
+            qvColors.style.display = "";
+            cardSw.forEach(function (src) {
+                var img = src.getAttribute("data-img");
+                var b = document.createElement("button"); b.type = "button";
+                b.className = "sw" + (src.classList.contains("on") ? " on" : "");
+                b.style.background = src.style.background; b.title = src.title;
+                b.addEventListener("click", function () {
+                    qvColors.querySelectorAll(".sw").forEach(function (x) { x.classList.remove("on"); });
+                    b.classList.add("on");
+                    src.click();             // оновлює фото картки + data-img кнопок (колір для кошика)
+                    setQvImg(img);           // показуємо фото цього кольору в модалці
+                });
+                qvColors.appendChild(b);
+            });
+        } else { qvColors.style.display = "none"; }
         var pr = card.querySelector(".c-price");
         if (qvPrice) qvPrice.textContent = pr ? pr.textContent.trim() : "";
         if (qvSpecs) qvSpecs.innerHTML = '<div class="spec-hd">Характеристики</div>' + d.specs.map(function (r) { return '<div class="spec-row"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>'; }).join("");
