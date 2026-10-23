@@ -501,21 +501,37 @@
     </div>
 
     <h3 class="addons-h" id="garlands">Гірлянди</h3>
-    <div class="catgrid addon-grid">
-        <div class="card"><div class="ph"><img loading="lazy" src="garlands/rosa-20m.webp" alt="Гірлянда Роса 20 м"></div><div class="b"><div class="nm">Роса — 20 м, 200 LED</div><div class="c-price">195 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 20 м" data-price="195" data-img="garlands/rosa-20m.webp">Додати в кошик →</button></div></div>
-        <div class="card"><div class="ph"><img loading="lazy" src="garlands/rosa-50m.webp" alt="Гірлянда Роса 50 м"></div><div class="b"><div class="nm">Роса — 50 м, 500 LED</div><div class="c-price">595 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 50 м" data-price="595" data-img="garlands/rosa-50m.webp">Додати в кошик →</button></div></div>
-        <div class="card"><div class="ph"><img loading="lazy" src="garlands/rosa-100m.webp" alt="Гірлянда Роса 100 м"></div><div class="b"><div class="nm">Роса — 100 м, 1000 LED</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 100 м" data-price="1090" data-img="garlands/rosa-100m.webp">Додати в кошик →</button></div></div>
-        <div class="card"><div class="ph"><img loading="lazy" src="garlands/hvoyna-30m.webp" alt="Хвойна Лапа 30 м"></div><div class="b"><div class="nm">Хвойна Лапа — 30 м</div><div class="c-price">1 075 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 30 м" data-price="1075" data-img="garlands/hvoyna-30m.webp">Додати в кошик →</button></div></div>
-        <div class="card"><div class="ph"><img loading="lazy" src="garlands/hvoyna-50m.webp" alt="Хвойна Лапа 50 м"></div><div class="b"><div class="nm">Хвойна Лапа — 50 м</div><div class="c-price">1 490 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 50 м" data-price="1490" data-img="garlands/hvoyna-50m.webp">Додати в кошик →</button></div></div>
-        <div class="card"><div class="ph"><img loading="lazy" src="garlands/hvoyna-100m.webp" alt="Хвойна Лапа 100 м"></div><div class="b"><div class="nm">Хвойна Лапа — 100 м</div><div class="c-price">2 600 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 100 м" data-price="2600" data-img="garlands/hvoyna-100m.webp">Додати в кошик →</button></div></div>
+    <div class="catpills addon-tabs" data-grid="garlandGrid">
+        <button class="catpill on" type="button" data-type="">Усі</button>
+        <button class="catpill" type="button" data-type="роса">Роса</button>
+        <button class="catpill" type="button" data-type="лапа">Хвойна Лапа</button>
+        <button class="catpill" type="button" data-type="хвіст">Кінський хвіст</button>
+    </div>
+    <div class="catgrid addon-grid" id="garlandGrid">
+        <div class="card" data-type="роса"><div class="ph"><img loading="lazy" src="garlands/rosa-20m.webp" alt="Гірлянда Роса 20 м"></div><div class="b"><div class="nm">Роса — 20 м, 200 LED</div><div class="c-price">195 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 20 м" data-price="195" data-img="garlands/rosa-20m.webp">Додати в кошик →</button></div></div>
+        <div class="card" data-type="роса"><div class="ph"><img loading="lazy" src="garlands/rosa-50m.webp" alt="Гірлянда Роса 50 м"></div><div class="b"><div class="nm">Роса — 50 м, 500 LED</div><div class="c-price">595 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 50 м" data-price="595" data-img="garlands/rosa-50m.webp">Додати в кошик →</button></div></div>
+        <div class="card" data-type="роса"><div class="ph"><img loading="lazy" src="garlands/rosa-100m.webp" alt="Гірлянда Роса 100 м"></div><div class="b"><div class="nm">Роса — 100 м, 1000 LED</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 100 м" data-price="1090" data-img="garlands/rosa-100m.webp">Додати в кошик →</button></div></div>
+        <div class="card" data-type="лапа"><div class="ph"><img loading="lazy" src="garlands/hvoyna-30m.webp" alt="Хвойна Лапа 30 м"></div><div class="b"><div class="nm">Хвойна Лапа — 30 м</div><div class="c-price">1 075 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 30 м" data-price="1075" data-img="garlands/hvoyna-30m.webp">Додати в кошик →</button></div></div>
+        <div class="card" data-type="лапа"><div class="ph"><img loading="lazy" src="garlands/hvoyna-50m.webp" alt="Хвойна Лапа 50 м"></div><div class="b"><div class="nm">Хвойна Лапа — 50 м</div><div class="c-price">1 490 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 50 м" data-price="1490" data-img="garlands/hvoyna-50m.webp">Додати в кошик →</button></div></div>
+        <div class="card" data-type="лапа"><div class="ph"><img loading="lazy" src="garlands/hvoyna-100m.webp" alt="Хвойна Лапа 100 м"></div><div class="b"><div class="nm">Хвойна Лапа — 100 м</div><div class="c-price">2 600 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 100 м" data-price="2600" data-img="garlands/hvoyna-100m.webp">Додати в кошик →</button></div></div>
+        <div class="card" data-type="хвіст"><div class="ph"><img loading="lazy" src="garlands/kinskyj-hvist.webp" alt="Гірлянда Кінський хвіст 2 м"></div><div class="b"><div class="nm">Кінський хвіст — 2 м, 1000 LED</div><div class="c-price">1 400 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Кінський хвіст 2 м" data-price="1400" data-img="garlands/kinskyj-hvist.webp">Додати в кошик →</button></div></div>
     </div>
 
     <h3 class="addons-h" id="toys">Набори іграшок</h3>
-    <div class="catgrid addon-grid">
-        <div class="card"><div class="ph"><img loading="lazy" src="toys/асорті/gold.jpg" alt="Набір Асорті"></div><div class="b"><div class="nm">Набір «Асорті»</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Асорті»" data-price="1090" data-img="toys/асорті/gold.jpg">Додати в кошик →</button></div></div>
-        <div class="card"><div class="ph"><img loading="lazy" src="toys/бархат/dark-red.jpg" alt="Набір Оксамит"></div><div class="b"><div class="nm">Набір «Оксамит»</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Оксамит»" data-price="1090" data-img="toys/бархат/dark-red.jpg">Додати в кошик →</button></div></div>
-        <div class="card"><div class="ph"><img loading="lazy" src="toys/блиск/gold.jpg" alt="Набір Блиск"></div><div class="b"><div class="nm">Набір «Блиск»</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Блиск»" data-price="1090" data-img="toys/блиск/gold.jpg">Додати в кошик →</button></div></div>
-        <div class="card"><div class="ph"><img loading="lazy" src="toys/бите-скло/red.jpg" alt="Набір Бите скло"></div><div class="b"><div class="nm">Набір «Бите скло»</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Бите скло»" data-price="1090" data-img="toys/бите-скло/red.jpg">Додати в кошик →</button></div></div>
+    <div class="catpills addon-tabs" data-grid="toyGrid">
+        <button class="catpill on" type="button" data-type="">Усі</button>
+        <button class="catpill" type="button" data-type="оксамит">Оксамит</button>
+        <button class="catpill" type="button" data-type="блиск">Блиск</button>
+        <button class="catpill" type="button" data-type="горошина">Горошина</button>
+        <button class="catpill" type="button" data-type="асорті">Асорті</button>
+        <button class="catpill" type="button" data-type="скло">Бите скло</button>
+    </div>
+    <div class="catgrid addon-grid" id="toyGrid">
+        <div class="card" data-type="оксамит"><div class="ph"><img loading="lazy" src="toys/бархат/dark-red.jpg" alt="Набір Оксамит"></div><div class="b"><div class="nm">Набір «Оксамит» — 40 шт</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Оксамит»" data-price="1090" data-img="toys/бархат/dark-red.jpg">Додати в кошик →</button></div></div>
+        <div class="card" data-type="блиск"><div class="ph"><img loading="lazy" src="toys/блиск/gold.jpg" alt="Набір Блиск"></div><div class="b"><div class="nm">Набір «Блиск» — 40 шт</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Блиск»" data-price="1090" data-img="toys/блиск/gold.jpg">Додати в кошик →</button></div></div>
+        <div class="card" data-type="горошина"><div class="ph"><img loading="lazy" src="toys/goroshyna.webp" alt="Набір Горошина"></div><div class="b"><div class="nm">Набір «Горошина» — 40 шт</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Горошина»" data-price="1090" data-img="toys/goroshyna.webp">Додати в кошик →</button></div></div>
+        <div class="card" data-type="асорті"><div class="ph"><img loading="lazy" src="toys/асорті/gold.jpg" alt="Набір Асорті"></div><div class="b"><div class="nm">Набір «Асорті» — 25 шт</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Асорті»" data-price="1090" data-img="toys/асорті/gold.jpg">Додати в кошик →</button></div></div>
+        <div class="card" data-type="скло"><div class="ph"><img loading="lazy" src="toys/бите-скло/red.jpg" alt="Набір Бите скло"></div><div class="b"><div class="nm">Набір «Бите скло» — 40 шт</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Бите скло»" data-price="1090" data-img="toys/бите-скло/red.jpg">Додати в кошик →</button></div></div>
     </div>
 </section>
 
@@ -622,6 +638,6 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=19"></script>
+<script defer src="js/scripts.js?v=20"></script>
 </body>
 </html>

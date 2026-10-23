@@ -1025,3 +1025,22 @@ function getFbClickId() {
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
 })();
+
+// ---------- Таби доповнень (гірлянди / іграшки) ----------
+(function () {
+    document.querySelectorAll(".addon-tabs").forEach(function (tabs) {
+        var grid = document.getElementById(tabs.getAttribute("data-grid"));
+        if (!grid) return;
+        var pills = tabs.querySelectorAll(".catpill");
+        pills.forEach(function (p) {
+            p.addEventListener("click", function () {
+                pills.forEach(function (x) { x.classList.remove("on"); });
+                p.classList.add("on");
+                var t = p.getAttribute("data-type");
+                grid.querySelectorAll(".card").forEach(function (cd) {
+                    cd.classList.toggle("hide", !(!t || cd.getAttribute("data-type") === t));
+                });
+            });
+        });
+    });
+})();
