@@ -103,9 +103,10 @@
       .hero-slider .owl-nav .owl-next { right:16px !important; }
       .hero-slider .owl-nav .owl-prev:hover, .hero-slider .owl-nav .owl-next:hover { color:var(--org) !important; background:#fff !important; transform:translateY(-50%) scale(1.08); }
       .hero-slider .owl-nav .owl-prev span, .hero-slider .owl-nav .owl-next span { font-size:28px; line-height:1; }
-      .hero-slider .owl-dots { position:static; text-align:center; margin-top:14px; }
-      .hero-slider .owl-dots .owl-dot span { background:#c0b19a !important; width:22px !important; height:6px !important; border-radius:4px !important; margin:0 4px !important; transition:background .2s, width .2s; }
-      .hero-slider .owl-dots .owl-dot.active span { background:var(--org) !important; width:34px !important; }
+      .hero-slider .owl-dots { position:absolute !important; left:0; right:0; bottom:14px; text-align:center; margin:0; z-index:4; display:block !important; }
+      .hero-slider .owl-dots .owl-dot { display:inline-block !important; }
+      .hero-slider .owl-dots .owl-dot span { display:block; background:rgba(255,255,255,.6) !important; width:22px !important; height:7px !important; border-radius:4px !important; margin:0 4px !important; box-shadow:0 1px 4px rgba(0,0,0,.35); transition:background .2s, width .2s; }
+      .hero-slider .owl-dots .owl-dot.active span { background:#fff !important; width:34px !important; }
       @media (max-width:719px) { .hero-slider { margin:12px 14px; } .hero-slider .owl-nav { display:none; } }
 
       /* USP / переваги */
@@ -792,7 +793,7 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=42"></script>
+<script defer src="js/scripts.js?v=43"></script>
 <!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
 <script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
 </body>

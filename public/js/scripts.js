@@ -460,8 +460,9 @@ treeSelect.addEventListener("change", function () {
         if (!cart[idx]) return;
         var next = (cart[idx].qty || 1) + d;
         if (next < 1) {
-            if (cart.length === 1) { uiConfirm("Прибрати останній товар і очистити кошик?").then(function (v) { if (v) doRemove(idx); }); return; }
-            doRemove(idx); return;
+            var msg = cart.length === 1 ? "Прибрати останній товар і очистити кошик?" : "Прибрати цей товар із кошика?";
+            uiConfirm(msg).then(function (v) { if (v) doRemove(idx); });
+            return;
         }
         cart[idx].qty = next; saveCart(); renderCart(); updateBadge();
     }
