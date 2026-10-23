@@ -326,6 +326,9 @@
       .addons-h { max-width:1200px; margin:28px auto 10px; padding:0 18px; font-size:30px; font-weight:900; text-transform:uppercase; letter-spacing:.01em; color:var(--grn-d); }
       @media (max-width:560px) { .addons-h { font-size:23px; } }
       .addon-grid .card .c-price { margin:6px 0 10px; }
+      .addon-sw { display:flex; gap:7px; flex-wrap:wrap; margin:4px 0; }
+      .addon-sw .asw { width:24px; height:24px; border-radius:50%; border:2px solid #ddd; cursor:pointer; padding:0; }
+      .addon-sw .asw.on { border-color:var(--org); box-shadow:0 0 0 2px rgba(154,32,22,.2); }
       @media (min-width:720px) {
         .addons-banner { grid-template-columns:1.1fr 1fr; align-items:center; }
         .addons-banner .ab-img img { height:100%; min-height:220px; }
@@ -573,8 +576,26 @@
         <button class="catpill" type="button" data-type="горошина">Горошина</button>
     </div>
     <div class="catgrid addon-grid" id="toyGrid">
-        <div class="card" data-type="оксамит"><div class="ph"><img loading="lazy" src="toys/бархат/dark-red.jpg" alt="Набір Оксамит"></div><div class="b"><div class="nm">Набір «Оксамит» — 40 шт</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Оксамит»" data-price="1090" data-img="toys/бархат/dark-red.jpg">Додати в кошик →</button></div></div>
-        <div class="card" data-type="блиск"><div class="ph"><img loading="lazy" src="toys/блиск/gold.jpg" alt="Набір Блиск"></div><div class="b"><div class="nm">Набір «Блиск» — 40 шт</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Блиск»" data-price="1090" data-img="toys/блиск/gold.jpg">Додати в кошик →</button></div></div>
+        <div class="card" data-type="оксамит"><div class="ph"><img loading="lazy" src="toys/бархат/dark-red.jpg" alt="Набір Оксамит"></div><div class="b"><div class="nm">Набір «Оксамит» — 40 шт</div>
+            <div class="addon-sw">
+                <button class="asw on" style="background:#7a1f1f" data-img="toys/бархат/dark-red.jpg" title="Бордовий"></button>
+                <button class="asw" style="background:#2e5fb0" data-img="toys/бархат/blue.jpg" title="Синій"></button>
+                <button class="asw" style="background:#6a3d9a" data-img="toys/бархат/violet.jpg" title="Фіолетовий"></button>
+                <button class="asw" style="background:#1f7a5a" data-img="toys/бархат/smaragd.jpg" title="Смарагд"></button>
+                <button class="asw" style="background:#8a8a8a" data-img="toys/бархат/grey.jpg" title="Сірий"></button>
+                <button class="asw" style="background:#d4af37" data-img="toys/бархат/yellow.jpg" title="Жовтий"></button>
+            </div>
+            <div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Оксамит»" data-price="1090" data-img="toys/бархат/dark-red.jpg">Додати в кошик →</button></div></div>
+        <div class="card" data-type="блиск"><div class="ph"><img loading="lazy" src="toys/блиск/gold.jpg" alt="Набір Блиск"></div><div class="b"><div class="nm">Набір «Блиск» — 40 шт</div>
+            <div class="addon-sw">
+                <button class="asw on" style="background:#d4af37" data-img="toys/блиск/gold.jpg" title="Золотий"></button>
+                <button class="asw" style="background:#c9ccd1" data-img="toys/блиск/silver.jpg" title="Срібний"></button>
+                <button class="asw" style="background:#c0392b" data-img="toys/блиск/red.jpg" title="Червоний"></button>
+                <button class="asw" style="background:#2e5fb0" data-img="toys/блиск/blue.jpg" title="Синій"></button>
+                <button class="asw" style="background:#d87aa0" data-img="toys/блиск/pink.jpg" title="Рожевий"></button>
+                <button class="asw" style="background:#1f7a5a" data-img="toys/блиск/smaragd.jpg" title="Смарагд"></button>
+            </div>
+            <div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Блиск»" data-price="1090" data-img="toys/блиск/gold.jpg">Додати в кошик →</button></div></div>
         <div class="card" data-type="горошина"><div class="ph"><img loading="lazy" src="toys/goroshyna.webp" alt="Набір Горошина"></div><div class="b"><div class="nm">Набір «Горошина» — 40 шт</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Горошина»" data-price="1090" data-img="toys/goroshyna.webp">Додати в кошик →</button></div></div>
     </div>
 </section>
@@ -685,7 +706,7 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=27"></script>
+<script defer src="js/scripts.js?v=28"></script>
 <!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
 <script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
 </body>

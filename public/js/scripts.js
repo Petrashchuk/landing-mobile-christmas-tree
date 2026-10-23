@@ -1084,3 +1084,19 @@ function getFbClickId() {
         });
     });
 })();
+
+// ---------- Кольорові свотчі доповнень (іграшки) ----------
+(function () {
+    document.querySelectorAll(".addon-sw .asw").forEach(function (b) {
+        b.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var card = b.closest(".card"); var img = b.getAttribute("data-img");
+            if (card && img) {
+                var im = card.querySelector(".ph img"); if (im) im.src = img;
+                var add = card.querySelector(".addon-cart"); if (add) add.setAttribute("data-img", img);
+            }
+            b.parentNode.querySelectorAll(".asw").forEach(function (x) { x.classList.remove("on"); });
+            b.classList.add("on");
+        });
+    });
+})();
