@@ -247,8 +247,15 @@
       .cart-row .ci-rm { background:none; border:none; color:#b2493f; font-size:12.5px; cursor:pointer; padding:0; margin-top:8px; display:inline-flex; align-items:center; gap:4px; }
       .cart-row .ci-rm:hover { text-decoration:underline; }
       .cart-co { padding:16px; background:#fff; border-top:1px solid #e9e1d4; }
-      .cart-total-row { display:flex; justify-content:space-between; align-items:center; background:linear-gradient(135deg,#fdf8ef,#f8efdd); border:1px solid #ead9b8; border-radius:13px; padding:14px 17px; font-size:16px; font-weight:800; color:#3a2f27; margin-bottom:16px; }
-      .cart-total-row b { font-size:24px; color:var(--org); }
+      .cart-total-row { display:none; }
+      .cart-foot { flex:none; display:flex; align-items:center; gap:12px; padding:12px 16px; padding-bottom:calc(12px + env(safe-area-inset-bottom)); background:#fff; border-top:1px solid #e9e1d4; box-shadow:0 -6px 20px rgba(0,0,0,.06); }
+      .cart-foot .cf-total { display:flex; flex-direction:column; line-height:1.15; flex:none; }
+      .cart-foot .cf-total span { font-size:10.5px; color:#8a8277; font-weight:700; text-transform:uppercase; letter-spacing:.05em; }
+      .cart-foot .cf-total b { font-size:21px; color:var(--org); }
+      .cart-foot .cf-btn { flex:1; background:linear-gradient(135deg,#B4281B,#8E1C12); color:#fff; border:none; border-radius:12px; padding:15px 14px; font-weight:800; font-size:14.5px; letter-spacing:.02em; text-transform:uppercase; cursor:pointer; box-shadow:0 8px 20px rgba(154,32,22,.35); transition:filter .15s, transform .1s; }
+      .cart-foot .cf-btn:hover { filter:brightness(1.07); }
+      .cart-foot .cf-btn:active { transform:scale(.99); }
+      #checkoutMount .button { display:none; }
 
       /* Checkout у кошику */
       .co-label { font-size:13px; font-weight:800; color:#444; letter-spacing:.04em; text-transform:uppercase; margin:22px 0 9px; }
@@ -733,6 +740,10 @@
             <div id="checkoutMount"></div>
         </div>
     </div>
+    <div class="cart-foot" id="cartFoot" style="display:none;">
+        <div class="cf-total"><span>Разом</span><b id="cartTotal2">0 ₴</b></div>
+        <button type="button" class="cf-btn" id="cartSubmit">Підтвердити замовлення</button>
+    </div>
 </aside>
 
 <!-- Швидкий перегляд товару (quick-view) -->
@@ -780,7 +791,7 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=39"></script>
+<script defer src="js/scripts.js?v=40"></script>
 <!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
 <script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
 </body>

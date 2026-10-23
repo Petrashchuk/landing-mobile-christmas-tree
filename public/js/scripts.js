@@ -477,13 +477,15 @@ treeSelect.addEventListener("change", function () {
 
     var drawer = document.getElementById("cartDr"), cartOv = document.getElementById("cartOv");
     var cartItemsEl = document.getElementById("cartItems"), cartEmptyEl = document.getElementById("cartEmpty"),
-        cartFtEl = document.getElementById("cartFt"), cartTotalEl = document.getElementById("cartTotal");
+        cartFtEl = document.getElementById("cartFt"), cartTotalEl = document.getElementById("cartTotal"),
+        cartFootEl = document.getElementById("cartFoot"), cartTotal2El = document.getElementById("cartTotal2");
     function renderCart() {
         if (!cartItemsEl) return;
         cartItemsEl.innerHTML = "";
-        if (!cart.length) { if (cartEmptyEl) cartEmptyEl.style.display = "flex"; if (cartFtEl) cartFtEl.style.display = "none"; return; }
+        if (!cart.length) { if (cartEmptyEl) cartEmptyEl.style.display = "flex"; if (cartFtEl) cartFtEl.style.display = "none"; if (cartFootEl) cartFootEl.style.display = "none"; return; }
         if (cartEmptyEl) cartEmptyEl.style.display = "none";
         if (cartFtEl) cartFtEl.style.display = "block";
+        if (cartFootEl) cartFootEl.style.display = "flex";
         cart.forEach(function (it, idx) {
             var row = document.createElement("div"); row.className = "cart-row";
             row.innerHTML =
@@ -499,8 +501,17 @@ treeSelect.addEventListener("change", function () {
             row.querySelector('.ci-rm').addEventListener("click", function () { cartRemove(idx); });
             cartItemsEl.appendChild(row);
         });
-        if (cartTotalEl) cartTotalEl.textContent = fmt(cartTotal()) + " ₴";
+        var tot = fmt(cartTotal()) + " ₴";
+        if (cartTotalEl) cartTotalEl.textContent = tot;
+        if (cartTotal2El) cartTotal2El.textContent = tot;
     }
+    var cartSubmitBtn = document.getElementById("cartSubmit");
+    if (cartSubmitBtn) cartSubmitBtn.addEventListener("click", function () {
+        var f = document.getElementById("order_form");
+        if (!f) return;
+        if (f.requestSubmit) f.requestSubmit();
+        else { var sb = f.querySelector('[type="submit"]'); if (sb) sb.click(); }
+    });
     function openCart() { if (drawer) { drawer.classList.add("show"); drawer.setAttribute("aria-hidden", "false"); } if (cartOv) cartOv.classList.add("show"); }
     function closeCart() { if (drawer) { drawer.classList.remove("show"); drawer.setAttribute("aria-hidden", "true"); } if (cartOv) cartOv.classList.remove("show"); }
     function flashCart() { var b = document.getElementById("cartBtn"); if (b && b.animate) { b.animate([{ transform: "scale(1)" }, { transform: "scale(1.25)" }, { transform: "scale(1)" }], { duration: 300 }); } }
