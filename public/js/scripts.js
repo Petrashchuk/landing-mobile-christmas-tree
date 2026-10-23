@@ -513,8 +513,8 @@ treeSelect.addEventListener("change", function () {
         if (f.requestSubmit) f.requestSubmit();
         else { var sb = f.querySelector('[type="submit"]'); if (sb) sb.click(); }
     });
-    function openCart() { if (drawer) { drawer.classList.add("show"); drawer.setAttribute("aria-hidden", "false"); } if (cartOv) cartOv.classList.add("show"); }
-    function closeCart() { if (drawer) { drawer.classList.remove("show"); drawer.setAttribute("aria-hidden", "true"); } if (cartOv) cartOv.classList.remove("show"); }
+    function openCart() { if (drawer) { drawer.classList.add("show"); drawer.setAttribute("aria-hidden", "false"); } if (cartOv) cartOv.classList.add("show"); document.body.classList.add("modal-open"); }
+    function closeCart() { if (drawer) { drawer.classList.remove("show"); drawer.setAttribute("aria-hidden", "true"); } if (cartOv) cartOv.classList.remove("show"); document.body.classList.remove("modal-open"); }
     function flashCart() { var b = document.getElementById("cartBtn"); if (b && b.animate) { b.animate([{ transform: "scale(1)" }, { transform: "scale(1.25)" }, { transform: "scale(1)" }], { duration: 300 }); } }
     var cartBtn = document.getElementById("cartBtn"); if (cartBtn) cartBtn.addEventListener("click", openCart);
     var cartX = document.getElementById("cartX"); if (cartX) cartX.addEventListener("click", closeCart);
@@ -635,7 +635,7 @@ treeSelect.addEventListener("change", function () {
         var pr = card.querySelector(".c-price");
         if (qvPrice) qvPrice.textContent = pr ? pr.textContent.trim() : "";
         if (qvSpecs) qvSpecs.innerHTML = '<div class="spec-hd">Характеристики</div>' + d.specs.map(function (r) { return '<div class="spec-row"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>'; }).join("");
-        qv.classList.add("show"); qv.setAttribute("aria-hidden", "false"); if (qvOv) qvOv.classList.add("show");
+        qv.classList.add("show"); qv.setAttribute("aria-hidden", "false"); if (qvOv) qvOv.classList.add("show"); document.body.classList.add("modal-open");
     }
     function openQuickView(c) {
         if (!qv) return;
@@ -656,9 +656,9 @@ treeSelect.addEventListener("change", function () {
         var g0 = (c.colors[0] && c.colors[0].gallery) ? c.colors[0].gallery : (c.gallery || [c.img]);
         qvSetGallery(g0);
         fillHeights(qvHeight, qvModel); qvRefresh(); renderQvSpecs();
-        qv.classList.add("show"); qv.setAttribute("aria-hidden", "false"); if (qvOv) qvOv.classList.add("show");
+        qv.classList.add("show"); qv.setAttribute("aria-hidden", "false"); if (qvOv) qvOv.classList.add("show"); document.body.classList.add("modal-open");
     }
-    function closeQuickView() { if (qv) { qv.classList.remove("show"); qv.setAttribute("aria-hidden", "true"); } if (qvOv) qvOv.classList.remove("show"); }
+    function closeQuickView() { if (qv) { qv.classList.remove("show"); qv.setAttribute("aria-hidden", "true"); } if (qvOv) qvOv.classList.remove("show"); document.body.classList.remove("modal-open"); }
     if (qvHeight) qvHeight.addEventListener("change", function () { qvRefresh(); renderQvSpecs(); });
     var qvX = document.getElementById("qvX"); if (qvX) qvX.addEventListener("click", closeQuickView);
     if (qvOv) qvOv.addEventListener("click", closeQuickView);

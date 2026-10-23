@@ -296,9 +296,9 @@
       #checkoutMount .button:active { transform:scale(.99); }
 
       /* Quick-view */
-      .qv-ov { display:none; position:fixed; inset:0; background:rgba(4,38,35,.55); z-index:80; }
+      .qv-ov { display:none; position:fixed; inset:0; background:rgba(4,38,35,.55); z-index:2147483646; }
       .qv-ov.show { display:block; }
-      .qv { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:85; width:94%; max-width:860px; max-height:92vh; overflow:auto; background:var(--bg); border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.4); }
+      .qv { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:2147483647; width:94%; max-width:860px; max-height:92vh; overflow:auto; background:var(--bg); border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.4); }
       .qv.show { display:block; }
       .qv-x { position:absolute; top:12px; right:12px; z-index:2; width:36px; height:36px; border-radius:50%; border:none; background:#fff; color:#333; font-size:18px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.2); }
       .qv-gallery { background:var(--soft); }
@@ -331,8 +331,10 @@
       .qv-specs .spec-row span:first-child { color:#888; }
       .qv-specs .spec-row span:last-child { font-weight:700; color:#3a2f27; text-align:right; }
       .qv-specs .spec-note { margin-top:7px; font-size:10.5px; line-height:1.4; color:#b3a890; }
-      .qv-add { width:100%; }
+      .qv-add { width:100%; position:sticky; bottom:0; z-index:3; box-shadow:0 -14px 16px 9px var(--bg); }
       .qv-note { font-size:12px; color:#888; line-height:1.5; margin:12px 0 0; }
+      /* модальні вікна відкриті → ховаємо нижній бар */
+      body.modal-open .bottom-bar { display:none !important; }
       @media (min-width:720px) {
         .qv { display:none; }
         .qv.show { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:start; }
@@ -770,8 +772,8 @@
         <div class="qv-price" id="qvPrice"></div>
         <div class="qv-econ" id="qvEcon"></div>
         <div class="qv-specs" id="qvSpecs"></div>
-        <button class="btn qv-add" id="qvAdd" type="button">Додати в кошик →</button>
         <p class="qv-note">Можна додати гірлянди та прикраси до замовлення. Доставка Новою Поштою, оплата при отриманні. Оформлення — через кошик.</p>
+        <button class="btn qv-add" id="qvAdd" type="button">Додати в кошик →</button>
     </div>
 </div>
 
@@ -797,7 +799,7 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=46"></script>
+<script defer src="js/scripts.js?v=47"></script>
 <!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
 <script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
 </body>
