@@ -24,8 +24,7 @@ $(document).ready((function () {
         autoplayHoverPause: true,
         // адаптив: кілька відгуків у ряд (портретні фото → не на весь екран)
         responsive: {
-            0:    { items: 1.4 },
-            480:  { items: 2 },
+            0:    { items: 2 },
             720:  { items: 3 },
             1000: { items: 4 }
         }
@@ -694,11 +693,14 @@ treeSelect.addEventListener("change", function () {
     });
 
     // ---------- Доповнення (гірлянди/іграшки) → кошик ----------
+    function addonAdd(b) {
+        cartAdd({ name: b.getAttribute("data-name"), variant: "", price: Number(b.getAttribute("data-price")) || 0, img: b.getAttribute("data-img") || "" });
+    }
     document.querySelectorAll(".addon-cart").forEach(function (b) {
-        b.addEventListener("click", function () {
-            cartAdd({ name: b.getAttribute("data-name"), variant: "", price: Number(b.getAttribute("data-price")) || 0, img: b.getAttribute("data-img") || "" });
-            openCart();
-        });
+        b.addEventListener("click", function () { addonAdd(b); });
+    });
+    document.querySelectorAll(".addon-buy-now").forEach(function (b) {
+        b.addEventListener("click", function () { addonAdd(b); openCart(); });
     });
 
     // ---------- Оформлення: кошик → форма ----------
@@ -1230,7 +1232,7 @@ function getFbClickId() {
             var card = b.closest(".card"); var img = b.getAttribute("data-img");
             if (card && img) {
                 var im = card.querySelector(".ph img"); if (im) im.src = img;
-                var add = card.querySelector(".addon-cart"); if (add) add.setAttribute("data-img", img);
+                card.querySelectorAll(".addon-cart, .addon-buy-now").forEach(function (a) { a.setAttribute("data-img", img); });
             }
             b.parentNode.querySelectorAll(".asw").forEach(function (x) { x.classList.remove("on"); });
             b.classList.add("on");

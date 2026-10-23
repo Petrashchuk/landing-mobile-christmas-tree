@@ -100,9 +100,9 @@
       .hero-slider .owl-nav .owl-next { right:16px !important; }
       .hero-slider .owl-nav .owl-prev:hover, .hero-slider .owl-nav .owl-next:hover { color:var(--org) !important; background:#fff !important; transform:translateY(-50%) scale(1.08); }
       .hero-slider .owl-nav .owl-prev span, .hero-slider .owl-nav .owl-next span { font-size:28px; line-height:1; }
-      .hero-slider .owl-dots { position:absolute; bottom:12px; left:0; right:0; text-align:center; margin:0; }
-      .hero-slider .owl-dots .owl-dot span { background:rgba(255,255,255,.65) !important; width:9px; height:9px; }
-      .hero-slider .owl-dots .owl-dot.active span { background:var(--org) !important; }
+      .hero-slider .owl-dots { position:absolute; bottom:14px; left:0; right:0; text-align:center; margin:0; }
+      .hero-slider .owl-dots .owl-dot span { background:rgba(255,255,255,.55) !important; width:22px !important; height:6px !important; border-radius:4px !important; margin:0 4px !important; transition:background .2s, width .2s; }
+      .hero-slider .owl-dots .owl-dot.active span { background:var(--gold) !important; width:34px !important; }
       @media (max-width:719px) { .hero-slider { margin:12px auto; } .hero-slider .owl-nav { display:none; } }
 
       /* USP / переваги */
@@ -184,10 +184,18 @@
       .faq__a p { padding:0 4px 15px; margin:0; }
 
       /* Reviews (owl) */
-      .reviews_list4 { max-width:1200px; margin:0 auto; }
+      .reviews_list4 { max-width:1200px; margin:0 auto; padding-bottom:6px; }
       .reviews_list4 .review_item img { width:100%; height:380px; object-fit:cover; border-radius:14px; box-shadow:0 4px 14px rgba(0,0,0,.08); }
-      .reviews_list4 .owl-nav button.owl-prev, .reviews_list4 .owl-nav button.owl-next { font-size:28px !important; color:var(--grn-d) !important; }
-      .reviews_list4 .owl-dots .owl-dot.active span { background:var(--org) !important; }
+      .reviews_list4 .owl-nav button.owl-prev, .reviews_list4 .owl-nav button.owl-next { position:absolute; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; background:#fff !important; color:var(--org) !important; font-size:24px !important; line-height:40px !important; box-shadow:0 3px 12px rgba(0,0,0,.18); }
+      .reviews_list4 .owl-nav button.owl-prev { left:-6px; }
+      .reviews_list4 .owl-nav button.owl-next { right:-6px; }
+      .reviews_list4 .owl-dots { text-align:center; margin-top:16px; }
+      .reviews_list4 .owl-dots .owl-dot span { width:22px !important; height:6px !important; border-radius:4px !important; margin:0 4px !important; background:#d8cfc0 !important; transition:background .2s, width .2s; }
+      .reviews_list4 .owl-dots .owl-dot.active span { background:var(--org) !important; width:34px !important; }
+      @media (max-width:719px) {
+        .reviews_list4 .review_item img { height:260px; }
+        .reviews_list4 .owl-nav { display:none; }
+      }
 
       /* Footer */
       footer.ft { background:var(--grn-d); color:#fff; text-align:center; padding:22px 16px 90px; font-size:14px; line-height:1.9; }
@@ -589,13 +597,13 @@
         <button class="catpill" type="button" data-type="хвіст">Кінський хвіст</button>
     </div>
     <div class="catgrid addon-grid" id="garlandGrid">
-        <div class="card" data-type="роса"><div class="ph"><img loading="lazy" src="garlands/rosa-20m.webp" alt="Гірлянда Роса 20 м"></div><div class="b"><div class="nm">Роса — 20 м, 200 LED</div><div class="c-price">195 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 20 м" data-price="195" data-img="garlands/rosa-20m.webp">Додати в кошик →</button></div></div>
-        <div class="card" data-type="роса"><div class="ph"><img loading="lazy" src="garlands/rosa-50m.webp" alt="Гірлянда Роса 50 м"></div><div class="b"><div class="nm">Роса — 50 м, 500 LED</div><div class="c-price">595 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 50 м" data-price="595" data-img="garlands/rosa-50m.webp">Додати в кошик →</button></div></div>
-        <div class="card" data-type="роса"><div class="ph"><img loading="lazy" src="garlands/rosa-100m.webp" alt="Гірлянда Роса 100 м"></div><div class="b"><div class="nm">Роса — 100 м, 1000 LED</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 100 м" data-price="1090" data-img="garlands/rosa-100m.webp">Додати в кошик →</button></div></div>
-        <div class="card" data-type="лапа"><div class="ph"><img loading="lazy" src="garlands/hvoyna-30m.webp" alt="Хвойна Лапа 30 м"></div><div class="b"><div class="nm">Хвойна Лапа — 30 м</div><div class="c-price">1 075 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 30 м" data-price="1075" data-img="garlands/hvoyna-30m.webp">Додати в кошик →</button></div></div>
-        <div class="card" data-type="лапа"><div class="ph"><img loading="lazy" src="garlands/hvoyna-50m.webp" alt="Хвойна Лапа 50 м"></div><div class="b"><div class="nm">Хвойна Лапа — 50 м</div><div class="c-price">1 490 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 50 м" data-price="1490" data-img="garlands/hvoyna-50m.webp">Додати в кошик →</button></div></div>
-        <div class="card" data-type="лапа"><div class="ph"><img loading="lazy" src="garlands/hvoyna-100m.webp" alt="Хвойна Лапа 100 м"></div><div class="b"><div class="nm">Хвойна Лапа — 100 м</div><div class="c-price">2 600 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 100 м" data-price="2600" data-img="garlands/hvoyna-100m.webp">Додати в кошик →</button></div></div>
-        <div class="card" data-type="хвіст"><div class="ph"><img loading="lazy" src="garlands/kinskyj-hvist.webp" alt="Гірлянда Кінський хвіст 2 м"></div><div class="b"><div class="nm">Кінський хвіст — 2 м, 1000 LED</div><div class="c-price">1 400 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Кінський хвіст 2 м" data-price="1400" data-img="garlands/kinskyj-hvist.webp">Додати в кошик →</button></div></div>
+        <div class="card" data-type="роса"><div class="ph"><img loading="lazy" src="garlands/rosa-20m.webp" alt="Гірлянда Роса 20 м"></div><div class="b"><div class="nm">Роса — 20 м, 200 LED</div><div class="c-price">195 ₴</div><div class="cbuy-row"><button class="cbuy addon-cart" type="button" aria-label="Додати в кошик" title="Додати в кошик" data-name="Гірлянда Роса 20 м" data-price="195" data-img="garlands/rosa-20m.webp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button><button class="cbuy-now addon-buy-now" type="button" data-name="Гірлянда Роса 20 м" data-price="195" data-img="garlands/rosa-20m.webp">Замовити</button></div></div></div>
+        <div class="card" data-type="роса"><div class="ph"><img loading="lazy" src="garlands/rosa-50m.webp" alt="Гірлянда Роса 50 м"></div><div class="b"><div class="nm">Роса — 50 м, 500 LED</div><div class="c-price">595 ₴</div><div class="cbuy-row"><button class="cbuy addon-cart" type="button" aria-label="Додати в кошик" title="Додати в кошик" data-name="Гірлянда Роса 50 м" data-price="595" data-img="garlands/rosa-50m.webp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button><button class="cbuy-now addon-buy-now" type="button" data-name="Гірлянда Роса 50 м" data-price="595" data-img="garlands/rosa-50m.webp">Замовити</button></div></div></div>
+        <div class="card" data-type="роса"><div class="ph"><img loading="lazy" src="garlands/rosa-100m.webp" alt="Гірлянда Роса 100 м"></div><div class="b"><div class="nm">Роса — 100 м, 1000 LED</div><div class="c-price">1 090 ₴</div><div class="cbuy-row"><button class="cbuy addon-cart" type="button" aria-label="Додати в кошик" title="Додати в кошик" data-name="Гірлянда Роса 100 м" data-price="1090" data-img="garlands/rosa-100m.webp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button><button class="cbuy-now addon-buy-now" type="button" data-name="Гірлянда Роса 100 м" data-price="1090" data-img="garlands/rosa-100m.webp">Замовити</button></div></div></div>
+        <div class="card" data-type="лапа"><div class="ph"><img loading="lazy" src="garlands/hvoyna-30m.webp" alt="Хвойна Лапа 30 м"></div><div class="b"><div class="nm">Хвойна Лапа — 30 м</div><div class="c-price">1 075 ₴</div><div class="cbuy-row"><button class="cbuy addon-cart" type="button" aria-label="Додати в кошик" title="Додати в кошик" data-name="Гірлянда Хвойна Лапа 30 м" data-price="1075" data-img="garlands/hvoyna-30m.webp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button><button class="cbuy-now addon-buy-now" type="button" data-name="Гірлянда Хвойна Лапа 30 м" data-price="1075" data-img="garlands/hvoyna-30m.webp">Замовити</button></div></div></div>
+        <div class="card" data-type="лапа"><div class="ph"><img loading="lazy" src="garlands/hvoyna-50m.webp" alt="Хвойна Лапа 50 м"></div><div class="b"><div class="nm">Хвойна Лапа — 50 м</div><div class="c-price">1 490 ₴</div><div class="cbuy-row"><button class="cbuy addon-cart" type="button" aria-label="Додати в кошик" title="Додати в кошик" data-name="Гірлянда Хвойна Лапа 50 м" data-price="1490" data-img="garlands/hvoyna-50m.webp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button><button class="cbuy-now addon-buy-now" type="button" data-name="Гірлянда Хвойна Лапа 50 м" data-price="1490" data-img="garlands/hvoyna-50m.webp">Замовити</button></div></div></div>
+        <div class="card" data-type="лапа"><div class="ph"><img loading="lazy" src="garlands/hvoyna-100m.webp" alt="Хвойна Лапа 100 м"></div><div class="b"><div class="nm">Хвойна Лапа — 100 м</div><div class="c-price">2 600 ₴</div><div class="cbuy-row"><button class="cbuy addon-cart" type="button" aria-label="Додати в кошик" title="Додати в кошик" data-name="Гірлянда Хвойна Лапа 100 м" data-price="2600" data-img="garlands/hvoyna-100m.webp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button><button class="cbuy-now addon-buy-now" type="button" data-name="Гірлянда Хвойна Лапа 100 м" data-price="2600" data-img="garlands/hvoyna-100m.webp">Замовити</button></div></div></div>
+        <div class="card" data-type="хвіст"><div class="ph"><img loading="lazy" src="garlands/kinskyj-hvist.webp" alt="Гірлянда Кінський хвіст 2 м"></div><div class="b"><div class="nm">Кінський хвіст — 2 м, 1000 LED</div><div class="c-price">1 400 ₴</div><div class="cbuy-row"><button class="cbuy addon-cart" type="button" aria-label="Додати в кошик" title="Додати в кошик" data-name="Гірлянда Кінський хвіст 2 м" data-price="1400" data-img="garlands/kinskyj-hvist.webp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button><button class="cbuy-now addon-buy-now" type="button" data-name="Гірлянда Кінський хвіст 2 м" data-price="1400" data-img="garlands/kinskyj-hvist.webp">Замовити</button></div></div></div>
     </div>
 
     <h3 class="addons-h" id="toys">Набори іграшок</h3>
@@ -624,7 +632,7 @@
                 <button class="asw" style="background:#b8b2a8" data-img="toys/oksamyt/grey-nude.webp" title="Сірий нюд"></button>
                 <button class="asw" style="background:#a8a299" data-img="toys/oksamyt/grey-nude-solid.webp" title="Сірий нюд однотонний"></button>
             </div>
-            <div class="c-price">690 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Оксамит»" data-price="690" data-img="toys/oksamyt/red.webp">Додати в кошик →</button></div></div>
+            <div class="c-price">1 090 ₴</div><div class="cbuy-row"><button class="cbuy addon-cart" type="button" aria-label="Додати в кошик" title="Додати в кошик" data-name="Набір іграшок «Оксамит»" data-price="1090" data-img="toys/oksamyt/red.webp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button><button class="cbuy-now addon-buy-now" type="button" data-name="Набір іграшок «Оксамит»" data-price="1090" data-img="toys/oksamyt/red.webp">Замовити</button></div></div></div>
         <div class="card" data-type="блиск"><div class="ph"><img loading="lazy" src="toys/blysk/gold.webp" alt="Набір Блиск"></div><div class="b"><div class="nm">Набір «Блиск» — 40 шт</div>
             <div class="addon-sw">
                 <button class="asw on" style="background:#d4af37" data-img="toys/blysk/gold.webp" title="Золотий"></button>
@@ -639,7 +647,7 @@
                 <button class="asw" style="background:#e6d6b0" data-img="toys/blysk/champagne.webp" title="Шампань"></button>
                 <button class="asw" style="background:#f1f1ef" data-img="toys/blysk/white.webp" title="Білий"></button>
             </div>
-            <div class="c-price">610 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Блиск»" data-price="610" data-img="toys/blysk/gold.webp">Додати в кошик →</button></div></div>
+            <div class="c-price">990 ₴</div><div class="cbuy-row"><button class="cbuy addon-cart" type="button" aria-label="Додати в кошик" title="Додати в кошик" data-name="Набір іграшок «Блиск»" data-price="990" data-img="toys/blysk/gold.webp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button><button class="cbuy-now addon-buy-now" type="button" data-name="Набір іграшок «Блиск»" data-price="990" data-img="toys/blysk/gold.webp">Замовити</button></div></div></div>
         <div class="card" data-type="горошина"><div class="ph"><img loading="lazy" src="toys/goroshyna/red.webp" alt="Набір Горошина"></div><div class="b"><div class="nm">Набір «Горошина» — 40 шт</div>
             <div class="addon-sw">
                 <button class="asw on" style="background:#c0392b" data-img="toys/goroshyna/red.webp" title="Червоний"></button>
@@ -650,7 +658,7 @@
                 <button class="asw" style="background:#5e3c22" data-img="toys/goroshyna/chocolate.webp" title="Шоколадний"></button>
                 <button class="asw" style="background:#e6d6b0" data-img="toys/goroshyna/champagne.webp" title="Шампань"></button>
             </div>
-            <div class="c-price">650 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Горошина»" data-price="650" data-img="toys/goroshyna/red.webp">Додати в кошик →</button></div></div>
+            <div class="c-price">1 060 ₴</div><div class="cbuy-row"><button class="cbuy addon-cart" type="button" aria-label="Додати в кошик" title="Додати в кошик" data-name="Набір іграшок «Горошина»" data-price="1060" data-img="toys/goroshyna/red.webp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button><button class="cbuy-now addon-buy-now" type="button" data-name="Набір іграшок «Горошина»" data-price="1060" data-img="toys/goroshyna/red.webp">Замовити</button></div></div></div>
     </div>
 </section>
 
@@ -759,7 +767,7 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=32"></script>
+<script defer src="js/scripts.js?v=33"></script>
 <!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
 <script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
 </body>
