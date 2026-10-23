@@ -288,6 +288,10 @@
       .qv-gallery { background:var(--soft); }
       .qv-main { position:relative; cursor:zoom-in; }
       .qv-main img { width:100%; max-height:46vh; object-fit:contain; }
+      .qv-arw { position:absolute; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; border:none; background:rgba(255,255,255,.92); color:#6b5e50; font-size:24px; line-height:38px; text-align:center; cursor:pointer; box-shadow:0 3px 12px rgba(0,0,0,.18); z-index:2; transition:background .15s, color .15s; }
+      .qv-arw:hover { background:#fff; color:var(--org); }
+      .qv-prev { left:10px; } .qv-next { right:10px; }
+      .qv-main.single .qv-arw { display:none; }
       .qv-thumbs { display:flex; gap:8px; padding:8px 10px; overflow-x:auto; }
       .qv-thumbs::-webkit-scrollbar { height:0; }
       .qv-thumbs img { width:52px; height:66px; object-fit:cover; border-radius:6px; border:2px solid transparent; cursor:pointer; flex:none; }
@@ -729,7 +733,7 @@
 <div class="qv" id="qv" role="dialog" aria-modal="true" aria-hidden="true">
     <button class="qv-x" id="qvX" type="button" aria-label="Закрити">✕</button>
     <div class="qv-gallery">
-        <div class="qv-main"><img id="qvImg" src="" alt=""><span class="qv-badge" id="qvBadge"></span></div>
+        <div class="qv-main"><img id="qvImg" src="" alt=""><span class="qv-badge" id="qvBadge"></span><button class="qv-arw qv-prev" id="qvPrev" type="button" aria-label="Попереднє фото">‹</button><button class="qv-arw qv-next" id="qvNext" type="button" aria-label="Наступне фото">›</button></div>
         <div class="qv-thumbs" id="qvThumbs"></div>
     </div>
     <div class="qv-info">
@@ -769,7 +773,7 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=33"></script>
+<script defer src="js/scripts.js?v=34"></script>
 <!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
 <script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
 </body>

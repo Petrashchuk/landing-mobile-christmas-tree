@@ -454,8 +454,9 @@ treeSelect.addEventListener("change", function () {
         cart[idx].qty = next; saveCart(); renderCart(); updateBadge();
     }
     function cartRemove(idx) {
-        if (cart.length === 1) { uiConfirm("Прибрати останній товар і очистити кошик?").then(function (v) { if (v) doRemove(idx); }); return; }
-        doRemove(idx);
+        var msg = cart.length === 1 ? "Прибрати останній товар і очистити кошик?" : "Прибрати цей товар із кошика?";
+        uiConfirm(msg).then(function (v) { if (v) doRemove(idx); });
+        return;
     }
     function cartClear() { cart = []; saveCart(); renderCart(); updateBadge(); }
 
@@ -555,7 +556,19 @@ treeSelect.addEventListener("change", function () {
             });
         }
     }
-    function qvSetGallery(g) { qvGallery = (g && g.length) ? g.slice() : [qvImg.src]; qvRenderThumbs(); setQvImg(qvGallery[0]); }
+    function qvSetGallery(g) {
+        qvGallery = (g && g.length) ? g.slice() : [qvImg.src];
+        qvRenderThumbs(); setQvImg(qvGallery[0]);
+        var main = qvImg.closest(".qv-main"); if (main) main.classList.toggle("single", qvGallery.length < 2);
+    }
+    function qvNav(delta) {
+        if (qvGallery.length < 2) return;
+        var i = (qvIdx + delta + qvGallery.length) % qvGallery.length;
+        setQvImg(qvGallery[i]);
+    }
+    var qvPrevBtn = document.getElementById("qvPrev"), qvNextBtn = document.getElementById("qvNext");
+    if (qvPrevBtn) qvPrevBtn.addEventListener("click", function (e) { e.stopPropagation(); qvNav(-1); });
+    if (qvNextBtn) qvNextBtn.addEventListener("click", function (e) { e.stopPropagation(); qvNav(1); });
     function openQuickView(c) {
         if (!qv) return;
         qvImg.alt = c.title;
