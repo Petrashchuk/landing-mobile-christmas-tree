@@ -12,7 +12,7 @@
     <meta property="og:url" content="https://land.yalynkahub.com.ua/">
     <meta property="og:image" content="https://land.yalynkahub.com.ua/logo-full.png">
     <meta property="og:locale" content="uk_UA">
-    <meta name="theme-color" content="#042623">
+    <meta name="theme-color" content="#6E1712">
     <link rel="shortcut icon" href="logo-mark.png" type="image/png">
 
     <!-- Бренд-шрифт -->
@@ -41,9 +41,9 @@
       @font-face { font-family:"Mateur"; src:url("fonts/Mateur.woff2") format("woff2"), url("fonts/Mateur.ttf") format("truetype"); font-display:swap; }
       :root {
         --bg:#F8F5F0;      /* крем */
-        --grn-d:#042623;   /* темно-зелений */
-        --grn:#0a4a3a;     /* зелений (похідний) */
-        --org:#7F1B15;     /* цегляний — основний акцент */
+        --grn-d:#6E1712;   /* глибокий червоний — хедер/футер/hero/заголовки */
+        --grn:#7F1B15;     /* брендовий червоний — вторинний */
+        --org:#9A2016;     /* яскравіший червоний — CTA/бейджі/ціни */
         --gold:#C6A15B;    /* золото (лого) */
         --sage:#BFBE9F;    /* шавлія */
         --dark:#2a211c;    /* теплий темний текст */
@@ -65,21 +65,21 @@
 
       /* Header */
       header { position:sticky; top:0; z-index:40; background:var(--grn-d); color:#fff; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; padding:8px 14px; gap:6px 10px; }
-      header .logo { display:flex; align-items:center; gap:8px; font-weight:800; font-size:18px; }
-      header .logo img { width:34px; height:34px; border-radius:6px; }
+      header .logo { display:flex; align-items:center; }
+      header .logo img { width:auto; height:30px; background:#fff; padding:5px 10px; border-radius:9px; }
       header .hphone { font-size:13px; font-weight:700; color:var(--gold); white-space:nowrap; }
       .hdr-nav { order:3; flex-basis:100%; display:flex; justify-content:center; gap:22px; overflow-x:auto; padding-top:6px; border-top:1px solid rgba(255,255,255,.12); margin-top:4px; }
       .hdr-nav::-webkit-scrollbar { height:0; }
       .hdr-nav a { font-size:14px; font-weight:600; color:#fff; white-space:nowrap; opacity:.92; }
       .hdr-nav a:hover { color:var(--gold); }
-      .saletop { background:var(--org); color:#fff; text-align:center; font-weight:800; font-size:13px; padding:7px 10px; }
+      .saletop { background:var(--org); color:#fff; font-weight:700; font-size:13px; padding:7px 0; overflow:hidden; white-space:nowrap; }
+      .saletop .marquee { display:inline-flex; width:max-content; animation:marquee 32s linear infinite; }
+      .saletop .marquee span { padding-right:0; }
+      @keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
 
-      /* Hero */
-      .hero { position:relative; color:#fff; text-align:center; padding:34px 18px 28px; background:linear-gradient(180deg, rgba(4,38,35,.55), rgba(4,38,35,.82)), url('trees/royal-snow/1.png') center/cover no-repeat; }
-      .hero h1 { font-size:27px; line-height:1.2; font-weight:900; margin:0 0 10px; text-shadow:0 2px 10px rgba(0,0,0,.4); }
-      .hero p { font-size:15px; margin:0 0 18px; opacity:.95; }
-      .hero .btn { font-size:17px; }
-      .hero .note { margin-top:12px; font-size:12px; opacity:.9; }
+      /* Hero банер */
+      .hero-banner { display:block; max-width:1400px; margin:0 auto; }
+      .hero-banner img { width:100%; height:auto; display:block; }
 
       /* USP */
       .usp { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; padding:16px; }
@@ -92,7 +92,7 @@
       .rail::-webkit-scrollbar { height:0; }
       .card { flex:0 0 72%; max-width:260px; scroll-snap-align:start; background:#fff; border:1px solid #eee; border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(0,0,0,.06); display:flex; flex-direction:column; }
       .card .ph { background:var(--soft); }
-      .card .ph img { width:100%; aspect-ratio:3/4; height:auto; object-fit:contain; background:var(--soft); }
+      .card .ph img { width:100%; aspect-ratio:3/4; height:auto; object-fit:cover; object-position:center; background:var(--soft); }
       .card .b { padding:10px 12px 12px; display:flex; flex-direction:column; flex:1; }
       .card .nm { font-size:14px; font-weight:700; min-height:38px; line-height:1.25; }
       .card .pr { color:var(--org); font-weight:800; font-size:16px; margin:6px 0 10px; }
@@ -261,9 +261,14 @@
 </head>
 <body>
 
-<div class="saletop">🎄 Новорічний розпродаж — знижки до −30% на всі ялинки</div>
+<div class="saletop">
+    <div class="marquee">
+        <span>🎄 Новорічний розпродаж — знижки до −30% на всі ялинки&nbsp;&nbsp;❄&nbsp;&nbsp;🚚 Доставка Новою Поштою по всій Україні&nbsp;&nbsp;❄&nbsp;&nbsp;💵 Оплата при отриманні&nbsp;&nbsp;❄&nbsp;&nbsp;🌲 Власне виробництво · сертифікат якості&nbsp;&nbsp;❄&nbsp;&nbsp;</span>
+        <span>🎄 Новорічний розпродаж — знижки до −30% на всі ялинки&nbsp;&nbsp;❄&nbsp;&nbsp;🚚 Доставка Новою Поштою по всій Україні&nbsp;&nbsp;❄&nbsp;&nbsp;💵 Оплата при отриманні&nbsp;&nbsp;❄&nbsp;&nbsp;🌲 Власне виробництво · сертифікат якості&nbsp;&nbsp;❄&nbsp;&nbsp;</span>
+    </div>
+</div>
 <header>
-    <a class="logo" href="#"><img src="logo-mark.png" alt="Yalynka">Yalynka</a>
+    <a class="logo" href="#"><img src="logo-site.png" alt="Yalynka XMAS HUB"></a>
     <nav class="hdr-nav">
         <a href="#catalog">Каталог ялинок</a>
         <a href="#addons">Гірлянди та іграшки</a>
@@ -274,13 +279,13 @@
     </div>
 </header>
 
-<!-- HERO -->
-<section class="hero">
-    <h1>Штучні ялинки,<br>що роблять дім святом 🌲</h1>
-    <p>Преміальні ялинки від виробника · розміри 1.0–3.0 м<br>Доставка по Україні · оплата при отриманні</p>
-    <a href="#order" class="btn">Обрати ялинку</a>
-    <div class="note">✓ Власне виробництво ✓ Сертифікат якості ✓ Без запаху</div>
-</section>
+<!-- HERO банер -->
+<a href="#catalog" class="hero-banner">
+    <picture>
+        <source media="(max-width:719px)" srcset="banners/trees-m.webp">
+        <img src="banners/trees.webp" alt="Штучні ялинки від виробника — знижки до −30%" fetchpriority="high">
+    </picture>
+</a>
 
 <!-- USP -->
 <div class="wrap">
@@ -437,8 +442,6 @@
     Всі права захищено © 2023–<span id="footerYear">2026</span>
 </footer>
 
-<!-- Липка кнопка -->
-<a href="#order" class="sticky-cta">🎄 Замовити ялинку</a>
 
 <!-- Попап допродажу -->
 <div class="addon-overlay"></div>
@@ -486,6 +489,6 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=12"></script>
+<script defer src="js/scripts.js?v=13"></script>
 </body>
 </html>

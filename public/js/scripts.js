@@ -17,6 +17,7 @@ $(document).ready((function () {
         loop: true,         // зациклювання
         margin: 12,         // відступи між картинками
         nav: true,          // кнопки вперед/назад
+        navText: ["‹", "›"], // без дефолтного тексту prev/next
         dots: true,         // точки навігації
         autoplay: true,     // автопрогравання
         autoplayTimeout: 3500,
