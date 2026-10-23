@@ -356,15 +356,37 @@ treeSelect.addEventListener("change", function () {
         else cart.push({ name: item.name, variant: item.variant || "", price: Number(item.price) || 0, old: Number(item.old) || 0, img: item.img || "", qty: 1 });
         saveCart(); renderCart(); updateBadge(); flashCart();
     }
-    function confirmLast() { return cart.length > 1 || window.confirm("Прибрати останній товар і очистити кошик?"); }
+    function uiConfirm(msg) {
+        return new Promise(function (resolve) {
+            var ov = document.getElementById("uiConfirmOv");
+            if (!ov) {
+                ov = document.createElement("div"); ov.id = "uiConfirmOv"; ov.className = "uiconfirm-ov";
+                ov.innerHTML = '<div class="uiconfirm-box"><div class="uiconfirm-msg"></div><div class="uiconfirm-btns"><button type="button" class="uic-cancel">Скасувати</button><button type="button" class="uic-ok">Так, прибрати</button></div></div>';
+                document.body.appendChild(ov);
+            }
+            ov.querySelector(".uiconfirm-msg").textContent = msg;
+            var ok = ov.querySelector(".uic-ok"), cancel = ov.querySelector(".uic-cancel");
+            function done(v) { ov.classList.remove("show"); resolve(v); }
+            ok.onclick = function () { done(true); };
+            cancel.onclick = function () { done(false); };
+            ov.onclick = function (e) { if (e.target === ov) done(false); };
+            ov.classList.add("show");
+        });
+    }
+    function doRemove(idx) { cart.splice(idx, 1); saveCart(); renderCart(); updateBadge(); }
     function cartSetQty(idx, d) {
         if (!cart[idx]) return;
         var next = (cart[idx].qty || 1) + d;
-        if (next < 1) { if (!confirmLast()) return; cart.splice(idx, 1); }
-        else cart[idx].qty = next;
-        saveCart(); renderCart(); updateBadge();
+        if (next < 1) {
+            if (cart.length === 1) { uiConfirm("Прибрати останній товар і очистити кошик?").then(function (v) { if (v) doRemove(idx); }); return; }
+            doRemove(idx); return;
+        }
+        cart[idx].qty = next; saveCart(); renderCart(); updateBadge();
     }
-    function cartRemove(idx) { if (!confirmLast()) return; cart.splice(idx, 1); saveCart(); renderCart(); updateBadge(); }
+    function cartRemove(idx) {
+        if (cart.length === 1) { uiConfirm("Прибрати останній товар і очистити кошик?").then(function (v) { if (v) doRemove(idx); }); return; }
+        doRemove(idx);
+    }
     function cartClear() { cart = []; saveCart(); renderCart(); updateBadge(); }
 
     var badgeEl = document.getElementById("cartCount");
@@ -526,13 +548,12 @@ treeSelect.addEventListener("change", function () {
         function buildThumbs(gallery, activeSrc) {
             if (!thumbsEl) return;
             thumbsEl.innerHTML = ""; thumbEls = [];
-            if (gallery && gallery.length > 1) {
-                gallery.forEach(function (src) {
-                    var t = document.createElement("img"); t.loading = "lazy"; t.src = src; t.className = (src === activeSrc ? "on" : "");
-                    t.addEventListener("click", function (e) { e.stopPropagation(); currentBase = src; cardImg.src = src; setThumbActive(src); });
-                    thumbEls.push(t); thumbsEl.appendChild(t);
-                });
-            }
+            var thumbs = (gallery || []).slice(1); // перша = головне фото, не дублюємо в мініатюрах
+            thumbs.forEach(function (src) {
+                var t = document.createElement("img"); t.loading = "lazy"; t.src = src; t.className = (src === activeSrc ? "on" : "");
+                t.addEventListener("click", function (e) { e.stopPropagation(); currentBase = src; cardImg.src = src; setThumbActive(src); });
+                thumbEls.push(t); thumbsEl.appendChild(t);
+            });
         }
         function pickColor(i) {
             var col = c.colors[i]; if (!col) return;
@@ -1099,4 +1120,37 @@ function getFbClickId() {
             b.classList.add("on");
         });
     });
+})();
+
+// ---------- Ефект снігу (легкий canvas) ----------
+(function () {
+    try {
+        if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        var c = document.createElement("canvas");
+        c.style.cssText = "position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:60";
+        c.setAttribute("aria-hidden", "true");
+        document.body.appendChild(c);
+        var ctx = c.getContext("2d"), W = 0, H = 0, flakes = [], angle = 0;
+        function resize() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
+        resize(); window.addEventListener("resize", resize);
+        var N = Math.max(30, Math.min(80, Math.floor(window.innerWidth / 16)));
+        for (var i = 0; i < N; i++) flakes.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 2.4 + 1, d: Math.random() * 0.9 + 0.4, sway: Math.random() * Math.PI * 2 });
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            ctx.fillStyle = "rgba(255,255,255,0.85)";
+            ctx.beginPath();
+            for (var i = 0; i < flakes.length; i++) { var f = flakes[i]; ctx.moveTo(f.x, f.y); ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true); }
+            ctx.fill();
+            angle += 0.008;
+            for (var j = 0; j < flakes.length; j++) {
+                var g = flakes[j];
+                g.y += g.d + Math.sin(angle) * 0.25;
+                g.x += Math.sin(angle + g.sway) * 0.5;
+                if (g.y > H + 6) { g.y = -6; g.x = Math.random() * W; }
+                if (g.x > W + 6) g.x = -6; else if (g.x < -6) g.x = W + 6;
+            }
+            requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+    } catch (e) {}
 })();

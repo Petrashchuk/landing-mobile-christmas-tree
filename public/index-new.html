@@ -89,20 +89,21 @@
       .saletop .marquee span { padding-right:0; }
       @keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
 
-      /* Hero банер-слайдер — у контейнері з відступами (не впритул) */
-      .hero-slider { position:relative; max-width:1360px; margin:20px auto; padding:0 56px; }
+      /* Hero банер-слайдер — у контейнері, стрілки НА банері */
+      .hero-slider { position:relative; max-width:1360px; margin:20px auto; }
       .hero-slider .owl-stage-outer { border-radius:18px; }
       .hero-slider .hslide { display:block; outline:none; }
       .hero-slider .hslide img { width:100%; height:auto; display:block; border-radius:18px; }
       .hero-slider .owl-nav { margin:0; }
-      .hero-slider .owl-nav .owl-prev, .hero-slider .owl-nav .owl-next { position:absolute !important; top:50% !important; margin:0 !important; transform:translateY(-50%); width:46px; height:46px; border-radius:50%; background:#fff !important; border:1px solid #e0d9cc !important; color:#6b5e50 !important; font-size:26px !important; line-height:42px !important; text-align:center; box-shadow:0 3px 10px rgba(0,0,0,.12); opacity:1 !important; }
-      .hero-slider .owl-nav .owl-prev { left:6px !important; }
-      .hero-slider .owl-nav .owl-next { right:6px !important; }
+      .hero-slider .owl-nav .owl-prev, .hero-slider .owl-nav .owl-next { position:absolute !important; top:50% !important; margin:0 !important; transform:translateY(-50%); width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,.92) !important; border:none !important; color:#6b5e50 !important; font-size:26px !important; line-height:46px !important; text-align:center; box-shadow:0 3px 12px rgba(0,0,0,.18); opacity:1 !important; transition:color .15s, background .15s, transform .15s; }
+      .hero-slider .owl-nav .owl-prev { left:16px !important; }
+      .hero-slider .owl-nav .owl-next { right:16px !important; }
+      .hero-slider .owl-nav .owl-prev:hover, .hero-slider .owl-nav .owl-next:hover { color:var(--org) !important; background:#fff !important; transform:translateY(-50%) scale(1.08); }
       .hero-slider .owl-nav .owl-prev span, .hero-slider .owl-nav .owl-next span { font-size:28px; line-height:1; }
       .hero-slider .owl-dots { position:absolute; bottom:12px; left:0; right:0; text-align:center; margin:0; }
       .hero-slider .owl-dots .owl-dot span { background:rgba(255,255,255,.65) !important; width:9px; height:9px; }
       .hero-slider .owl-dots .owl-dot.active span { background:var(--org) !important; }
-      @media (max-width:719px) { .hero-slider { padding:0 12px; margin:12px auto; } .hero-slider .owl-nav { display:none; } }
+      @media (max-width:719px) { .hero-slider { margin:12px auto; } .hero-slider .owl-nav { display:none; } }
 
       /* USP / переваги */
       .usp { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(2,1fr); gap:12px; padding:18px 16px; }
@@ -367,7 +368,22 @@
       .bb-badge { font-size:11px; color:var(--org); font-weight:700; margin-top:2px; }
       .bb-disc { background:var(--org); color:#fff; border-radius:5px; padding:1px 5px; margin-right:4px; }
       .bb-btn { background:var(--gold); color:#3a2a10; font-weight:800; font-size:15px; padding:13px 26px; border-radius:12px; white-space:nowrap; box-shadow:0 4px 12px rgba(198,161,91,.4); }
-      @media (min-width:1000px) { .bottom-bar { padding:12px max(40px, calc(50vw - 560px)); } }
+      /* Липкий бар — лише планшет/мобайл */
+      @media (min-width:1024px) { .bottom-bar { display:none; } body { padding-bottom:0; } }
+      /* Кастомний confirm (у нашому UI) */
+      .uiconfirm-ov { display:none; position:fixed; inset:0; background:rgba(5,38,35,.55); z-index:95; align-items:center; justify-content:center; padding:20px; }
+      .uiconfirm-ov.show { display:flex; }
+      .uiconfirm-box { background:var(--bg); border-radius:16px; max-width:360px; width:100%; padding:26px 22px 20px; box-shadow:0 20px 60px rgba(0,0,0,.4); text-align:center; }
+      .uiconfirm-msg { font-size:16px; font-weight:700; color:var(--grn-d); line-height:1.45; margin-bottom:20px; }
+      .uiconfirm-btns { display:flex; gap:10px; }
+      .uiconfirm-btns button { flex:1; padding:13px; border-radius:11px; font-weight:800; font-size:14px; cursor:pointer; border:none; }
+      .uic-cancel { background:#ece6da; color:#555; }
+      .uic-ok { background:var(--org); color:#fff; }
+
+      /* Порожній кошик — категорії */
+      .cart-empty .ce-cats { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:16px; }
+      .cart-empty .ce-cats a { background:var(--soft); color:var(--grn-d); font-weight:700; font-size:13px; padding:9px 16px; border-radius:30px; border:1px solid #e3ddd0; }
+      .cart-empty .ce-cats a:hover { background:var(--gold); color:#3a2a10; }
     </style>
 
     <!-- Meta Pixel -->
@@ -707,7 +723,7 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=28"></script>
+<script defer src="js/scripts.js?v=29"></script>
 <!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
 <script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
 </body>
