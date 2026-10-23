@@ -97,7 +97,7 @@
       .hero-slider { position:relative; max-width:1360px; margin:20px auto; }
       .hero-slider .owl-stage-outer { border-radius:18px; }
       .hero-slider .hslide { display:block; outline:none; }
-      .hero-slider .hslide img { width:100%; height:auto; display:block; border-radius:18px; }
+      .hero-slider .hslide img { width:100%; aspect-ratio:16/7; height:auto; object-fit:cover; object-position:center; display:block; border-radius:18px; }
       .hero-slider .owl-nav { margin:0; }
       .hero-slider .owl-nav .owl-prev, .hero-slider .owl-nav .owl-next { position:absolute !important; top:50% !important; margin:0 !important; transform:translateY(-50%); width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,.92) !important; border:none !important; color:#6b5e50 !important; font-size:26px !important; line-height:46px !important; text-align:center; box-shadow:0 3px 12px rgba(0,0,0,.18); opacity:1 !important; transition:color .15s, background .15s, transform .15s; }
       .hero-slider .owl-nav .owl-prev { left:16px !important; }
@@ -458,7 +458,7 @@
 
 <!-- HERO банер-слайдер -->
 <div class="hero-slider owl-carousel">
-    <a href="#catalog" class="hslide"><picture><source media="(max-width:719px)" srcset="banners/trees-m.webp"><img src="banners/trees.webp" alt="Штучні ялинки від виробника — знижки до −30%" fetchpriority="high"></picture></a>
+    <a href="#catalog" class="hslide"><img src="images/poster1.webp?v=2" alt="Ялинки, що роблять дім святом — знижки до −30%" fetchpriority="high"></a>
     <a href="#toys" class="hslide"><picture><source media="(max-width:719px)" srcset="banners/balls-m.webp"><img src="banners/balls.webp" alt="Новорічні іграшки — готові набори"></picture></a>
     <a href="#garlands" class="hslide"><picture><source media="(max-width:719px)" srcset="banners/garlands-m.webp"><img src="banners/garlands.webp" alt="Гірлянди для ялинки та інтер'єру"></picture></a>
 </div>
