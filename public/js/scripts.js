@@ -835,7 +835,7 @@ document.querySelectorAll(".order-form-wrapper-btn .button").forEach(btn => {
         treeSelect.value = treeName;
         treeSelect.dispatchEvent(new Event("change"));
     });
-})
+});
 
 
 // Живе очищення помилок валідації — щойно клієнт виправляє поле
