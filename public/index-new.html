@@ -54,6 +54,7 @@
         --display:"Mateur","Inter",system-ui,sans-serif;
       }
       * { box-sizing: border-box; }
+      html, body { overflow-x:clip; max-width:100%; }
       body { margin:0; background:var(--bg); color:var(--dark); font-family:"Inter","Segoe UI",system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
       img { max-width:100%; display:block; }
       a { color:inherit; text-decoration:none; }
@@ -233,8 +234,8 @@
       .cart-scroll { flex:1; overflow-y:auto; }
       .cart-items { padding:12px 14px; }
       .cart-empty { display:none; flex-direction:column; align-items:center; justify-content:center; min-height:40vh; padding:40px 24px; text-align:center; color:#8a8277; font-size:15.5px; line-height:1.7; }
-      .cart-row { display:flex; gap:10px; padding:10px 0; border-bottom:1px solid #e7e1d6; }
-      .cart-row img { width:56px; height:72px; object-fit:contain; background:var(--soft); border-radius:8px; flex:none; }
+      .cart-row { display:flex; gap:14px; padding:15px 2px; border-bottom:1px solid #e7e1d6; }
+      .cart-row img { width:84px; height:100px; object-fit:cover; background:var(--soft); border-radius:10px; flex:none; }
       .cart-row .ci { flex:1; min-width:0; }
       .cart-row .ci-nm { font-size:14px; font-weight:700; line-height:1.25; }
       .cart-row .ci-v { font-size:12px; color:#777; margin-top:2px; }
@@ -408,7 +409,7 @@
       /* Липкий бар — лише планшет/мобайл */
       @media (min-width:1024px) { .bottom-bar { display:none; } body { padding-bottom:0; } }
       /* Кастомний confirm (у нашому UI) */
-      .uiconfirm-ov { display:none; position:fixed; inset:0; background:rgba(5,38,35,.55); z-index:95; align-items:center; justify-content:center; padding:20px; }
+      .uiconfirm-ov { display:none; position:fixed; inset:0; background:rgba(5,38,35,.55); z-index:2147483647; align-items:center; justify-content:center; padding:20px; }
       .uiconfirm-ov.show { display:flex; }
       .uiconfirm-box { background:var(--bg); border-radius:16px; max-width:360px; width:100%; padding:26px 22px 20px; box-shadow:0 20px 60px rgba(0,0,0,.4); text-align:center; }
       .uiconfirm-msg { font-size:16px; font-weight:700; color:var(--grn-d); line-height:1.45; margin-bottom:20px; }
