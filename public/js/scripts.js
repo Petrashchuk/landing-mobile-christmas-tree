@@ -301,8 +301,8 @@ treeSelect.addEventListener("change", function () {
     var CARDS = [
         { title: "Казка", img: "trees/kazka/1.webp", gallery: ["trees/kazka/1.webp", "trees/kazka/2.webp", "trees/kazka/3.webp", "trees/kazka/4.webp"], cats: ["Зелена"], colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
         { title: "Снігова Королева", img: "trees/snow-queen/1.webp", gallery: ["trees/snow-queen/1.webp", "trees/snow-queen/2.webp", "trees/snow-queen/3.webp", "trees/snow-queen/4.webp"], cats: ["Білі кінчики"], colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
-        { title: "Елітна з шишкою", img: "trees/elite/1.webp", gallery: ["trees/elite/1.webp", "trees/elite/2.webp", "trees/elite/3.webp", "trees/elite/4.webp"], cats: ["З декором"], colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
-        { title: "Кармен + ягідки", img: "trees/karmen/red.webp", gallery: ["trees/karmen/1.webp", "trees/karmen/2.webp", "trees/karmen/3.webp", "trees/karmen/4.webp"], cats: ["З декором"], colors: [
+        { title: "Елітна з шишкою", img: "trees/elite/1.webp", gallery: ["trees/elite/1.webp", "trees/elite/2.webp", "trees/elite/3.webp", "trees/elite/4.webp"], cats: ["Білі кінчики", "З декором"], colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
+        { title: "Кармен + ягідки", img: "trees/karmen/red.webp", gallery: ["trees/karmen/red.webp", "trees/karmen/blue.webp", "trees/karmen/silver.webp", "trees/karmen/gold.webp"], cats: ["Білі кінчики", "З декором"], colors: [
             { label: "Червоні", v: "Кармен + червоні ягідки", sw: "#c0392b", img: "trees/karmen/red.webp" },
             { label: "Сині", v: "Кармен + сині ягідки", sw: "#2e5fb0", img: "trees/karmen/blue.webp" },
             { label: "Срібні", v: "Кармен + срібні ягідки", sw: "#c9ccd1", img: "trees/karmen/silver.webp" },
@@ -469,6 +469,7 @@ treeSelect.addEventListener("change", function () {
                 catBox.querySelectorAll(".card").forEach(function (cd) {
                     var show = cat === "Усі" || (cd.getAttribute("data-cat") || "").split("|").indexOf(cat) >= 0;
                     cd.classList.toggle("hide", !show);
+                    if (show && cd.pickColorByLabel) cd.pickColorByLabel(cat); // авто-вибір кольору під фільтр
                 });
             });
             pillsBox.appendChild(b); pills.push(b);
@@ -508,28 +509,38 @@ treeSelect.addEventListener("change", function () {
         var ph = card.querySelector(".ph"); ph.style.cursor = "pointer";
         var cardImg = ph.querySelector("img");
         var currentBase = c.img;  // поточне головне фото (міняється кольором)
-        // мініатюри під карткою
+        var swEls = card.querySelectorAll(".swatches .sw");
         var thumbsEl = card.querySelector(".card-thumbs");
-        if (thumbsEl && c.gallery && c.gallery.length > 1) {
-            c.gallery.forEach(function (src, i) {
+        var thumbEls = [];
+        function setThumbActive(src) { thumbEls.forEach(function (t) { t.classList.toggle("on", t.src.indexOf(src) >= 0); }); }
+        function pickColor(i) {
+            var col = c.colors[i]; if (!col) return;
+            model = col.v;
+            if (clName) clName.textContent = col.label;
+            swEls.forEach(function (x, xi) { x.classList.toggle("on", xi === i); });
+            if (col.img) { currentBase = col.img; cardImg.src = col.img; setThumbActive(col.img); }
+            fillHeights(hsel, model); refresh();
+        }
+        card.pickColorByLabel = function (label) {
+            for (var i = 0; i < c.colors.length; i++) { if (c.colors[i].label === label) { pickColor(i); return true; } }
+            return false;
+        };
+        // мініатюри: для різнокольорових — фото кольорів; інакше — галерея
+        var thumbSrcs = multi ? c.colors.map(function (col) { return col.img; }).filter(Boolean) : ((c.gallery && c.gallery.length > 1) ? c.gallery : []);
+        if (thumbsEl && thumbSrcs.length > 1) {
+            thumbSrcs.forEach(function (src) {
                 var t = document.createElement("img"); t.loading = "lazy"; t.src = src; t.className = (src === c.img ? "on" : "");
-                t.addEventListener("click", function (e) { e.stopPropagation(); currentBase = src; cardImg.src = src; thumbsEl.querySelectorAll("img").forEach(function (x) { x.classList.remove("on"); }); t.classList.add("on"); });
-                thumbsEl.appendChild(t);
+                t.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    if (multi) { for (var i = 0; i < c.colors.length; i++) { if (c.colors[i].img === src) { pickColor(i); break; } } }
+                    else { currentBase = src; cardImg.src = src; setThumbActive(src); }
+                });
+                thumbEls.push(t); thumbsEl.appendChild(t);
             });
         }
-        card.querySelectorAll(".swatches .sw").forEach(function (b) {
-            b.addEventListener("click", function () {
-                card.querySelectorAll(".swatches .sw").forEach(function (x) { x.classList.remove("on"); });
-                b.classList.add("on");
-                model = b.getAttribute("data-v");
-                if (clName) clName.textContent = b.getAttribute("data-label");
-                var ci = b.getAttribute("data-img");
-                if (ci) { currentBase = ci; cardImg.src = ci; }
-                fillHeights(hsel, model); refresh();
-            });
-        });
-        // наведення → наступне фото галереї; повернення → поточний колір
-        var cg = (c.gallery && c.gallery.length > 1) ? c.gallery : null;
+        swEls.forEach(function (b, bi) { b.addEventListener("click", function () { pickColor(bi); }); });
+        // наведення → наступне фото галереї (лише одноколірні); повернення → поточне
+        var cg = (!multi && c.gallery && c.gallery.length > 1) ? c.gallery : null;
         if (cg) {
             ph.addEventListener("mouseenter", function () { cardImg.src = cg[1]; });
             ph.addEventListener("mouseleave", function () { cardImg.src = currentBase; });
