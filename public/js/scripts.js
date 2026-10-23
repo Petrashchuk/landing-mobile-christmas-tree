@@ -229,11 +229,12 @@ treeSelect.addEventListener("change", function () {
 // (щоб «Виберіть…»/«Регіон/Область» виглядали як підказка, а не як заповнене поле).
 (function () {
     function isPlaceholder(sel) {
+        if (!sel || !sel.options) return false;
         var o = sel.options[sel.selectedIndex];
         return !o || o.value === "" || o.disabled || /^Виберіть/.test((o.textContent || "").trim());
     }
     function mark(sel) { if (sel) sel.classList.toggle("is-placeholder", isPlaceholder(sel)); }
-    var ids = ["treeSelect", "sizeSelect", "npArea"];
+    var ids = ["treeSelect", "sizeSelect"];
     ids.forEach(function (id) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -523,7 +524,7 @@ treeSelect.addEventListener("change", function () {
             '<div class="b"><div class="nm">' + c.title + '</div>' + swHtml +
             '<div class="sellabel">Оберіть висоту</div><select class="h-sel"></select>' +
             '<div class="c-price"></div><div class="c-econ"></div>' +
-            '<div class="cbuy-row"><a class="cbuy" href="#">Додати в кошик</a><a class="cbuy-now" href="#">Замовити</a></div></div>';
+            '<div class="cbuy-row"><a class="cbuy" href="#" aria-label="Додати в кошик" title="Додати в кошик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></a><a class="cbuy-now" href="#">Замовити</a></div></div>';
         catBox.appendChild(card);
         var hsel = card.querySelector(".h-sel");
         var priceEl = card.querySelector(".c-price");
@@ -851,6 +852,8 @@ function getFbClientId() {
 /* ---------------- Nova Poshta picker (область → місто → відділення) ---------------- */
 (function () {
     const area = document.getElementById("npArea");
+    const areaRefEl = document.getElementById("npAreaRef");
+    const areaList = document.getElementById("npAreaList");
     const city = document.getElementById("npCity");
     const cityList = document.getElementById("npCityList");
     const warehouse = document.getElementById("npWarehouse");
@@ -920,21 +923,32 @@ function getFbClientId() {
         whList.classList.remove("open");
     }
 
-    // 1) Області — одразу при завантаженні
+    // 1) Області — кастомний дропдаун (не нативний select)
+    let AREAS = [];
     fetchJson("/np/areas").then((data) => {
-        (data.items || []).forEach((a) => {
-            const opt = document.createElement("option");
-            opt.value = a.ref;
-            opt.textContent = a.name;
-            area.appendChild(opt);
-        });
+        AREAS = (data.items || []).map((a) => ({ref: a.ref, label: a.name, name: a.name}));
     });
 
-    // 2) Вибір області → розблокувати місто
-    area.addEventListener("change", function () {
-        resetWarehouse();
-        resetCity();
-        city.disabled = !this.value;
+    function openAreaList() {
+        renderList(areaList, AREAS, (it) => {
+            area.value = it.name;
+            areaRefEl.value = it.ref;
+            area.classList.add("filled");
+            resetWarehouse();
+            resetCity();
+            city.disabled = false;
+        }, "Завантаження…");
+    }
+
+    // 2) Клік по полю області → показати/сховати список
+    area.addEventListener("click", function () {
+        if (areaList.classList.contains("open")) {
+            areaList.classList.remove("open");
+        } else {
+            cityList.classList.remove("open");
+            whList.classList.remove("open");
+            openAreaList();
+        }
     });
 
     // 3) Пошук міста
@@ -948,7 +962,7 @@ function getFbClientId() {
             return;
         }
         const data = await fetchJson(
-            `/np/cities?areaRef=${encodeURIComponent(area.value)}&q=${encodeURIComponent(q)}`
+            `/np/cities?areaRef=${encodeURIComponent(areaRefEl.value)}&q=${encodeURIComponent(q)}`
         );
         const items = (data.items || []).map((c) => ({
             ref: c.ref,
@@ -999,6 +1013,7 @@ function getFbClientId() {
     // Сховати списки при кліку поза полями
     document.addEventListener("click", function (e) {
         if (!e.target.closest(".np-autocomplete")) {
+            areaList.classList.remove("open");
             cityList.classList.remove("open");
             whList.classList.remove("open");
         }

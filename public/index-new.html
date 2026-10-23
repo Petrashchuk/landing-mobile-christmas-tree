@@ -41,7 +41,7 @@
       @font-face { font-family:"Mateur"; src:url("fonts/Mateur.woff2") format("woff2"), url("fonts/Mateur.ttf") format("truetype"); font-display:swap; }
       :root {
         --bg:#F8F5F0;      /* крем */
-        --grn-d:#052623;   /* темно-зелений — хедер/футер/hero/заголовки */
+        --grn-d:#7C1A14;   /* глибокий бренд-червоний — хедер/футер/hero/заголовки (тон тла лого) */
         --grn:#0c5a2b;     /* зелений — вторинний (економія) */
         --org:#9A2016;     /* червоний — CTA/бейджі/ціни */
         --gold:#C6A15B;    /* золото (лого) */
@@ -66,7 +66,7 @@
       /* Header */
       header { position:sticky; top:0; z-index:40; background:var(--grn-d); color:#fff; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; padding:8px 14px; gap:6px 10px; }
       header .logo { display:flex; align-items:center; }
-      header .logo img { width:auto; height:40px; }
+      header .logo img { width:auto; height:48px; }
       header .hphone { font-size:13px; font-weight:700; color:var(--gold); white-space:nowrap; }
       .hdr-right { display:flex; align-items:center; gap:14px; }
       .hhours { font-size:12px; color:#f1e7d6; white-space:nowrap; line-height:1.2; }
@@ -236,13 +236,17 @@
       .cart-total-row b { font-size:22px; color:var(--grn-d); }
 
       /* Checkout у кошику */
-      .co-label { font-size:13px; font-weight:800; color:#444; margin:16px 0 7px; }
+      .co-label { font-size:13px; font-weight:800; color:#444; letter-spacing:.04em; text-transform:uppercase; margin:22px 0 9px; }
       #checkoutMount .offer_section, #checkoutMount .order_form.pat { width:100%; padding:0; }
-      #checkoutMount .field { width:100% !important; max-width:none !important; background:#f1f3f6 !important; border:1.5px solid transparent !important; border-radius:12px !important; padding:13px 14px !important; margin:7px 0 !important; font-size:15px; color:#222; background-image:none !important; }
+      #checkoutMount .field { width:100% !important; max-width:none !important; background:#f1f3f6 !important; border:1.5px solid transparent !important; border-radius:12px !important; padding:14px 15px !important; margin:9px 0 !important; font-size:15px; color:#222; background-image:none !important; }
       #checkoutMount .field:focus { outline:none; border-color:var(--org) !important; background:#fff !important; }
       #checkoutMount .field.error { border-color:#d33 !important; }
       #checkoutMount textarea.field { min-height:70px; resize:vertical; }
-      #checkoutMount .np-autocomplete { position:relative; }
+      #checkoutMount .np-autocomplete { position:relative; width:100%; max-width:none; }
+      #checkoutMount .courier-wrap { width:100%; }
+      #checkoutMount .np-select { cursor:pointer; padding-right:40px !important; caret-color:transparent; }
+      .np-area-wrap::after { content:""; position:absolute; right:17px; top:50%; width:8px; height:8px; border-right:2px solid #8a8378; border-bottom:2px solid #8a8378; transform:translateY(-70%) rotate(45deg); pointer-events:none; transition:transform .18s; }
+      .np-area-wrap:has(.np-list.open)::after { transform:translateY(-30%) rotate(225deg); }
       #checkoutMount .error-message { color:#d33; font-size:12px; margin:-3px 0 6px 2px; }
       .deliv-opts { display:flex; flex-direction:column; gap:9px; }
       .deliv-opt { display:flex; align-items:center; gap:11px; border:1.5px solid #e0dccf; border-radius:12px; padding:13px 14px; cursor:pointer; background:#fff; }
@@ -255,10 +259,12 @@
       .do-txt b { font-size:15px; color:#222; }
       .do-txt small { font-size:12px; color:#888; }
       .pay-card { display:flex; align-items:center; gap:11px; border:1.5px solid var(--org); border-radius:12px; padding:13px 14px; background:#fbf1ef; }
-      .oferta { display:flex; gap:9px; align-items:flex-start; margin:14px 0 2px; font-size:12px; color:#666; line-height:1.45; cursor:pointer; }
-      .oferta input { margin-top:2px; flex:none; width:16px; height:16px; accent-color:var(--org); }
-      .oferta.err span { color:#d33; }
-      .oferta a { color:var(--org); text-decoration:underline; }
+      .deliv-note { border-left:3px solid var(--org); background:#f6f2ec; border-radius:8px; padding:11px 13px; font-size:12.5px; line-height:1.5; color:#5a5349; }
+      .deliv-note b { color:#2f2a24; }
+      .pay-logos { display:flex; gap:8px; margin-top:9px; }
+      .paylogo { width:44px; height:28px; display:block; filter:drop-shadow(0 1px 2px rgba(0,0,0,.08)); }
+      .co-disclaimer { margin:12px 2px 2px; font-size:11.5px; line-height:1.5; color:#8a8378; text-align:center; }
+      .co-disclaimer a { color:var(--org); text-decoration:underline; }
       #checkoutMount .button { width:100%; background:linear-gradient(135deg,#B4281B,#8E1C12); color:#fff; border:none; border-radius:14px; padding:18px; font-weight:800; font-size:17px; letter-spacing:.02em; text-transform:uppercase; cursor:pointer; margin-top:14px; box-shadow:0 10px 26px rgba(154,32,22,.4); transition:transform .12s, box-shadow .15s, filter .15s; }
       #checkoutMount .button:hover { filter:brightness(1.07); box-shadow:0 12px 32px rgba(154,32,22,.5); }
       #checkoutMount .button:active { transform:scale(.99); }
@@ -327,6 +333,7 @@
       .addons-h { max-width:1200px; margin:28px auto 10px; padding:0 18px; font-size:30px; font-weight:900; text-transform:uppercase; letter-spacing:.01em; color:var(--grn-d); }
       @media (max-width:560px) { .addons-h { font-size:23px; } }
       .addon-grid .card .c-price { margin:6px 0 10px; }
+      .addon-tabs { margin-bottom:20px; }
       .addon-sw { display:flex; gap:7px; flex-wrap:wrap; margin:4px 0; }
       .addon-sw .asw { width:24px; height:24px; border-radius:50%; border:2px solid #ddd; cursor:pointer; padding:0; }
       .addon-sw .asw.on { border-color:var(--org); box-shadow:0 0 0 2px rgba(154,32,22,.2); }
@@ -515,9 +522,11 @@
                     <label class="deliv-opt" data-m="courier"><input type="radio" name="delivery_method" value="courier"><span class="do-rb"></span><span class="do-txt"><b>Кур'єром</b><small>Доставка до дверей</small></span></label>
                 </div>
 
-                <select class="field np-field" name="np_area" id="npArea">
-                    <option value="" selected disabled>Регіон / Область</option>
-                </select>
+                <div class="np-autocomplete np-area-wrap">
+                    <input class="field np-field np-select" type="text" name="np_area_label" id="npArea" placeholder="Регіон / Область" autocomplete="off" readonly aria-haspopup="listbox">
+                    <input type="hidden" name="np_area" id="npAreaRef">
+                    <ul class="np-list" id="npAreaList"></ul>
+                </div>
 
                 <div class="np-autocomplete">
                     <input class="field np-field" type="text" name="np_city" id="npCity" placeholder="Населений пункт" autocomplete="off" disabled>
@@ -539,14 +548,19 @@
                 <input type="hidden" name="warehouse_number" id="npWarehouseNumber">
                 <input type="hidden" name="warehouse_description" id="npWarehouseDesc">
 
+                <div class="deliv-note"><b>Доставка оплачується окремо</b> за тарифами Нової пошти — залежить від габаритів, ваги та населеного пункту. Точну суму визначає перевізник під час відправлення.</div>
+
                 <div class="co-label">Спосіб оплати</div>
                 <div class="pay-card"><span class="pc-rb"></span><span class="do-txt"><b>Накладений платіж</b><small>Оплата при отриманні на відділенні Нової пошти</small></span></div>
+                <div class="pay-logos">
+                    <svg class="paylogo" viewBox="0 0 48 30" aria-label="Visa"><rect width="48" height="30" rx="4" fill="#fff" stroke="#e7e7e7"/><text x="24" y="20" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-style="italic" font-size="12" fill="#1A1F71" text-anchor="middle">VISA</text></svg>
+                    <svg class="paylogo" viewBox="0 0 48 30" aria-label="Mastercard"><rect width="48" height="30" rx="4" fill="#fff" stroke="#e7e7e7"/><circle cx="21" cy="15" r="7.5" fill="#EB001B"/><circle cx="29" cy="15" r="7.5" fill="#F79E1B" fill-opacity=".92"/></svg>
+                </div>
 
                 <textarea class="field np-field np-comment" name="comment" id="orderComment" placeholder="Коментар до замовлення (за бажанням)"></textarea>
 
-                <label class="oferta"><input type="checkbox" id="ofertaCheck"><span>Погоджуюсь з <a href="publichna-oferta.html" target="_blank" rel="noopener">умовами оферти</a> та <a href="politics.html" target="_blank" rel="noopener">політикою конфіденційності</a></span></label>
-
                 <button type="submit" class="button">Підтвердити замовлення</button>
+                <p class="co-disclaimer">Натискаючи кнопку, ви погоджуєтесь з <a href="publichna-oferta.html" target="_blank" rel="noopener">умовами оферти</a> та <a href="politics.html" target="_blank" rel="noopener">політикою конфіденційності</a>. Замовлення передається менеджеру для підтвердження.</p>
             </form>
         </div>
     </div>
@@ -570,8 +584,6 @@
         <button class="catpill" type="button" data-type="роса">Роса</button>
         <button class="catpill" type="button" data-type="лапа">Хвойна Лапа</button>
         <button class="catpill" type="button" data-type="хвіст">Кінський хвіст</button>
-        <button class="catpill" type="button" data-type="бахрома">Бахрома</button>
-        <button class="catpill" type="button" data-type="водоспад">Водоспад</button>
     </div>
     <div class="catgrid addon-grid" id="garlandGrid">
         <div class="card" data-type="роса"><div class="ph"><img loading="lazy" src="garlands/rosa-20m.webp" alt="Гірлянда Роса 20 м"></div><div class="b"><div class="nm">Роса — 20 м, 200 LED</div><div class="c-price">195 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 20 м" data-price="195" data-img="garlands/rosa-20m.webp">Додати в кошик →</button></div></div>
@@ -581,8 +593,6 @@
         <div class="card" data-type="лапа"><div class="ph"><img loading="lazy" src="garlands/hvoyna-50m.webp" alt="Хвойна Лапа 50 м"></div><div class="b"><div class="nm">Хвойна Лапа — 50 м</div><div class="c-price">1 490 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 50 м" data-price="1490" data-img="garlands/hvoyna-50m.webp">Додати в кошик →</button></div></div>
         <div class="card" data-type="лапа"><div class="ph"><img loading="lazy" src="garlands/hvoyna-100m.webp" alt="Хвойна Лапа 100 м"></div><div class="b"><div class="nm">Хвойна Лапа — 100 м</div><div class="c-price">2 600 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 100 м" data-price="2600" data-img="garlands/hvoyna-100m.webp">Додати в кошик →</button></div></div>
         <div class="card" data-type="хвіст"><div class="ph"><img loading="lazy" src="garlands/kinskyj-hvist.webp" alt="Гірлянда Кінський хвіст 2 м"></div><div class="b"><div class="nm">Кінський хвіст — 2 м, 1000 LED</div><div class="c-price">1 400 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Кінський хвіст 2 м" data-price="1400" data-img="garlands/kinskyj-hvist.webp">Додати в кошик →</button></div></div>
-        <div class="card" data-type="бахрома"><div class="ph"><img loading="lazy" src="garlands/bahroma.webp" alt="Гірлянда Бахрома"></div><div class="b"><div class="nm">Бахрома — 3×0.8 м, LED</div><div class="c-price">820 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Бахрома 3×0.8 м" data-price="820" data-img="garlands/bahroma.webp">Додати в кошик →</button></div></div>
-        <div class="card" data-type="водоспад"><div class="ph"><img loading="lazy" src="garlands/vodospad.webp" alt="Гірлянда Водоспад"></div><div class="b"><div class="nm">Водоспад-штора — 3×2 м, 320 LED</div><div class="c-price">690 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Водоспад 3×2 м" data-price="690" data-img="garlands/vodospad.webp">Додати в кошик →</button></div></div>
     </div>
 
     <h3 class="addons-h" id="toys">Набори іграшок</h3>
@@ -646,7 +656,6 @@
     <b>ІНТЕРНЕТ-МАГАЗИН ШТУЧНИХ ЯЛИНОК ВІД ВИРОБНИКА</b><br>
     Працюємо щодня 07:00–23:00
     <div class="soc">
-        <a href="https://www.instagram.com/yalynka.hub" target="_blank" rel="noopener"><img src="icons/instagram.png" alt="Instagram"></a>
         <a href="https://t.me/HLINSKYI" target="_blank" rel="noopener"><img src="icons/telegram.png" alt="Telegram"></a>
     </div>
     <a class="org" href="politics.html" target="_blank" rel="noopener noreferrer">Політика конфіденційності</a><br>
@@ -723,7 +732,7 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=29"></script>
+<script defer src="js/scripts.js?v=30"></script>
 <!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
 <script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
 </body>
