@@ -26,10 +26,13 @@ app.use(express.static(path.join(__dirname, 'public'), {
 
 // ---------------- Routes ----------------
 
-// GET /
+// GET / — основний лендінг
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+// Старе посилання на новий лендінг → на корінь (щоб закладки не ламались)
+app.get('/index-new.html', (req, res) => res.redirect(301, '/'));
 
 // POST /order
 app.post('/order', async (req, res) => {

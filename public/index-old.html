@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=480">
+    <title>Yalynka. - Штучні ялинки</title>
+    <meta name="description" content="Преміальні штучні ялинки від виробника: ПВХ, литі та у горщику. Розміри 1.0–3.0 м, сертифікат якості, доставка по всій Україні, оплата при отриманні.">
+    <link rel="canonical" href="https://land.yalynkahub.com.ua/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Yalynka — штучні ялинки від виробника">
+    <meta property="og:description" content="Преміальні штучні ялинки: ПВХ, литі, у горщику. Доставка по Україні, оплата при отриманні.">
+    <meta property="og:url" content="https://land.yalynkahub.com.ua/">
+    <meta property="og:image" content="https://land.yalynkahub.com.ua/ktn.png">
+    <meta property="og:locale" content="uk_UA">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Штучні ялинки Yalynka (ПВХ, литі, у горщику)",
+      "image": "https://land.yalynkahub.com.ua/images/poster1.webp",
+      "description": "Преміальні штучні ялинки від виробника: ПВХ, литі та у горщику. Розміри 1.0–3.0 м, сертифікат якості, доставка по Україні, оплата при отриманні.",
+      "brand": { "@type": "Brand", "name": "Yalynka" },
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "UAH",
+        "lowPrice": "500",
+        "highPrice": "10400",
+        "availability": "https://schema.org/InStock",
+        "seller": { "@type": "Organization", "name": "Yalynka", "url": "https://land.yalynkahub.com.ua/" }
+      }
+    }
+    </script>
+    <link rel="shortcut icon" href="ktn.png" type="image/png">
+    <link rel="stylesheet" href="css/push.css">
+    <link rel="stylesheet" href="css/nastyle.css">
+    <link rel="stylesheet" href="css/rest.css">
+    <!-- new -->
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/style.css?v=2"/>
+    <link rel="stylesheet" href="css/all.min.css" type="text/css">
+    <style>
+      /* Консистентний сірий placeholder у формі замовлення (поля + select'и) */
+      .order_form .field::placeholder,
+      .order_form .np-comment::placeholder { color: #9a9a9a; opacity: 1; }
+      .order_form .field.is-placeholder { color: #9a9a9a; }
+      /* Секція допродажу «Доповнення до ялинки» */
+      .addons { max-width: 440px; margin: 0 auto; padding: 8px 12px 24px; text-align: center; }
+      .addons__sub { color: #555; font-size: 14px; margin: 2px 0 16px; }
+      .addons__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .addon-card { background: #f7f7f7; border: 1px solid #eee; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; }
+      .addon-card img { width: 100%; height: 120px; object-fit: contain; border-radius: 8px; background: #fff; }
+      .addon-name { font-size: 13px; font-weight: 600; margin: 8px 0 2px; min-height: 34px; line-height: 1.25; }
+      .addon-price { color: #F77A1E; font-weight: 800; font-size: 17px; margin-bottom: 8px; }
+      .addon-order { margin-top: auto; background: #F77A1E; color: #fff; border: none; border-radius: 8px; padding: 9px; font-weight: 700; font-size: 14px; cursor: pointer; }
+      .addon-order:active { transform: scale(.98); }
+      .addon-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 55; }
+      .addon-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 60; background: #fff; border-radius: 14px; padding: 26px 20px 20px; max-width: 320px; width: 88%; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.3); }
+      .addon-popup .x { position: absolute; top: 8px; right: 14px; font-size: 22px; line-height: 1; color: #999; cursor: pointer; }
+      /* Липка кнопка «Замовити» (моб) */
+      .sticky-cta { position: fixed; left: 50%; bottom: 14px; transform: translate(-50%, 140%); z-index: 50; background: #F77A1E; color: #fff; padding: 14px 30px; border-radius: 30px; font-weight: 800; font-size: 16px; text-decoration: none; box-shadow: 0 6px 22px rgba(0,0,0,.35); transition: transform .3s ease; white-space: nowrap; }
+      .sticky-cta.show { transform: translate(-50%, 0); }
+      /* Відлік до Нового року */
+      .ny-countdown { max-width: 400px; margin: 14px auto 0; padding: 10px 14px; background: #fff3e8; border: 1px dashed #F77A1E; border-radius: 10px; color: #c0392b; font-weight: 700; font-size: 15px; text-align: center; }
+      .ny-countdown b { color: #F77A1E; font-size: 18px; }
+      /* FAQ-акордеон */
+      .faq { max-width: 440px; margin: 0 auto; padding: 10px 14px 24px; }
+      .faq__item { border-bottom: 1px solid #eaeaea; }
+      .faq__q { width: 100%; text-align: left; background: none; border: none; padding: 15px 28px 15px 4px; font-size: 15px; font-weight: 600; color: #333; cursor: pointer; position: relative; }
+      .faq__q::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 20px; color: #F77A1E; }
+      .faq__item.open .faq__q::after { content: "–"; }
+      .faq__a { max-height: 0; overflow: hidden; transition: max-height .3s ease; color: #555; font-size: 14px; line-height: 1.5; }
+      .faq__item.open .faq__a { max-height: 320px; }
+      .faq__a p { padding: 0 4px 15px; margin: 0; }
+    </style>
+
+    <script defer src="js/jquery.min.js"></script>
+    <script defer src="js/owl.carousel.min.js"></script>
+<!--    <script>(function ($) {-->
+<!--        $(function () {-->
+<!--            $('.menu__icon').on('click', function () {-->
+<!--                $(this).closest('.menu').toggleClass('menu_state_open');-->
+<!--            });-->
+<!--        });-->
+<!--    })(jQuery);</script>-->
+
+
+    <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
+    <meta name="theme-color" content="#F77A1E">
+
+    <!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '362898322806679');
+        fbq('track', 'PageView');
+    </script>
+
+</head>
+<body style="cursor: default;">
+
+
+<!-- БУРГЕР -->
+
+<header class="active">
+    <a class="logo" href="#" aria-label="На головну">
+        <img src="ktn.png" alt="Yalynka — штучні ялинки від виробника">
+    </a>
+    <svg class="nav-button" id="hamburger" fill="none" viewBox="0 0 52 23">
+        <path stroke="#fff" stroke-linecap="round" stroke-width="3" d="M25 1.5h28M25  21.5h28M25 11.5h28"></path>
+    </svg>
+</header>
+<nav id="menu" class="modal-body">
+    <div class="modal-block">
+        <ul>
+
+            <li>
+                <a href="#catalog">Каталог
+                    <svg viewBox="0 0 16 16">
+                        <path d="M6 8l4-3.5v7L6 8z"></path>
+                    </svg>
+                </a>
+            </li>
+
+            <li>
+                <a href="#pvc">Ялинка ПВХ
+                    <svg viewBox="0 0 16 16">
+                        <path d="M6 8l4-3.5v7L6 8z"></path>
+                    </svg>
+                </a>
+            </li>
+
+            <li>
+                <a href="#pe">Ялинка Лита
+                    <svg viewBox="0 0 16 16">
+                        <path d="M6 8l4-3.5v7L6 8z"></path>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="#pot">Ялинка у Горщику
+                    <svg viewBox="0 0 16 16">
+                        <path d="M6 8l4-3.5v7L6 8z"></path>
+                    </svg>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="#order5">Відгуки
+                    <svg viewBox="0 0 16 16">
+                        <path d="M6 8l4-3.5v7L6 8z"></path>
+                    </svg>
+                </a>
+
+            </li>
+            <li>
+                <a href="#order_form">Замовити
+                    <svg viewBox="0 0 16 16">
+                        <path d="M6 8l4-3.5v7L6 8z"></path>
+                    </svg>
+                </a>
+
+            </li>
+        </ul>
+    </div>
+    <br>
+    <div class="mobile-menu__bottom">
+
+        <div class="footer__column" style="text-align: center; color:white">
+            <div class="footer__title" style=" color:  #F77A1E;"></div>
+
+            <ul class="footer-contacts">
+                <li class="footer-contacts__schedule">Прямий постачальник штучних ялинок від виробника</li>
+                <li class="footer-contacts__schedule">Працюємо: 07:00 - 23:00</li>
+                <li class="footer-contacts__schedule">Івано-Франківська область, Косівський р-но, смт. Кути</li>
+            </ul>
+            <a class=""></a>
+        </div>
+    </div>
+</nav>
+<!-- БУРГЕР -->
+<br>
+<br>
+<br>
+
+<div class="wrap">
+    <div class="offer_section offer3 ">
+
+        <div class="timer_block clearfix">
+            <p>Ця пропозиція закінчиться через:</p>
+            <div class="timer clearfix">
+                <div class="timer_item">
+                    <div class="text">годин</div>
+                    <div class="count hours"><span>0</span><span>0</span></div>
+                </div>
+                <div class="timer_item">
+                    <div class="text">хвилин</div>
+                    <div class="count minutes"><span>4</span><span>5</span></div>
+                </div>
+                <div class="timer_item">
+                    <div class="text">секунд</div>
+                    <div class="count seconds"><span>4</span><span>8</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="    height: 100%;
+    background-size: 100% 100%;
+    color: #3c4152;
+    text-align: center;
+    font-size: 16px;
+    padding-top: 2px;
+    font-weight: 900;">
+
+            <div class="marquee-container">
+                <div class="marquee-text">
+                    ВСТИГНИ ЗАМОВИТИ ДО ПІДВИЩЕННЯ ЦІН, ЗАМОВЛЯЙ ВЖЕ СЬОГОДНІ ПО ЗНИЖЦІ ДО -30% ДО <span
+                        class="date-container" id="currentDate">28.02</span>
+                </div>
+            </div>
+
+        </div>
+
+        <section class="offer">
+            <div class="sub-title">ПРЕМІАЛЬНІ ШТУЧНІ ЯЛИНКИ</div>
+            <div class="gallery">
+
+                <img src="images/poster1.webp" alt="Преміальні штучні ялинки Yalynka — колекція">
+            </div>
+        </section>
+
+        <div class="benefits_list clearfix">
+            <div class="benefit_item">Доставка по Україні</div>
+            <div class="benefit_item">Обмежена пропозиція</div>
+            <div class="benefit_item">Оплата при отриманні</div>
+        </div>
+
+        <!--                <div class="price_block clearfix">-->
+        <!--                    <div class="price_item old">-->
+        <!--                        <div class="text">Звичайна ціна:</div>-->
+        <!--                        <div class="value">790 грн</div>-->
+        <!--                    </div>-->
+        <!--                    <div class="price_item new">-->
+        <!--                        <div class="text"><span>Ви заощаджуєте -55%</span></div>-->
+        <!--                        <div class="value">349 грн</div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--        <div>-->
+        <!--            <div>Знижка діє з 17.09.2024 по <span id="doc_time">29.02.2025 р.</span>-->
+        <!--                <script type="text/javascript">clock();</script>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <br>
+        <section class="description_section">
+            <h2 class="title choose-tree" style="text-align: center">
+
+
+                <div>
+                    <img width="100" class="start-icon" height="100" src="icons/tree-icon.png" alt="">
+
+                    <span>Вибери свою</span>
+                    <img width="100" class="end-icon" height="100" src="icons/tree-icon.png" alt="">
+
+                </div>
+                ідеальну ялинку
+            </h2>
+            <ul class="characteristics__list">
+                <li><b>Розміри:</b> 1.0-3.0 метра</li>
+                <li><b>Сертифікат якості</b> <img class="icon_check" src="icons/check_mark.png"
+                                                  alt="icon_check"></li>
+                <li><b>Екологічно безпечні</b> <img class="icon_check" src="icons/check_mark.png"
+                                                    alt="icon_check"></li>
+                <li><b>Без запаху</b> <img class="icon_check" src="icons/check_mark.png"
+                                           alt="icon_check"></li>
+            </ul>
+        </section>
+
+
+        <div class="btn-block">
+
+            <a href="#order_form" class="button">Замовити зі знижкою</a>
+        </div>
+        <div class="products_count">* Залишилось <b>17</b> шт по знижці</div>
+        <div class="ny-countdown">🎄 До Нового року залишилось <b id="nyDays">—</b> днів — встигни замовити!</div>
+    </div>
+
+    <br>
+
+    <section class="b1 catalog-title-wrapper">
+        <h2 id="catalog" class="title gold">Каталог</h2>
+    </section>
+    <div id="pvc" class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="snow-quen-tree-icon" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="snowquen" class="underline-anim">Снігова Королева</h3>
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <!-- Спершу webp -->
+                    <source srcset="trees/snow-queen/1.webp" type="image/webp">
+                    <!-- Фолбек для браузерів без webp -->
+                    <source srcset="trees/snow-queen/1.png" type="image/png">
+
+                    <!-- Остаточний варіант -->
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/snow-queen/1.png"
+                            alt="Snow Queen Christmas tree"
+                    >
+                </picture>
+            </div>
+        </div>
+
+
+        <ul class="characteristics__list">
+            <li><b>1 метр:</b>520 грн</li>
+            <li><b>1,3 метра:</b> 720 грн</li>
+            <li><b>1,5 метра:</b> 940 грн</li>
+            <li><b>1,8 метра:</b> 1360 грн</li>
+            <li><b>2.0 метра:</b> 1580 грн</li>
+            <li><b>2,2 метра:</b> 1790 грн</li>
+            <li><b>2,5 метра:</b> 2660 грн</li>
+            <li><b>3 метра:</b> 3840 грн</li>
+        </ul>
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Снігова Королева" class="button">Замовити Ялинку</a>
+        </div>
+
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="kazka-tree-icon" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="kazka" class="underline-anim">Казка</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <!-- Спершу webp -->
+                    <source srcset="trees/kazka/1.webp" type="image/webp">
+                    <!-- Фолбек для браузерів без webp -->
+                    <source srcset="trees/kazka/1.png" type="image/png">
+
+                    <!-- Остаточний варіант -->
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/kazka/1.png"
+                            alt="Kazka Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1 метр:</b>500 грн</li>
+            <li><b>1,3 метра:</b> 690 грн</li>
+            <li><b>1,5 метра:</b> 860 грн</li>
+            <li><b>1,8 метра:</b> 1200 грн</li>
+            <li><b>2.0 метра:</b> 1440 грн</li>
+            <li><b>2,2 метра:</b> 1560 грн</li>
+            <li><b>2,5 метра:</b> 2220 грн</li>
+            <li><b>3 метра:</b> 3420 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Казка" class="button">Замовити Ялинку</a>
+        </div>
+
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="elite-tree-icon" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="elite" class="underline-anim">Елітна з шишкою</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <!-- Спершу webp -->
+                    <source srcset="trees/elite/1.webp" type="image/webp">
+                    <!-- Фолбек для браузерів без webp -->
+                    <source srcset="trees/elite/1.png" type="image/png">
+
+                    <!-- Остаточний варіант -->
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/elite/1.png"
+                            alt="Elite Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,3 метра:</b> 925 грн</li>
+            <li><b>1,5 метра:</b> 1160 грн</li>
+            <li><b>1,8 метра:</b> 1660 грн</li>
+            <li><b>2.0 метра:</b> 1880 грн</li>
+            <li><b>2,2 метра:</b> 2090 грн</li>
+            <li><b>2,5 метра:</b> 3040 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Елітна з шишкою" class="button">Замовити Ялинку</a>
+        </div>
+
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="karmen-icon" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="karmen" class="underline-anim">Кармен</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <!-- Спершу webp -->
+                    <source srcset="trees/karmen/1.webp" type="image/webp">
+                    <!-- Фолбек для браузерів без webp -->
+                    <source srcset="trees/karmen/1.png" type="image/png">
+
+                    <!-- Остаточний варіант -->
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/karmen/1.png"
+                            alt="Elite Berries Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,3 метра:</b> 990 грн</li>
+            <li><b>1,5 метра:</b> 1220 грн</li>
+            <li><b>1,8 метра:</b> 1760 грн</li>
+            <li><b>2.0 метра:</b> 1980 грн</li>
+            <li><b>2,2 метра:</b> 2140 грн</li>
+            <li><b>2,5 метра:</b> 3220 грн</li>
+            <li><b>3,0 метра:</b> 4490 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Кармен + червоні ягідки" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="triumph-green" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="pe" class="underline-anim">Тріумф Зелена</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/triumph-green/1.webp" type="image/webp">
+                    <source srcset="trees/triumph-green/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/triumph-green/1.png"
+                            alt="Triumph Green Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,5 метра:</b> 2440 грн</li>
+            <li><b>1,8 метра:</b> 3560 грн</li>
+            <li><b>2.1 метра:</b> 4690 грн</li>
+            <li><b>2,3 метра:</b> 5680 грн</li>
+            <li><b>2,5 метра:</b> 7980 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Тріумф Зелена" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="triumph-blue" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="triumph-blue" class="underline-anim">Тріумф Блакитна</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/triumph-blue/1.webp" type="image/webp">
+                    <source srcset="trees/triumph-blue/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/triumph-green/1.png"
+                            alt="Triumph Blue Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,5 метра:</b> 2440 грн</li>
+            <li><b>1,8 метра:</b> 3560 грн</li>
+            <li><b>2.1 метра:</b> 4690 грн</li>
+            <li><b>2,3 метра:</b> 5680 грн</li>
+            <li><b>2,5 метра:</b> 7980 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Тріумф Блакитна" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="triumph-snow" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="triumph-snow" class="underline-anim">Тріумф Засніжена</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/triumph-snow/1.webp" type="image/webp">
+                    <source srcset="trees/triumph-snow/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/triumph-green/1.png"
+                            alt="Triumph Snow Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,5 метра:</b> 3480 грн</li>
+            <li><b>1,8 метра:</b> 4460 грн</li>
+            <li><b>2.1 метра:</b> 5980 грн</li>
+            <li><b>2,3 метра:</b> 7240 грн</li>
+            <li><b>2,5 метра:</b> 10400 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Тріумф Засніжена" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="royal-green" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="royal-green" class="underline-anim">Роял Зелена</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/royal-green/1.webp" type="image/webp">
+                    <source srcset="trees/royal-green/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/triumph-green/1.png"
+                            alt="Royal Green Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,5 метра:</b> 2440 грн</li>
+            <li><b>1,8 метра:</b> 3560 грн</li>
+            <li><b>2.1 метра:</b> 4690 грн</li>
+            <li><b>2,3 метра:</b> 5680 грн</li>
+            <li><b>2,5 метра:</b> 7980 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Роял Зелена" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="royal-blue" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="royal-blue" class="underline-anim">Роял Блакитна</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/royal-blue/1.webp" type="image/webp">
+                    <source srcset="trees/royal-blue/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/triumph-blue/1.png"
+                            alt="Royal Blue Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,5 метра:</b> 2440 грн</li>
+            <li><b>1,8 метра:</b> 3560 грн</li>
+            <li><b>2.1 метра:</b> 4690 грн</li>
+            <li><b>2,3 метра:</b> 5680 грн</li>
+            <li><b>2,5 метра:</b> 7980 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Роял Блакитна" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="royal-snow" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="royal-snow" class="underline-anim">Роял Засніжена</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/royal-snow/1.webp" type="image/webp">
+                    <source srcset="trees/royal-snow/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/royal-green/1.png"
+                            alt="Royal Snow Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,5 метра:</b> 3480 грн</li>
+            <li><b>1,8 метра:</b> 4460 грн</li>
+            <li><b>2.1 метра:</b> 5980 грн</li>
+            <li><b>2,3 метра:</b> 7240 грн</li>
+            <li><b>2,5 метра:</b> 10400 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Роял Засніжена" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="bukovel-green" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="bukovel-green" class="underline-anim">Буковельська Зелена</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/bukovelska-green/1.webp" type="image/webp">
+                    <source srcset="trees/bukovelska-green/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/bukovelska-green/1.png"
+                            alt="Bukovelska Green Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,5 метра:</b> 2290 грн</li>
+            <li><b>1,8 метра:</b> 2990 грн</li>
+            <li><b>2.1 метра:</b> 3990 грн</li>
+            <li><b>2,3 метра:</b> 5160 грн</li>
+            <li><b>2,5 метра:</b> 7280 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Буковельська Зелена" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="bukovel-blue" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="bukovel-blue" class="underline-anim">Буковельська Блакитна</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/bukovelska-blue/1.webp" type="image/webp">
+                    <source srcset="trees/bukovelska-blue/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/bukovelska-blue/1.png"
+                            alt="Bukovelska Blue Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,5 метра:</b> 2290 грн</li>
+            <li><b>1,8 метра:</b> 2990 грн</li>
+            <li><b>2.1 метра:</b> 3990 грн</li>
+            <li><b>2,3 метра:</b> 5160 грн</li>
+            <li><b>2,5 метра:</b> 7280 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Буковельська Блакитна" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="bukovel-blue" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="bukovel-snow" class="underline-anim">Буковельська Засніжена</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/bukovelska-snow/1.webp" type="image/webp">
+                    <source srcset="trees/bukovelska-snow/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/bukovelska-snow/1.png"
+                            alt="Bukovelska Snow Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,5 метра:</b> 3120 грн</li>
+            <li><b>1,8 метра:</b> 4075 грн</li>
+            <li><b>2.1 метра:</b> 5280 грн</li>
+            <li><b>2,3 метра:</b> 6860 грн</li>
+            <li><b>2,5 метра:</b> 9295 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Буковельська Засніжена" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="viden" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="viden" class="underline-anim">Віденська</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/videnska/1.webp" type="image/webp">
+                    <source srcset="trees/videnska/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/videnska/1.png"
+                            alt="Viden Green Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,5 метра:</b> 2290 грн</li>
+            <li><b>1,8 метра:</b> 2990 грн</li>
+            <li><b>2.1 метра:</b> 3990 грн</li>
+            <li><b>2,3 метра:</b> 5160 грн</li>
+            <li><b>2,5 метра:</b> 7280 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Віденська" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="smereka" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="smereka" class="underline-anim">Смерека</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/smereka/1.webp" type="image/webp">
+                    <source srcset="trees/smereka/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/smereka/1.png"
+                            alt="Smereka Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>1,5 метра:</b> 2290 грн</li>
+            <li><b>1,8 метра:</b> 2990 грн</li>
+            <li><b>2.1 метра:</b> 3990 грн</li>
+            <li><b>2,3 метра:</b> 5160 грн</li>
+            <li><b>2,5 метра:</b> 7280 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Смерека" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="pot-royal-green" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="pot" class="underline-anim">Горщик - Роял зелена</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/pot/royal-green/1.webp" type="image/webp">
+                    <source srcset="trees/pot/royal-green/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/pot/royal-green/1.png"
+                            alt="Pot Royal Green Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>0,7 метра:</b> 1005 грн</li>
+            <li><b>0,9 метра:</b> 1195 грн</li>
+            <li><b>1.1 метра:</b> 1475 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Горщик - Роял Зелена" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="pot-royal-blue" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="pot-royal-blue" class="underline-anim">Горщик - Роял блакитна</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/pot/royal-blue/1.webp" type="image/webp">
+                    <source srcset="trees/pot/royal-blue/1.jpg" type="image/jpg">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/pot/royal-blue/1.jpg"
+                            alt="Pot Royal Blue Christmas tree"
+
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>0,7 метра:</b> 1005 грн</li>
+            <li><b>0,9 метра:</b> 1195 грн</li>
+            <li><b>1.1 метра:</b> 1475 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Горщик - Роял Блакитна" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <div class="cartitem">
+        <div class="clearfix cart-title">
+            <img width="80" class="pot-royal-snow" height="80" src="icons/tree-icon.png" alt="">
+            <h3 id="pot-royal-snow" class="underline-anim">Горщик - Роял засніжена</h3>
+
+        </div>
+        <div class="slider-photo">
+            <div class="item">
+                <picture>
+                    <source srcset="trees/pot/royal-snow/1.webp" type="image/webp">
+                    <source srcset="trees/pot/royal-snow/1.png" type="image/png">
+                    <img
+                            loading="lazy" class="img-text"
+                            src="trees/pot/royal-snow/1.png"
+                            alt="Pot Royal Snow Christmas tree"
+                    >
+                </picture>
+            </div>
+        </div>
+
+        <ul class="characteristics__list">
+            <li><b>0,7 метра:</b> 1260 грн</li>
+            <li><b>0,9 метра:</b> 1470 грн</li>
+            <li><b>1.1 метра:</b> 1750 грн</li>
+        </ul>
+
+        <div class="order-form-wrapper-btn">
+            <a href="#order_form" data-tree="Горщик - Роял Засніжена" class="button">Замовити Ялинку</a>
+        </div>
+    </div>
+
+    <!-- ───── ДОПОВНЕННЯ ДО ЯЛИНКИ (допродаж) ───── -->
+    <section class="addons" id="addons">
+        <h2 class="title gold">🎁 Доповнення до ялинки</h2>
+        <p class="addons__sub">Гірлянди від 195 ₴ · Набори іграшок 1090 ₴ — зробіть ялинку завершеною</p>
+        <div class="addons__grid">
+            <div class="addon-card">
+                <img loading="lazy" src="garlands/rosa-50m.webp" alt="Гірлянда Роса 50 м">
+                <div class="addon-name">Гірлянда Роса 50 м · 500 LED</div>
+                <div class="addon-price">595 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+            <div class="addon-card">
+                <img loading="lazy" src="garlands/hvoyna-30m.webp" alt="Гірлянда Хвойна Лапа 30 м">
+                <div class="addon-name">Хвойна Лапа 30 м · 900 LED</div>
+                <div class="addon-price">1075 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+            <div class="addon-card">
+                <img loading="lazy" src="garlands/rosa-100m.webp" alt="Гірлянда Роса 100 м">
+                <div class="addon-name">Гірлянда Роса 100 м · 1000 LED</div>
+                <div class="addon-price">1090 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+            <div class="addon-card">
+                <img loading="lazy" src="toys/бархат/red.jpg" alt="Набір іграшок Оксамит">
+                <div class="addon-name">Набір іграшок «Оксамит»</div>
+                <div class="addon-price">1090 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+            <div class="addon-card">
+                <img loading="lazy" src="toys/блиск/gold.jpg" alt="Набір іграшок Блиск">
+                <div class="addon-name">Набір іграшок «Блиск»</div>
+                <div class="addon-price">1090 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+            <div class="addon-card">
+                <img loading="lazy" src="toys/асорті/green.jpg" alt="Набір іграшок Асорті">
+                <div class="addon-name">Набір іграшок «Асорті»</div>
+                <div class="addon-price">1090 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ───── FAQ ───── -->
+    <section class="faq" id="faq">
+        <h2 class="title gold" style="text-align:center;">Часті запитання</h2>
+        <div class="faq__item">
+            <button class="faq__q" type="button">З якого матеріалу ялинки?</button>
+            <div class="faq__a"><p>Залежно від моделі — ПВХ, литі (PE) або у горщику. Усі без запаху, з сертифікатом якості та екологічно безпечні.</p></div>
+        </div>
+        <div class="faq__item">
+            <button class="faq__q" type="button">Яку висоту обрати?</button>
+            <div class="faq__a"><p>Орієнтуйтесь на висоту стелі — обирайте ялинку щонайменше на 30–40 см нижчу за стелю, щоб вистачило місця для зірки/верхівки.</p></div>
+        </div>
+        <div class="faq__item">
+            <button class="faq__q" type="button">Скільки триває доставка?</button>
+            <div class="faq__a"><p>Відправляємо Новою Поштою протягом 1–2 днів після підтвердження. Доставка по Україні зазвичай займає 2–3 дні.</p></div>
+        </div>
+        <div class="faq__item">
+            <button class="faq__q" type="button">Як оплатити?</button>
+            <div class="faq__a"><p>Накладений платіж — ви оплачуєте замовлення при отриманні на відділенні Нової Пошти, оглянувши товар.</p></div>
+        </div>
+        <div class="faq__item">
+            <button class="faq__q" type="button">Чи складно зібрати ялинку?</button>
+            <div class="faq__a"><p>Ні, збирання займає 10–15 хвилин: секції з'єднуються між собою, а гілки легко розправляються. Жодних інструментів не потрібно.</p></div>
+        </div>
+        <div class="faq__item">
+            <button class="faq__q" type="button">Чи є гарантія та повернення?</button>
+            <div class="faq__a"><p>Так. Ви можете оглянути товар при отриманні, а також обміняти чи повернути його протягом 14 днів згідно із законодавством України.</p></div>
+        </div>
+    </section>
+
+    <section class="vote_section gray_theme">
+
+        <h2 class="title">Ви задоволені <span>покупкою?</span></h2>
+        <div class="vote_block">
+            <div class="questions_list">
+                <div class="question_item">
+                    <div class="line"></div>
+                    <div class="question_text">Так</div>
+                    <div class="percents">89%</div>
+                </div>
+                <div class="question_item">
+                    <div class="line"></div>
+                    <div class="question_text">Ні</div>
+                    <div class="percents">2%</div>
+                </div>
+                <div class="question_item">
+                    <div class="line"></div>
+                    <div class="question_text">Не купував(а), дізнатися результати</div>
+                    <div class="percents">14%</div>
+                </div>
+            </div>
+            <div class="voice_count">Проголосувало: <b>973</b></div>
+        </div>
+    </section>
+    <!--
+    <section>
+
+        <div class="container">
+            <img class="image-with-margin" src="images/005.png" alt="Фото">
+            <p class="small-font">Магазин "" - це ваша гарантія безпеки і надійності. Остерігайтеся шахраїв, які копіюють наші магазини і продають не якісну продукцію. Звертайте Увагу на посилання магазину <a href="http://" style=" color:  #F77A1E;"></a></p>
+        </div>
+
+    </section>-->
+
+
+    <br>
+    <br>
+    <section id="order5" class="reviews_section">
+        <h2 class="title"><span>ВІДГУКИ</span>НАШИХ ПОКУПЦІВ</h2>
+
+        <section class="reviews4_section">
+            <div class="reviews_list4 owl-carousel">
+                <div class="review_item">
+                    <img src="feedbacks/1.jpeg" alt="Відгук клієнта Yalynka">
+                </div>
+                <div class="review_item">
+                    <img src="feedbacks/2.jpeg" alt="Відгук клієнта Yalynka">
+                </div>
+                <div class="review_item">
+                    <img src="feedbacks/3.jpeg" alt="Відгук клієнта Yalynka">
+                </div>
+                <div class="review_item">
+                    <img src="feedbacks/4.jpeg" alt="Відгук клієнта Yalynka">
+                </div>
+                <div class="review_item">
+                    <img src="feedbacks/5.jpeg" alt="Відгук клієнта Yalynka">
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <section class="order-info">
+        <h2 class="title"><span>Як замовити</span>Ялинку</h2>
+        <ul class="order-list">
+            <li>
+                <div class="txt">
+                    <h4>Крок 1:</h4>
+                    <p>Заповніть форму замовлення</p>
+                </div>
+            </li>
+            <li>
+                <div class="txt">
+                    <h4>Крок 2:</h4>
+                    <p>Дочекайтесь дзвінка оператора</p>
+                </div>
+            </li>
+            <li>
+                <div class="txt">
+                    <h4>Крок 3:</h4>
+                    <p>Оплатіть товар після отримання</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <div class="offer_section offer3 ">
+
+        <div class="timer_block clearfix">
+            <p>Ця пропозиція закінчиться через:</p>
+            <div class="timer clearfix">
+                <div class="timer_item">
+                    <div class="text">годин</div>
+                    <div class="count hours"><span>0</span><span>0</span></div>
+                </div>
+                <div class="timer_item">
+                    <div class="text">хвилин</div>
+                    <div class="count minutes"><span>4</span><span>5</span></div>
+                </div>
+                <div class="timer_item">
+                    <div class="text">секунд</div>
+                    <div class="count seconds"><span>4</span><span>8</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="    height: 100%;
+    /* background: url(https://www.ironflex.co.ua/image/cache/catalog/banners/baner-header/baner-header-640x40-mobile-shaker-ua-640x40.jpg); */
+    background-size: 100% 100%;
+    color: #3c4152;
+    text-align: center;
+    font-size: 16px;
+    padding-top: 2px;
+    font-weight: 900;">
+
+            <div class="marquee-container">
+                <div class="marquee-text">
+                    ВСТИГНИ ЗАМОВИТИ ДО ПІДВИЩЕННЯ ЦІН, ЗАМОВЛЯЙ ВЖЕ СЬОГОДНІ ПО ЗНИЖЦІ -30% ДО <span
+                        class="date-container" id="currentDate1">28.02</span>
+                </div>
+            </div>
+
+        </div>
+        <section class="offer">
+            <section class="offer">
+                <div class="sub-title">ПРЕМІАЛЬНІ ШТУЧНІ ЯЛИНКИ</div>
+                <div class="gallery">
+
+                    <img src="images/poster1.webp" alt="">
+                </div>
+            </section>
+
+            <div class="benefits_list clearfix">
+                <div class="benefit_item">Доставка по Україні</div>
+                <div class="benefit_item">Обмежена пропозиція</div>
+                <div class="benefit_item">Оплата при отриманні</div>
+            </div>
+        </section>
+
+        <div class="order_form pat">
+
+            <form id="order_form" class="order_form" name="order-form">
+
+                <input type="hidden" name="event_id" id="event_id">
+                <select id="treeSelect" name="type" class="field">
+
+                    <optgroup label="Ялинка ПВХ">
+                        <option>Виберіть ялинку</option>
+                        <option value="Снігова Королева">Снігова Королева</option>
+                        <option value="Казка">Казка</option>
+                        <option value="Елітна з шишкою">Елітна з шишкою</option>
+                        <option value="Кармен + сині ягідки">Кармен + сині ягідки</option>
+                        <option value="Кармен + червоні ягідки">Кармен + червоні ягідки</option>
+                        <option value="Кармен + срібні ягідки">Кармен + срібні ягідки</option>
+                        <option value="Кармен + золоті ягідки">Кармен + золоті ягідки</option>
+                    </optgroup>
+                    <optgroup label="Ялинка Лита">
+                        <option value="Тріумф Зелена">Тріумф Зелена</option>
+                        <option value="Тріумф Блакитна">Тріумф Блакитна</option>
+                        <option value="Тріумф Засніжена">Тріумф Засніжена</option>
+                        <option value="Роял Зелена">Роял Зелена</option>
+                        <option value="Роял Блакитна">Роял Блакитна</option>
+                        <option value="Роял Засніжена">Роял Засніжена</option>
+                        <option value="Буковельська Зелена">Буковельська Зелена</option>
+                        <option value="Буковельська Блакитна">Буковельська Блакитна</option>
+                        <option value="Буковельська Засніжена">Буковельська Засніжена</option>
+                        <option value="Віденська">Віденська</option>
+                        <option value="Смерека">Смерека</option>
+                    </optgroup>
+                    <optgroup label="Ялинка у Горщику">
+                        <option value="Горщик - Роял Зелена">Горщик - Роял Зелена</option>
+                        <option value="Горщик - Роял Блакитна">Горщик - Роял Блакитна</option>
+                        <option value="Горщик - Роял Засніжена">Горщик - Роял Засніжена</option>
+                    </optgroup>
+                </select>
+
+                <select class="field" name="size" id="sizeSelect" disabled required="">
+                    <option>Виберіть розмір ялинки</option>
+                </select>
+
+                <!-- Видима ціна обраного розміру (заповнюється scripts.js) -->
+                <div id="priceDisplay" style="display:none;text-align:center;font-weight:900;font-size:20px;color:#F77A1E;margin:6px 0 10px;"></div>
+
+                <input class="field" type="text" name="name" required autocomplete="name" placeholder="Введіть Ваше ім'я">
+                <input class="field mask_phone" type="tel" name="phone" required inputmode="tel" autocomplete="tel" placeholder="Введіть Ваш телефон">
+
+                <!-- Доставка Новою Поштою -->
+                <div class="np-note">🚚 Доставка Новою Поштою на відділення</div>
+
+                <select class="field np-field" name="np_area" id="npArea">
+                    <option value="" selected disabled>Регіон / Область</option>
+                </select>
+
+                <div class="np-autocomplete">
+                    <input class="field np-field" type="text" name="np_city" id="npCity"
+                           placeholder="Місто" autocomplete="off" disabled>
+                    <ul class="np-list" id="npCityList"></ul>
+                </div>
+
+                <div class="np-autocomplete">
+                    <input class="field np-field" type="text" name="np_warehouse" id="npWarehouse"
+                           placeholder="Відділення / Поштомат" autocomplete="off" disabled>
+                    <ul class="np-list" id="npWarehouseList"></ul>
+                </div>
+
+                <!-- Приховані поля з Ref'ами Нової Пошти для CRM -->
+                <input type="hidden" name="city_ref" id="npCityRef">
+                <input type="hidden" name="city_name" id="npCityName">
+                <input type="hidden" name="warehouse_ref" id="npWarehouseRef">
+                <input type="hidden" name="warehouse_number" id="npWarehouseNumber">
+                <input type="hidden" name="warehouse_description" id="npWarehouseDesc">
+
+                <textarea class="field np-field np-comment" name="comment" id="orderComment"
+                          placeholder="Коментар до замовлення (необов'язково)"></textarea>
+
+                <button type="submit" class="button">Придбати зараз</button>
+                <div style="font-style: italic; text-align: center;margin-top: 5%">🎄 Ваша ялинка чекає на вас!</div>
+                <div style="display: flex; justify-content: center; padding-top: 5%;"><img style="width: 40%"
+                                                                                           src="1690309003-Nova_Poshta_2022_logo.webp"
+                                                                                           alt="Доставка Новою Поштою"></div>
+
+            </form>
+        </div>
+
+
+        <footer>
+            <div style="text-align: center; margin: 10px auto; display: block; font-size: 14px; line-height: 26px;">
+                <b>ІНТЕРНЕТ МАГАЗИН ШТУЧНИХ ЯЛИНОК ВІД ВИРОБНИКА</b>
+                <br>Працюємо з 07:00 до 23:00<br>
+                <ul style="display: flex;justify-content: center;gap: 12px;">
+                    <li>
+                        <a href="https://www.instagram.com/yalynka.hub" target="_blank" rel="noopener">
+                            <img width="40" src="./icons/instagram.png" alt="instagram">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://t.me/HLINSKYI" target="_blank" rel="noopener">
+                            <img width="40" src="./icons/telegram.png" alt="telegram">
+                        </a>
+                    </li>
+
+                </ul>
+                <a href="politics.html" target="_blank" rel="noopener noreferrer"
+                   style="cursor: pointer;color:  #F77A1E;">
+                    Політика конфіденційності </a><br>Всі права захищено © 2023–<span id="footerYear">2026</span>
+                <br>
+
+                <div>Номер телефону: <a href="tel:+380672536941">
+                    +380 (67) 25 369 41
+                </a></div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Зміна числа -->
+
+    <script defer src="js/jquery.maskedinput.min.js"></script>
+    <script defer src="js/scripts.js?v=10"></script>
+
+</div>
+
+<!-- Попап допродажу -->
+<div class="addon-overlay"></div>
+<div class="addon-popup">
+    <span class="x addon-close">×</span>
+    <p style="font-weight:700;font-size:16px;margin:0 0 8px;">Додати доповнення? 🎁</p>
+    <p style="color:#555;font-size:14px;margin:0;line-height:1.4;">Впишіть назву в <b>коментар до замовлення</b> нижче або просто скажіть оператору під час дзвінка — додамо до вашої посилки.</p>
+    <button type="button" class="addon-close" style="margin-top:16px;background:#F77A1E;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-weight:700;cursor:pointer;">Зрозуміло</button>
+</div>
+
+<!-- Липка кнопка замовлення (моб) -->
+<a href="#order_form" class="sticky-cta">🎄 Замовити ялинку</a>
+</body>
+</html>
