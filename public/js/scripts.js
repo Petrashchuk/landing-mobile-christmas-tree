@@ -400,6 +400,18 @@ treeSelect.addEventListener("change", function () {
             "2.5": [["Матеріал","Лита (PE)"],["Довжина голочки","1.5см"],["Кількість гілок","1001"],["Кількість рядів","23"],["Кількість частин","3"],["Діаметр низу","1.5м"],["Висота до гілок","25см"],["Коробка","140см/37см/37см"],["Вага","17.3кг"]]
         }
     };
+    var ADDON_QV = {
+        "rosa-20m": { gallery: ["garlands/rosa/g/20m-1.webp","garlands/rosa/g/20m-2.webp","garlands/rosa/g/20m-3.webp","garlands/rosa/g/20m-4.webp"], specs: [["Джерело живлення","220В"],["Джерело світла","Світлодіоди"],["Довжина","20м"],["Кількість джерел світла, шт","200"],["Кількість режимів","8"],["Клас захисту IP","IP20"],["Колір кабелю","Прозорий"],["Колір світіння","Білий"],["Країна-виробник","Китай"],["Місце використання","Для приміщення"],["Можливість з'єднання гірлянд","Ні"]] },
+        "rosa-50m": { gallery: ["garlands/rosa/g/50m-1.webp","garlands/rosa/g/50m-2.webp","garlands/rosa/g/50m-3.webp","garlands/rosa/g/50m-4.webp"], specs: [["Джерело живлення","220В"],["Джерело світла","Світлодіоди"],["Довжина","50м"],["Кількість джерел світла, шт","500"],["Кількість режимів","8"],["Клас захисту IP","IP20"],["Колір кабелю","Прозорий"],["Колір світіння","Білий"],["Країна-виробник","Китай"],["Місце використання","Для приміщення"],["Можливість з'єднання гірлянд","Ні"]] },
+        "rosa-100m": { gallery: ["garlands/rosa/g/100m-1.webp","garlands/rosa/g/100m-2.webp","garlands/rosa/g/100m-3.webp","garlands/rosa/g/100m-4.webp"], specs: [["Джерело живлення","220В"],["Джерело світла","Світлодіоди"],["Довжина","100м"],["Кількість джерел світла, шт","1000"],["Кількість режимів","8"],["Клас захисту IP","IP20"],["Колір кабелю","Прозорий"],["Колір світіння","Білий"],["Країна-виробник","Китай"],["Можливість з'єднання гірлянд","Ні"],["Пульт ДУ","Є"],["Тип","Внутрішня"]] },
+        "lapa-30m": { gallery: ["garlands/lapa/g/30m-1.webp","garlands/lapa/g/30m-2.webp","garlands/lapa/g/30m-3.webp","garlands/lapa/g/30m-4.webp"], specs: [["Джерело живлення","Від мережі"],["Джерело світла","Світлодіоди"],["Довжина","30м"],["Кількість джерел світла, шт","900"],["Кількість режимів","8"],["Клас захисту IP","IP44"],["Колір кабелю","Прозорий"],["Колір світіння","Білий"],["Країна-виробник","Китай"],["Місце використання","Для приміщення"],["Можливість з'єднання гірлянд","Ні"],["Пульт ДУ","Є"],["Форма діода","Крапка (мікро-LED)"]] },
+        "lapa-50m": { gallery: ["garlands/lapa/g/50m-1.webp","garlands/lapa/g/50m-2.webp","garlands/lapa/g/50m-3.webp","garlands/lapa/g/50m-4.webp"], specs: [["Джерело живлення","Від мережі"],["Джерело світла","Світлодіоди"],["Довжина","50м"],["Кількість джерел світла, шт","1500"],["Кількість режимів","8"],["Клас захисту IP","IP44"],["Колір кабелю","Зелений"],["Колір світіння","Білий"],["Країна-виробник","Китай"],["Можливість з'єднання гірлянд","Ні"],["Пульт ДУ","Є"],["Тип","Внутрішня"]] },
+        "lapa-100m": { gallery: ["garlands/lapa/g/100m-1.webp","garlands/lapa/g/100m-2.webp","garlands/lapa/g/100m-3.webp","garlands/lapa/g/100m-4.webp"], specs: [["Джерело живлення","Від мережі"],["Джерело світла","Світлодіоди"],["Довжина","100м"],["Кількість джерел світла, шт","3000"],["Кількість режимів","8"],["Клас захисту IP","IP44"],["Колір кабелю","Прозорий"],["Колір світіння","Білий"],["Країна-виробник","Китай"],["Можливість з'єднання гірлянд","Ні"],["Пульт ДУ","Є"],["Тип","Внутрішня"]] },
+        "hvist-2m": { gallery: ["garlands/hvist/g/2m-1.webp","garlands/hvist/g/2m-2.webp","garlands/hvist/g/2m-3.webp","garlands/hvist/g/2m-4.webp"], specs: [["Джерело живлення","Від мережі"],["Джерело світла","Світлодіоди"],["Довжина","2.0м"],["Кількість джерел світла, шт","1000"],["Кількість ниток","10"],["Кількість режимів","8"],["Клас захисту IP","IP44"],["Колір кабелю","Зелений"],["Колір світіння","Білий"],["Країна-виробник","Китай"],["Місце використання","Для приміщення"],["Можливість з'єднання гірлянд","Ні"],["Форма діода","Крапка (мікро-LED)"]] },
+        "oksamyt": { gallery: ["toys/oksamyt/g/set-1.webp","toys/oksamyt/g/set-2.webp","toys/oksamyt/g/set-3.webp","toys/oksamyt/g/set-4.webp"], specs: [["Кількість","40 шт"],["Матеріал","Пластик (неб'ючкий)"],["Розмір кульок","6–8 см (мікс фактур)"],["Кріплення","Петелька для підвісу"]] },
+        "blysk": { gallery: ["toys/blysk/g/set-1.webp","toys/blysk/g/set-2.webp","toys/blysk/g/set-3.webp","toys/blysk/g/set-4.webp"], specs: [["Кількість","40 шт"],["Матеріал","Пластик (неб'ючкий)"],["Розмір кульок","6–8 см (мікс фактур)"],["Кріплення","Петелька для підвісу"]] },
+        "goroshyna": { gallery: ["toys/goroshyna/g/set-1.webp","toys/goroshyna/g/set-2.webp","toys/goroshyna/g/set-3.webp","toys/goroshyna/g/set-4.webp"], specs: [["Кількість","40 шт"],["Матеріал","Пластик (неб'ючкий)"],["Розмір кульок","6–8 см (мікс фактур)"],["Кріплення","Петелька для підвісу"]] }
+    };
     function priceNum(v) { var m = (v || "").match(/(\d[\d\s]*)\s*грн/i); return m ? parseInt(m[1].replace(/\s/g, ""), 10) : 0; }
     function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
     function oldPrice(p) { return DISCOUNT > 0 ? Math.round(p / (1 - DISCOUNT / 100) / 10) * 10 : 0; }
@@ -569,8 +581,31 @@ treeSelect.addEventListener("change", function () {
     var qvPrevBtn = document.getElementById("qvPrev"), qvNextBtn = document.getElementById("qvNext");
     if (qvPrevBtn) qvPrevBtn.addEventListener("click", function (e) { e.stopPropagation(); qvNav(-1); });
     if (qvNextBtn) qvNextBtn.addEventListener("click", function (e) { e.stopPropagation(); qvNav(1); });
+    var qvMode = "tree", qvAddon = null;
+    var qvDescEl = qv ? qv.querySelector(".qv-desc") : null;
+    var qvLabelEl = qv ? qv.querySelector(".qv-label") : null;
+    function showQvEls(isAddon) {
+        [qvDescEl, qvColors, qvLabelEl, qvHeight, qvEcon].forEach(function (el) { if (el) el.style.display = isAddon ? "none" : ""; });
+    }
+    function openAddonQuickView(card) {
+        if (!qv || !card) return;
+        var key = card.getAttribute("data-qv"); var d = ADDON_QV[key]; if (!d) return;
+        qvMode = "addon"; qvAddon = card; qvCardTitle = null;
+        var nm = card.querySelector(".nm"); var title = nm ? nm.textContent : "";
+        qvTitle.textContent = title; qvImg.alt = title;
+        if (qvBadge) qvBadge.style.display = "none";
+        showQvEls(true);
+        var curImg = card.querySelector(".ph img"); var cur = curImg ? curImg.getAttribute("src") : null;
+        var gal = (cur ? [cur] : []).concat(d.gallery.filter(function (g) { return g !== cur; }));
+        qvSetGallery(gal.length ? gal : d.gallery.slice());
+        var pr = card.querySelector(".c-price");
+        if (qvPrice) qvPrice.textContent = pr ? pr.textContent.trim() : "";
+        if (qvSpecs) qvSpecs.innerHTML = '<div class="spec-hd">Характеристики</div>' + d.specs.map(function (r) { return '<div class="spec-row"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>'; }).join("");
+        qv.classList.add("show"); qv.setAttribute("aria-hidden", "false"); if (qvOv) qvOv.classList.add("show");
+    }
     function openQuickView(c) {
         if (!qv) return;
+        qvMode = "tree"; qvAddon = null; showQvEls(false);
         qvImg.alt = c.title;
         if (qvBadge) { qvBadge.textContent = DISCOUNT > 0 ? ("−" + DISCOUNT + "%") : ""; qvBadge.style.display = DISCOUNT > 0 ? "block" : "none"; }
         qvTitle.textContent = c.title;
@@ -594,10 +629,21 @@ treeSelect.addEventListener("change", function () {
     var qvX = document.getElementById("qvX"); if (qvX) qvX.addEventListener("click", closeQuickView);
     if (qvOv) qvOv.addEventListener("click", closeQuickView);
     if (qvAdd) qvAdd.addEventListener("click", function () {
+        if (qvMode === "addon") {
+            if (!qvAddon) return;
+            var btn = qvAddon.querySelector(".addon-cart");
+            if (btn) cartAdd({ name: btn.getAttribute("data-name"), variant: "", price: Number(btn.getAttribute("data-price")) || 0, img: btn.getAttribute("data-img") || qvGallery[0] || qvImg.src });
+            closeQuickView(); openCart(); return;
+        }
         var p = priceNum(qvHeight.value); if (!p) return;
         var variant = (qvHeight.value.split(" - ")[0] || "").trim();
         cartAdd({ name: qvModel, variant: variant, price: p, old: oldPrice(p), img: qvGallery[0] || qvImg.src });
         closeQuickView(); openCart();
+    });
+    document.querySelectorAll(".card[data-qv]").forEach(function (card) {
+        var open = function (e) { if (e.target.closest(".cbuy-row") || e.target.closest(".addon-sw")) return; openAddonQuickView(card); };
+        var ph = card.querySelector(".ph"); if (ph) ph.addEventListener("click", open);
+        var nm = card.querySelector(".nm"); if (nm) nm.addEventListener("click", open);
     });
     if (qvImg) qvImg.parentNode.addEventListener("click", function () { if (window.Lightbox && qvGallery.length) window.Lightbox.open(qvGallery, qvIdx); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeQuickView(); closeCart(); } });
