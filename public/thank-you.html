@@ -29,7 +29,10 @@
   .ty-btn-gold{background:var(--gold);color:#3a2a10;}
   .ty-btn-tg{background:#229ED9;color:#fff;}
   .ty-sec-title{text-align:center;margin:38px 0 6px;font-size:24px;font-weight:900;color:var(--grn-d);}
-  .ty-sec-sub{text-align:center;color:#6a5f54;font-size:14.5px;margin:0 auto 22px;max-width:560px;}
+  .ty-sec-sub{text-align:center;color:#6a5f54;font-size:14.5px;margin:0 auto 16px;max-width:560px;}
+  .ty-timer{display:flex;align-items:center;justify-content:center;gap:10px;max-width:430px;margin:0 auto 26px;background:#fff;border:1.5px solid var(--gold);border-radius:30px;padding:11px 20px;box-shadow:0 6px 20px rgba(124,26,20,.08);}
+  .ty-timer .tt-label{font-size:13.5px;font-weight:700;color:#6a5f54;}
+  .ty-timer .tt-clock{font-size:20px;font-weight:900;color:var(--org);font-variant-numeric:tabular-nums;letter-spacing:.5px;}
   .ty-sub-h{grid-column:1/-1;font-size:19px;font-weight:800;color:var(--grn-d);margin:14px 2px 2px;}
   .ty-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
   @media(min-width:760px){.ty-grid{grid-template-columns:repeat(4,1fr);gap:18px;}}
@@ -75,6 +78,7 @@
 
   <div class="ty-sec-title">✨ Додайте до замовлення зі знижкою</div>
   <p class="ty-sec-sub">Поки замовлення не відправлене — можна додати прикраси та гірлянди за спеціальною ціною. Натисніть «Замовити» і назвіть товар оператору.</p>
+  <div class="ty-timer"><span class="tt-label">⏳ Спеціальна ціна діє ще</span><span class="tt-clock" id="tyClock">15:00</span></div>
 
   <div class="ty-grid">
     <div class="ty-sub-h">🎁 Набори новорічних іграшок</div>
@@ -370,6 +374,20 @@
   document.getElementById('tyPopX').addEventListener('click',closePop);
   document.getElementById('tyPopOk').addEventListener('click',closePop);
   ov.addEventListener('click',closePop);
+
+  // Таймер спецпропозиції — 15 хв, зберігається в сесії (не скидається на перезавантаженні)
+  (function(){
+    var el=document.getElementById('tyClock'); if(!el) return;
+    var KEY='ty_deadline', dl=sessionStorage.getItem(KEY);
+    if(!dl){ dl=Date.now()+15*60*1000; sessionStorage.setItem(KEY,dl); } else { dl=+dl; }
+    function tick(){
+      var s=Math.max(0,Math.round((dl-Date.now())/1000));
+      var m=Math.floor(s/60), ss=s%60;
+      el.textContent=(m<10?'0':'')+m+':'+(ss<10?'0':'')+ss;
+      if(s>0) setTimeout(tick,1000);
+    }
+    tick();
+  })();
 </script>
 </body>
 </html>
