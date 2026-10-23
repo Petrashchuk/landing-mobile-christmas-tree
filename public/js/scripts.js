@@ -607,6 +607,11 @@ document.getElementById("order_form").addEventListener("submit", async function 
     // Замовлення з кошика (міні-магазин) чи одна ялинка з форми?
     const cartMode = !!(window.YalCart && window.YalCart.has());
 
+    // Форма живе в кошику: якщо кошик порожній — оформлювати нічого
+    if (this.classList.contains("cart-mode") && !cartMode) {
+        return;
+    }
+
     // Тип + розмір ялинки — валідуємо лише коли замовлення НЕ з кошика
     const treeSelect = document.getElementById("treeSelect");
     const sizeSelect = document.getElementById("sizeSelect");
@@ -635,7 +640,11 @@ document.getElementById("order_form").addEventListener("submit", async function 
         showError(phone, "Будь ласка, введіть повний номер телефону.");
     }
 
-    // Нова Пошта: область → місто → відділення
+    // Спосіб доставки: відділення НП або кур'єр
+    const dmEl = this.querySelector('input[name="delivery_method"]:checked');
+    const deliveryMethod = dmEl ? dmEl.value : "warehouse";
+
+    // Нова Пошта: область → місто → (відділення | адреса кур'єра)
     const npArea = document.getElementById("npArea");
     clearError(npArea);
     if (!npArea.value) {
@@ -645,13 +654,31 @@ document.getElementById("order_form").addEventListener("submit", async function 
     const npCity = document.getElementById("npCity");
     clearError(npCity);
     if (!document.getElementById("npCityRef").value) {
-        showError(npCity, "Виберіть місто зі списку.");
+        showError(npCity, "Виберіть населений пункт зі списку.");
     }
 
-    const npWarehouse = document.getElementById("npWarehouse");
-    clearError(npWarehouse);
-    if (!document.getElementById("npWarehouseRef").value) {
-        showError(npWarehouse, "Виберіть відділення зі списку.");
+    if (deliveryMethod === "courier") {
+        const courierAddr = document.getElementById("courierAddress");
+        clearError(courierAddr);
+        if (!courierAddr || courierAddr.value.trim().length < 4) {
+            showError(courierAddr, "Вкажіть адресу доставки (вулиця, будинок).");
+        }
+    } else {
+        const npWarehouse = document.getElementById("npWarehouse");
+        clearError(npWarehouse);
+        if (!document.getElementById("npWarehouseRef").value) {
+            showError(npWarehouse, "Виберіть відділення зі списку.");
+        }
+    }
+
+    // Згода з офертою
+    const oferta = document.getElementById("ofertaCheck");
+    const ofertaLabel = oferta ? oferta.closest(".oferta") : null;
+    if (oferta && !oferta.checked) {
+        isValid = false;
+        if (ofertaLabel) ofertaLabel.classList.add("err");
+    } else if (ofertaLabel) {
+        ofertaLabel.classList.remove("err");
     }
 
     // Якщо все добре — відправляємо
@@ -663,6 +690,14 @@ document.getElementById("order_form").addEventListener("submit", async function 
 
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
+            // Кур'єр: адреса в коментар (сервер не має НП-відділення для кур'єра)
+            if (deliveryMethod === "courier") {
+                const addr = (data.courier_address || "").trim();
+                const city = (document.getElementById("npCityName").value || data.np_city || "").trim();
+                const courierLine = "🚚 Доставка кур'єром: " + [city, addr].filter(Boolean).join(", ");
+                data.comment = courierLine + (data.comment ? ("\n" + data.comment) : "");
+                data.warehouse_ref = ""; // не слати НП-відділення
+            }
             const cartItems = cartMode ? window.YalCart.items() : null;
             if (typeof fbq === 'function') {
                 fbq('track', 'Lead', {
@@ -928,4 +963,32 @@ function getFbClickId() {
 (function () {
     var x = document.getElementById("cbX"), bubble = document.getElementById("chatBubble");
     if (x && bubble) x.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); bubble.classList.add("hide"); });
+})();
+
+// ---------- Checkout у кошику: перенести форму в drawer + спосіб доставки ----------
+(function () {
+    var mount = document.getElementById("checkoutMount");
+    var orderSec = document.getElementById("order");
+    var form = document.getElementById("order_form");
+    if (mount && orderSec && form) {
+        var offer = orderSec.querySelector(".offer_section");
+        if (offer) { mount.appendChild(offer); form.classList.add("cart-mode"); }
+        orderSec.style.display = "none"; // стара секція порожня — ховаємо
+    }
+    // Спосіб доставки: відділення / кур'єр
+    var opts = Array.prototype.slice.call(document.querySelectorAll(".deliv-opt"));
+    var whWrap = document.querySelector(".warehouse-wrap");
+    var courWrap = document.querySelector(".courier-wrap");
+    function setMethod(m) {
+        opts.forEach(function (o) { o.classList.toggle("on", o.getAttribute("data-m") === m); });
+        var courier = m === "courier";
+        if (whWrap) whWrap.style.display = courier ? "none" : "";
+        if (courWrap) courWrap.style.display = courier ? "" : "none";
+    }
+    opts.forEach(function (o) {
+        o.addEventListener("click", function () {
+            var r = o.querySelector("input"); if (r) r.checked = true;
+            setMethod(o.getAttribute("data-m"));
+        });
+    });
 })();

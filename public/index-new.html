@@ -195,8 +195,9 @@
       .cart-dr.show { transform:translateX(0); }
       .cart-hd { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:var(--grn-d); color:#fff; font-size:17px; }
       .cart-x { background:none; border:none; color:#fff; font-size:22px; cursor:pointer; line-height:1; }
-      .cart-items { flex:1; overflow-y:auto; padding:12px 14px; }
-      .cart-empty { flex:1; display:flex; align-items:center; justify-content:center; text-align:center; color:#888; font-size:15px; line-height:1.6; padding:20px; }
+      .cart-scroll { flex:1; overflow-y:auto; }
+      .cart-items { padding:12px 14px; }
+      .cart-empty { padding:50px 24px; text-align:center; color:#888; font-size:15px; line-height:1.7; }
       .cart-row { display:flex; gap:10px; padding:10px 0; border-bottom:1px solid #e7e1d6; }
       .cart-row img { width:56px; height:72px; object-fit:contain; background:var(--soft); border-radius:8px; flex:none; }
       .cart-row .ci { flex:1; min-width:0; }
@@ -206,10 +207,36 @@
       .cart-row .ci-qty { display:flex; align-items:center; gap:8px; margin-top:6px; }
       .cart-row .ci-qty button { width:24px; height:24px; border:1px solid #ccc; background:#fff; border-radius:6px; font-size:15px; cursor:pointer; line-height:1; }
       .cart-row .ci-rm { background:none; border:none; color:#b00; font-size:12px; cursor:pointer; padding:0; margin-top:4px; }
-      .cart-ft { padding:14px 16px 18px; border-top:1px solid #e0d9cc; background:#fff; }
-      .cart-total-row { display:flex; justify-content:space-between; align-items:center; font-size:16px; margin-bottom:12px; }
-      .cart-total-row b { font-size:20px; color:var(--grn-d); }
-      .cart-checkout { width:100%; }
+      .cart-co { padding:14px 16px 24px; border-top:8px solid #efe9df; background:#fff; }
+      .cart-total-row { display:flex; justify-content:space-between; align-items:center; font-size:17px; font-weight:700; margin-bottom:14px; }
+      .cart-total-row b { font-size:22px; color:var(--grn-d); }
+
+      /* Checkout у кошику */
+      .co-label { font-size:13px; font-weight:800; color:#444; margin:16px 0 7px; }
+      #checkoutMount .offer_section, #checkoutMount .order_form.pat { width:100%; padding:0; }
+      #checkoutMount .field { width:100% !important; max-width:none !important; background:#f1f3f6 !important; border:1.5px solid transparent !important; border-radius:12px !important; padding:13px 14px !important; margin:7px 0 !important; font-size:15px; color:#222; background-image:none !important; }
+      #checkoutMount .field:focus { outline:none; border-color:var(--org) !important; background:#fff !important; }
+      #checkoutMount .field.error { border-color:#d33 !important; }
+      #checkoutMount textarea.field { min-height:70px; resize:vertical; }
+      #checkoutMount .np-autocomplete { position:relative; }
+      #checkoutMount .error-message { color:#d33; font-size:12px; margin:-3px 0 6px 2px; }
+      .deliv-opts { display:flex; flex-direction:column; gap:9px; }
+      .deliv-opt { display:flex; align-items:center; gap:11px; border:1.5px solid #e0dccf; border-radius:12px; padding:13px 14px; cursor:pointer; background:#fff; }
+      .deliv-opt input { display:none; }
+      .deliv-opt.on { border-color:var(--org); background:#fbf1ef; }
+      .do-rb, .pc-rb { width:20px; height:20px; border-radius:50%; border:2px solid #bbb; flex:none; position:relative; }
+      .deliv-opt.on .do-rb, .pc-rb { border-color:var(--org); }
+      .deliv-opt.on .do-rb::after, .pc-rb::after { content:""; position:absolute; inset:3px; border-radius:50%; background:var(--org); }
+      .do-txt { display:flex; flex-direction:column; }
+      .do-txt b { font-size:15px; color:#222; }
+      .do-txt small { font-size:12px; color:#888; }
+      .pay-card { display:flex; align-items:center; gap:11px; border:1.5px solid var(--org); border-radius:12px; padding:13px 14px; background:#fbf1ef; }
+      .oferta { display:flex; gap:9px; align-items:flex-start; margin:14px 0 2px; font-size:12px; color:#666; line-height:1.45; cursor:pointer; }
+      .oferta input { margin-top:2px; flex:none; width:16px; height:16px; accent-color:var(--org); }
+      .oferta.err span { color:#d33; }
+      .oferta a { color:var(--org); text-decoration:underline; }
+      #checkoutMount .button { width:100%; background:var(--grn-d); color:#fff; border:none; border-radius:12px; padding:16px; font-weight:800; font-size:16px; cursor:pointer; margin-top:12px; box-shadow:0 6px 18px rgba(110,23,18,.3); }
+      #checkoutMount .button:active { transform:scale(.99); }
 
       /* Quick-view */
       .qv-ov { display:none; position:fixed; inset:0; background:rgba(4,38,35,.55); z-index:80; }
@@ -412,20 +439,28 @@
                 <input class="field" type="text" name="name" required autocomplete="name" placeholder="Введіть Ваше ім'я">
                 <input class="field mask_phone" type="tel" name="phone" required inputmode="tel" autocomplete="tel" placeholder="Введіть Ваш телефон">
 
-                <div class="np-note">🚚 Доставка Новою Поштою на відділення</div>
+                <div class="co-label">Спосіб доставки</div>
+                <div class="deliv-opts">
+                    <label class="deliv-opt on" data-m="warehouse"><input type="radio" name="delivery_method" value="warehouse" checked><span class="do-rb"></span><span class="do-txt"><b>У відділення</b><small>Нова пошта</small></span></label>
+                    <label class="deliv-opt" data-m="courier"><input type="radio" name="delivery_method" value="courier"><span class="do-rb"></span><span class="do-txt"><b>Кур'єром</b><small>Доставка до дверей</small></span></label>
+                </div>
 
                 <select class="field np-field" name="np_area" id="npArea">
                     <option value="" selected disabled>Регіон / Область</option>
                 </select>
 
                 <div class="np-autocomplete">
-                    <input class="field np-field" type="text" name="np_city" id="npCity" placeholder="Місто" autocomplete="off" disabled>
+                    <input class="field np-field" type="text" name="np_city" id="npCity" placeholder="Населений пункт" autocomplete="off" disabled>
                     <ul class="np-list" id="npCityList"></ul>
                 </div>
 
-                <div class="np-autocomplete">
+                <div class="np-autocomplete warehouse-wrap">
                     <input class="field np-field" type="text" name="np_warehouse" id="npWarehouse" placeholder="Відділення / Поштомат" autocomplete="off" disabled>
                     <ul class="np-list" id="npWarehouseList"></ul>
+                </div>
+
+                <div class="courier-wrap" style="display:none;">
+                    <input class="field" type="text" name="courier_address" id="courierAddress" placeholder="Вулиця, будинок, квартира" autocomplete="off">
                 </div>
 
                 <input type="hidden" name="city_ref" id="npCityRef">
@@ -434,9 +469,14 @@
                 <input type="hidden" name="warehouse_number" id="npWarehouseNumber">
                 <input type="hidden" name="warehouse_description" id="npWarehouseDesc">
 
-                <textarea class="field np-field np-comment" name="comment" id="orderComment" placeholder="Коментар до замовлення (необов'язково)"></textarea>
+                <div class="co-label">Спосіб оплати</div>
+                <div class="pay-card"><span class="pc-rb"></span><span class="do-txt"><b>Накладений платіж</b><small>Оплата при отриманні на відділенні Нової пошти</small></span></div>
 
-                <button type="submit" class="button">Придбати зараз</button>
+                <textarea class="field np-field np-comment" name="comment" id="orderComment" placeholder="Коментар до замовлення (за бажанням)"></textarea>
+
+                <label class="oferta"><input type="checkbox" id="ofertaCheck"><span>Погоджуюсь з <a href="publichna-oferta.html" target="_blank" rel="noopener">умовами оферти</a> та <a href="politics.html" target="_blank" rel="noopener">політикою конфіденційності</a></span></label>
+
+                <button type="submit" class="button">Підтвердити замовлення</button>
             </form>
         </div>
     </div>
@@ -523,11 +563,13 @@
 <div class="cart-ov" id="cartOv"></div>
 <aside class="cart-dr" id="cartDr" aria-hidden="true">
     <div class="cart-hd"><b>🛒 Ваш кошик</b><button class="cart-x" id="cartX" type="button" aria-label="Закрити">✕</button></div>
-    <div class="cart-items" id="cartItems"></div>
-    <div class="cart-empty" id="cartEmpty">Кошик порожній.<br>Оберіть ялинку з каталогу 🎄</div>
-    <div class="cart-ft" id="cartFt">
-        <div class="cart-total-row"><span>Разом:</span><b id="cartTotal">0 ₴</b></div>
-        <button class="btn cart-checkout" id="cartCheckout" type="button">Оформити замовлення →</button>
+    <div class="cart-scroll">
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-empty" id="cartEmpty">Кошик порожній.<br>Оберіть ялинку з каталогу 🎄</div>
+        <div class="cart-co" id="cartFt">
+            <div class="cart-total-row"><span>Разом:</span><b id="cartTotal">0 ₴</b></div>
+            <div id="checkoutMount"></div>
+        </div>
     </div>
 </aside>
 
@@ -577,6 +619,6 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=16"></script>
+<script defer src="js/scripts.js?v=17"></script>
 </body>
 </html>
