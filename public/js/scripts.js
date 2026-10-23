@@ -301,7 +301,7 @@ treeSelect.addEventListener("change", function () {
     var CARDS = [
         { title: "Казка", img: "trees/kazka/1.webp", gallery: ["trees/kazka/1.webp", "trees/kazka/2.webp", "trees/kazka/3.webp", "trees/kazka/4.webp"], cats: ["Зелена"], colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
         { title: "Снігова Королева", img: "trees/snow-queen/1.webp", gallery: ["trees/snow-queen/1.webp", "trees/snow-queen/2.webp", "trees/snow-queen/3.webp", "trees/snow-queen/4.webp"], cats: ["Білі кінчики"], colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
-        { title: "Елітна з шишкою", img: "trees/elite/1.webp", gallery: ["trees/elite/1.webp", "trees/elite/2.webp", "trees/elite/3.webp", "trees/elite/4.webp"], cats: ["Білі кінчики", "З декором"], colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
+        { title: "Елітна з шишкою", img: "trees/elite/2.webp", gallery: ["trees/elite/2.webp", "trees/elite/3.webp", "trees/elite/4.webp"], cats: ["Білі кінчики", "З декором"], colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
         { title: "Кармен + ягідки", img: "trees/karmen/red.webp", cats: ["Білі кінчики", "З декором"], colors: [
             { label: "Червоні", v: "Кармен + червоні ягідки", sw: "#c0392b", img: "trees/karmen/red.webp", gallery: ["trees/karmen/red.webp", "trees/karmen/red-1.webp", "trees/karmen/red-2.webp", "trees/karmen/red-3.webp"] },
             { label: "Сині", v: "Кармен + сині ягідки", sw: "#2e5fb0", img: "trees/karmen/blue.webp", gallery: ["trees/karmen/blue.webp", "trees/karmen/blue-1.webp", "trees/karmen/blue-2.webp", "trees/karmen/blue-3.webp"] },
