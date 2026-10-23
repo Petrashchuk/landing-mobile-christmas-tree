@@ -662,11 +662,6 @@ treeSelect.addEventListener("change", function () {
         cartAdd({ name: qvModel, variant: variant, price: p, old: oldPrice(p), img: qvGallery[0] || qvImg.src });
         closeQuickView(); openCart();
     });
-    document.querySelectorAll(".card[data-qv]").forEach(function (card) {
-        var open = function (e) { if (e.target.closest(".cbuy-row") || e.target.closest(".addon-sw")) return; openAddonQuickView(card); };
-        var ph = card.querySelector(".ph"); if (ph) ph.addEventListener("click", open);
-        var nm = card.querySelector(".nm"); if (nm) nm.addEventListener("click", open);
-    });
     if (qvImg) qvImg.parentNode.addEventListener("click", function () { if (window.Lightbox && qvGallery.length) window.Lightbox.open(qvGallery, qvIdx); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeQuickView(); closeCart(); } });
 
