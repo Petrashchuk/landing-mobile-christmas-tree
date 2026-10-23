@@ -302,19 +302,19 @@ treeSelect.addEventListener("change", function () {
         { title: "Казка", img: "trees/kazka/1.webp", gallery: ["trees/kazka/1.webp", "trees/kazka/2.webp", "trees/kazka/3.webp", "trees/kazka/4.webp"], cats: ["Зелена"], colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
         { title: "Снігова Королева", img: "trees/snow-queen/1.webp", gallery: ["trees/snow-queen/1.webp", "trees/snow-queen/2.webp", "trees/snow-queen/3.webp", "trees/snow-queen/4.webp"], cats: ["Білі кінчики"], colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
         { title: "Елітна з шишкою", img: "trees/elite/1.webp", gallery: ["trees/elite/1.webp", "trees/elite/2.webp", "trees/elite/3.webp", "trees/elite/4.webp"], cats: ["З декором"], colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
-        { title: "Кармен + ягідки", img: "trees/karmen/1.webp", gallery: ["trees/karmen/1.webp", "trees/karmen/2.webp", "trees/karmen/3.webp", "trees/karmen/4.webp"], cats: ["З декором"], colors: [
-            { label: "Червоні", v: "Кармен + червоні ягідки", sw: "#c0392b" },
-            { label: "Сині", v: "Кармен + сині ягідки", sw: "#2e5fb0" },
-            { label: "Срібні", v: "Кармен + срібні ягідки", sw: "#c9ccd1" },
-            { label: "Золоті", v: "Кармен + золоті ягідки", sw: "#d4af37" } ] },
+        { title: "Кармен + ягідки", img: "trees/karmen/red.webp", gallery: ["trees/karmen/1.webp", "trees/karmen/2.webp", "trees/karmen/3.webp", "trees/karmen/4.webp"], cats: ["З декором"], colors: [
+            { label: "Червоні", v: "Кармен + червоні ягідки", sw: "#c0392b", img: "trees/karmen/red.webp" },
+            { label: "Сині", v: "Кармен + сині ягідки", sw: "#2e5fb0", img: "trees/karmen/blue.webp" },
+            { label: "Срібні", v: "Кармен + срібні ягідки", sw: "#c9ccd1", img: "trees/karmen/silver.webp" },
+            { label: "Золоті", v: "Кармен + золоті ягідки", sw: "#d4af37", img: "trees/karmen/gold.webp" } ] },
         { title: "Тріумф (лита)", img: "trees/triumph-green/1.webp", gallery: ["trees/triumph-green/1.webp", "trees/triumph-green/2.webp", "trees/triumph-green/3.webp", "trees/triumph-green/4.webp"], cats: ["Лита","Зелена","Засніжена"], colors: [
-            { label: "Зелена", v: "Тріумф Зелена", sw: "#2e7d32" },
-            { label: "Блакитна", v: "Тріумф Блакитна", sw: "#7fb0d8" },
-            { label: "Засніжена", v: "Тріумф Засніжена", sw: "#eaf2ff" } ] },
+            { label: "Зелена", v: "Тріумф Зелена", sw: "#2e7d32", img: "trees/triumph-green/1.webp" },
+            { label: "Блакитна", v: "Тріумф Блакитна", sw: "#7fb0d8", img: "trees/triumph-green/blue.webp" },
+            { label: "Засніжена", v: "Тріумф Засніжена", sw: "#eaf2ff", img: "trees/triumph-green/snow.webp" } ] },
         { title: "Роял (лита)", img: "trees/royal-green/1.webp", gallery: ["trees/royal-green/1.webp", "trees/royal-green/2.webp", "trees/royal-green/3.webp", "trees/royal-green/4.webp"], cats: ["Лита","Зелена","Засніжена"], colors: [
-            { label: "Зелена", v: "Роял Зелена", sw: "#2e7d32" },
-            { label: "Блакитна", v: "Роял Блакитна", sw: "#7fb0d8" },
-            { label: "Засніжена", v: "Роял Засніжена", sw: "#eaf2ff" } ] },
+            { label: "Зелена", v: "Роял Зелена", sw: "#2e7d32", img: "trees/royal-green/1.webp" },
+            { label: "Блакитна", v: "Роял Блакитна", sw: "#7fb0d8", img: "trees/royal-green/blue.webp" },
+            { label: "Засніжена", v: "Роял Засніжена", sw: "#eaf2ff", img: "trees/royal-green/snow.webp" } ] },
         { title: "Віденська", img: "trees/videnska/1.webp", gallery: ["trees/videnska/1.webp", "trees/videnska/2.webp", "trees/videnska/3.webp", "trees/videnska/4.webp"], cats: ["Лита","Зелена"], colors: [{ label: "Зелена", v: "Віденська", sw: "#2e7d32" }] },
         { title: "Смерека", img: "trees/smereka/1.webp", gallery: ["trees/smereka/1.webp", "trees/smereka/2.webp", "trees/smereka/3.webp", "trees/smereka/4.webp"], cats: ["Лита","Зелена"], colors: [{ label: "Зелена", v: "Смерека", sw: "#2e7d32" }] }
     ];
@@ -422,7 +422,7 @@ treeSelect.addEventListener("change", function () {
         if (c.colors.length > 1) {
             c.colors.forEach(function (col, i) {
                 var b = document.createElement("button"); b.type = "button"; b.className = "sw" + (i === 0 ? " on" : ""); b.style.background = col.sw; b.title = col.label;
-                b.addEventListener("click", function () { qvColors.querySelectorAll(".sw").forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on"); qvModel = col.v; fillHeights(qvHeight, col.v); qvRefresh(); });
+                b.addEventListener("click", function () { qvColors.querySelectorAll(".sw").forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on"); qvModel = col.v; if (col.img) { qvImg.src = col.img; if (qvThumbs) qvThumbs.querySelectorAll("img").forEach(function (t) { t.classList.remove("on"); }); } fillHeights(qvHeight, col.v); qvRefresh(); });
                 qvColors.appendChild(b);
             });
         }
@@ -464,7 +464,7 @@ treeSelect.addEventListener("change", function () {
         var multi = c.colors.length > 1;
         var swHtml = multi
             ? '<div class="collabel">Колір: <b class="cl-name">' + c.colors[0].label + '</b></div><div class="swatches">' +
-              c.colors.map(function (col, i) { return '<button type="button" class="sw' + (i === 0 ? " on" : "") + '" style="background:' + col.sw + '" data-v="' + col.v + '" data-label="' + col.label + '" title="' + col.label + '"></button>'; }).join("") + '</div>'
+              c.colors.map(function (col, i) { return '<button type="button" class="sw' + (i === 0 ? " on" : "") + '" style="background:' + col.sw + '" data-v="' + col.v + '" data-label="' + col.label + '" data-img="' + (col.img || "") + '" title="' + col.label + '"></button>'; }).join("") + '</div>'
             : "";
         var badge = DISCOUNT > 0 ? '<span class="badge">−' + DISCOUNT + '%</span>' : "";
         var card = document.createElement("div");
@@ -472,6 +472,7 @@ treeSelect.addEventListener("change", function () {
         card.setAttribute("data-cat", c.cats.join("|"));
         card.innerHTML =
             '<div class="ph"><img loading="lazy" src="' + c.img + '" alt="' + c.title + '">' + badge + '</div>' +
+            '<div class="card-thumbs"></div>' +
             '<div class="b"><div class="nm">' + c.title + '</div>' + swHtml +
             '<div class="sellabel">Оберіть висоту</div><select class="h-sel"></select>' +
             '<div class="c-price"></div><div class="c-econ"></div>' +
@@ -489,22 +490,34 @@ treeSelect.addEventListener("change", function () {
         }
         fillHeights(hsel, model); refresh();
         hsel.addEventListener("change", refresh);
+        var ph = card.querySelector(".ph"); ph.style.cursor = "pointer";
+        var cardImg = ph.querySelector("img");
+        var currentBase = c.img;  // поточне головне фото (міняється кольором)
+        // мініатюри під карткою
+        var thumbsEl = card.querySelector(".card-thumbs");
+        if (thumbsEl && c.gallery && c.gallery.length > 1) {
+            c.gallery.forEach(function (src, i) {
+                var t = document.createElement("img"); t.loading = "lazy"; t.src = src; t.className = (src === c.img ? "on" : "");
+                t.addEventListener("click", function (e) { e.stopPropagation(); currentBase = src; cardImg.src = src; thumbsEl.querySelectorAll("img").forEach(function (x) { x.classList.remove("on"); }); t.classList.add("on"); });
+                thumbsEl.appendChild(t);
+            });
+        }
         card.querySelectorAll(".swatches .sw").forEach(function (b) {
             b.addEventListener("click", function () {
                 card.querySelectorAll(".swatches .sw").forEach(function (x) { x.classList.remove("on"); });
                 b.classList.add("on");
                 model = b.getAttribute("data-v");
                 if (clName) clName.textContent = b.getAttribute("data-label");
+                var ci = b.getAttribute("data-img");
+                if (ci) { currentBase = ci; cardImg.src = ci; }
                 fillHeights(hsel, model); refresh();
             });
         });
-        var ph = card.querySelector(".ph"); ph.style.cursor = "pointer";
-        // наведення → наступне фото галереї (десктоп)
-        var cardImg = ph.querySelector("img");
+        // наведення → наступне фото галереї; повернення → поточний колір
         var cg = (c.gallery && c.gallery.length > 1) ? c.gallery : null;
         if (cg) {
             ph.addEventListener("mouseenter", function () { cardImg.src = cg[1]; });
-            ph.addEventListener("mouseleave", function () { cardImg.src = cg[0]; });
+            ph.addEventListener("mouseleave", function () { cardImg.src = currentBase; });
         }
         ph.addEventListener("click", function () { openQuickView(c); });
         card.querySelector(".nm").style.cursor = "pointer";
@@ -513,7 +526,7 @@ treeSelect.addEventListener("change", function () {
             e.preventDefault();
             var p = priceNum(hsel.value); if (!p) return;
             var variant = (hsel.value.split(" - ")[0] || "").trim();
-            cartAdd({ name: model, variant: variant, price: p, img: c.img });
+            cartAdd({ name: model, variant: variant, price: p, img: currentBase });
             openCart();
         });
     });
