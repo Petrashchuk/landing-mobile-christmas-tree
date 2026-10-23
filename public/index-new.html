@@ -66,7 +66,7 @@
       /* Header */
       header { position:sticky; top:0; z-index:40; background:var(--grn-d); color:#fff; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; padding:8px 14px; gap:6px 10px; }
       header .logo { display:flex; align-items:center; }
-      header .logo img { width:auto; height:48px; }
+      header .logo img { width:auto; height:48px; filter:drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
       header .hphone { font-size:13px; font-weight:700; color:var(--gold); white-space:nowrap; }
       .hdr-right { display:flex; align-items:center; gap:14px; }
       .hhours { font-size:12px; color:#f1e7d6; white-space:nowrap; line-height:1.2; }
@@ -127,9 +127,10 @@
       .card .order-form-wrapper-btn { margin-top:auto; }
       .card .order-form-wrapper-btn .button { display:block; background:var(--grn); color:#fff; text-align:center; font-weight:700; font-size:14px; padding:10px; border-radius:9px; cursor:pointer; }
       .card .cbuy { display:block; background:var(--org); color:#fff; text-align:center; font-weight:800; font-size:14px; padding:11px; border-radius:9px; cursor:pointer; margin-top:auto; }
-      .card .cbuy-row { display:flex; gap:8px; margin-top:auto; }
-      .card .cbuy-row .cbuy { flex:1; margin-top:0; }
-      .card .cbuy-now { flex:0 0 auto; background:var(--gold); color:#3a2a10; text-align:center; font-weight:800; font-size:13px; padding:11px 15px; border-radius:9px; cursor:pointer; white-space:nowrap; }
+      .card .cbuy-row { display:flex; gap:8px; margin-top:auto; align-items:stretch; }
+      .card .cbuy-row .cbuy { flex:0 0 48px; width:48px; margin-top:0; padding:0; display:flex; align-items:center; justify-content:center; }
+      .card .cbuy-row .cbuy svg { width:21px; height:21px; }
+      .card .cbuy-now { flex:1 1 auto; background:var(--gold); color:#3a2a10; text-align:center; font-weight:800; font-size:13px; padding:11px 15px; border-radius:9px; cursor:pointer; white-space:nowrap; display:flex; align-items:center; justify-content:center; }
       .card .collabel { font-size:12px; color:#666; margin:8px 0 4px; }
       .card .swatches { display:flex; gap:8px; margin-bottom:8px; }
       .card .sw { width:26px; height:26px; border-radius:50%; border:2px solid #ddd; cursor:pointer; padding:0; }
@@ -576,10 +577,11 @@
             <p class="ab-sub">Оберіть колір і додайте до замовлення разом із ялинкою.</p>
             <div class="ab-cta"><a href="#garlands" class="btn ab-btn">Дивитись гірлянди</a><a href="#toys" class="ab-link">Дивитись іграшки →</a></div>
         </div>
-        <div class="ab-img"><img loading="lazy" src="garlands/rosa-100m.webp" alt="Гірлянда Роса"></div>
+        <div class="ab-img"><img loading="lazy" src="garlands/banner-yellow.webp" alt="Святкова гірлянда теплого жовтого світіння"></div>
     </div>
 
     <h3 class="addons-h" id="garlands">Гірлянди</h3>
+    <div class="hint">💡 <b>Яку гірлянду обрати:</b> ялинка до <b>1.5 м</b> — Роса 20 м; <b>1.8–2.4 м</b> — Роса 50 м або Хвойна Лапа 30 м; від <b>2.5 м</b> — Роса 100 м або Хвойна Лапа 50 м. Кінський хвіст — ефектний акцент біля ялинки.</div>
     <div class="catpills addon-tabs" data-grid="garlandGrid">
         <button class="catpill on" type="button" data-type="">Усі</button>
         <button class="catpill" type="button" data-type="роса">Роса</button>
