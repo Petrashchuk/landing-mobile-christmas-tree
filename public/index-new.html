@@ -64,10 +64,14 @@
       .btn-grn { background:var(--grn); box-shadow:0 6px 18px rgba(4,38,35,.3); }
 
       /* Header */
-      header { position:sticky; top:0; z-index:40; background:var(--grn-d); color:#fff; display:flex; align-items:center; justify-content:space-between; padding:8px 14px; }
+      header { position:sticky; top:0; z-index:40; background:var(--grn-d); color:#fff; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; padding:8px 14px; gap:6px 10px; }
       header .logo { display:flex; align-items:center; gap:8px; font-weight:800; font-size:18px; }
       header .logo img { width:34px; height:34px; border-radius:6px; }
       header .hphone { font-size:13px; font-weight:700; color:var(--gold); white-space:nowrap; }
+      .hdr-nav { order:3; flex-basis:100%; display:flex; justify-content:center; gap:22px; overflow-x:auto; padding-top:6px; border-top:1px solid rgba(255,255,255,.12); margin-top:4px; }
+      .hdr-nav::-webkit-scrollbar { height:0; }
+      .hdr-nav a { font-size:14px; font-weight:600; color:#fff; white-space:nowrap; opacity:.92; }
+      .hdr-nav a:hover { color:var(--gold); }
       .saletop { background:var(--org); color:#fff; text-align:center; font-weight:800; font-size:13px; padding:7px 10px; }
 
       /* Hero */
@@ -162,6 +166,88 @@
       .addon-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:55; }
       .addon-popup { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:60; background:#fff; border-radius:14px; padding:26px 20px 20px; max-width:320px; width:88%; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,.3); }
       .addon-popup .x { position:absolute; top:8px; right:14px; font-size:22px; color:#999; cursor:pointer; }
+
+      /* Header right + cart button */
+      .hdr-right { display:flex; align-items:center; gap:12px; }
+      .cartbtn { position:relative; background:transparent; border:none; color:#fff; font-size:20px; cursor:pointer; padding:4px; line-height:1; }
+      .cart-count { position:absolute; top:-6px; right:-8px; min-width:18px; height:18px; padding:0 4px; background:var(--org); color:#fff; font-size:11px; font-weight:800; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+      .cart-count.empty { display:none; }
+
+      /* Cart drawer */
+      .cart-ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:70; }
+      .cart-ov.show { display:block; }
+      .cart-dr { position:fixed; top:0; right:0; height:100%; width:92%; max-width:400px; background:var(--bg); z-index:75; transform:translateX(100%); transition:transform .28s; display:flex; flex-direction:column; box-shadow:-8px 0 30px rgba(0,0,0,.25); }
+      .cart-dr.show { transform:translateX(0); }
+      .cart-hd { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:var(--grn-d); color:#fff; font-size:17px; }
+      .cart-x { background:none; border:none; color:#fff; font-size:22px; cursor:pointer; line-height:1; }
+      .cart-items { flex:1; overflow-y:auto; padding:12px 14px; }
+      .cart-empty { flex:1; display:flex; align-items:center; justify-content:center; text-align:center; color:#888; font-size:15px; line-height:1.6; padding:20px; }
+      .cart-row { display:flex; gap:10px; padding:10px 0; border-bottom:1px solid #e7e1d6; }
+      .cart-row img { width:56px; height:72px; object-fit:contain; background:var(--soft); border-radius:8px; flex:none; }
+      .cart-row .ci { flex:1; min-width:0; }
+      .cart-row .ci-nm { font-size:14px; font-weight:700; line-height:1.25; }
+      .cart-row .ci-v { font-size:12px; color:#777; margin-top:2px; }
+      .cart-row .ci-pr { font-size:14px; font-weight:800; color:var(--org); margin-top:4px; }
+      .cart-row .ci-qty { display:flex; align-items:center; gap:8px; margin-top:6px; }
+      .cart-row .ci-qty button { width:24px; height:24px; border:1px solid #ccc; background:#fff; border-radius:6px; font-size:15px; cursor:pointer; line-height:1; }
+      .cart-row .ci-rm { background:none; border:none; color:#b00; font-size:12px; cursor:pointer; padding:0; margin-top:4px; }
+      .cart-ft { padding:14px 16px 18px; border-top:1px solid #e0d9cc; background:#fff; }
+      .cart-total-row { display:flex; justify-content:space-between; align-items:center; font-size:16px; margin-bottom:12px; }
+      .cart-total-row b { font-size:20px; color:var(--grn-d); }
+      .cart-checkout { width:100%; }
+
+      /* Quick-view */
+      .qv-ov { display:none; position:fixed; inset:0; background:rgba(4,38,35,.55); z-index:80; }
+      .qv-ov.show { display:block; }
+      .qv { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:85; width:94%; max-width:860px; max-height:92vh; overflow:auto; background:var(--bg); border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.4); }
+      .qv.show { display:block; }
+      .qv-x { position:absolute; top:12px; right:12px; z-index:2; width:36px; height:36px; border-radius:50%; border:none; background:#fff; color:#333; font-size:18px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+      .qv-gallery { position:relative; background:var(--soft); }
+      .qv-gallery img { width:100%; max-height:46vh; object-fit:contain; }
+      .qv-badge { position:absolute; top:14px; left:14px; background:var(--org); color:#fff; font-weight:800; font-size:13px; padding:5px 10px; border-radius:8px; }
+      .qv-info { padding:20px 22px 24px; }
+      .qv-crumb { font-size:12px; font-weight:700; letter-spacing:.06em; color:var(--org); }
+      .qv-title { font-size:24px; font-weight:900; color:var(--grn-d); margin:6px 0 10px; }
+      .qv-desc { font-size:14px; color:#666; line-height:1.5; margin:0 0 14px; }
+      .qv-colors { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+      .qv-colors .sw { width:30px; height:30px; border-radius:50%; border:2px solid #ddd; cursor:pointer; padding:0; }
+      .qv-colors .sw.on { border-color:var(--org); box-shadow:0 0 0 2px rgba(127,27,21,.22); }
+      .qv-label { font-size:13px; font-weight:700; color:#555; margin-bottom:6px; }
+      .qv .h-sel { width:100%; padding:12px; border:1px solid #ccc; border-radius:10px; font-size:15px; background:#fff; cursor:pointer; }
+      .qv-price { font-size:26px; font-weight:900; color:var(--org); margin:14px 0 2px; }
+      .qv-price .old { color:#b7a98f; font-weight:600; font-size:16px; text-decoration:line-through; margin-left:9px; }
+      .qv-econ { color:var(--grn); font-weight:700; font-size:13px; margin-bottom:14px; }
+      .qv-add { width:100%; }
+      .qv-note { font-size:12px; color:#888; line-height:1.5; margin:12px 0 0; }
+      @media (min-width:720px) {
+        .qv { display:none; }
+        .qv.show { display:grid; grid-template-columns:1fr 1fr; }
+        .qv-gallery img { max-height:72vh; }
+      }
+
+      /* Order form in cart mode */
+      #order_form.cart-mode #treeSelect,
+      #order_form.cart-mode #sizeSelect,
+      #order_form.cart-mode #priceDisplay { display:none; }
+      .order-cart-summary { background:#fff; border:1px solid #e0d9cc; border-radius:12px; padding:12px 14px; margin:0 auto 10px; max-width:400px; }
+      .order-cart-summary .ocs-hd { font-weight:800; color:var(--grn-d); margin-bottom:6px; font-size:14px; }
+      .order-cart-summary .ocs-li { display:flex; justify-content:space-between; font-size:13px; color:#555; padding:2px 0; }
+      .order-cart-summary .ocs-tot { display:flex; justify-content:space-between; font-weight:800; color:var(--org); border-top:1px dashed #ddd; margin-top:6px; padding-top:6px; }
+      .order-cart-summary .ocs-edit { display:inline-block; margin-top:8px; font-size:12px; color:var(--org); cursor:pointer; text-decoration:underline; }
+
+      /* Addons section */
+      .addons-banner { max-width:1200px; margin:0 auto 6px; display:grid; grid-template-columns:1fr; border-radius:16px; overflow:hidden; background:var(--grn-d); color:#fff; }
+      .addons-banner .ab-text { padding:22px 20px; }
+      .ab-kicker { font-size:12px; font-weight:700; letter-spacing:.08em; color:var(--gold); }
+      .ab-title { font-size:22px; font-weight:900; margin:8px 0 8px; line-height:1.2; }
+      .ab-sub { font-size:14px; opacity:.9; margin:0; }
+      .addons-banner .ab-img img { width:100%; height:180px; object-fit:cover; }
+      .addons-h { max-width:1200px; margin:18px auto 2px; padding:0 18px; font-size:20px; font-weight:800; color:var(--grn-d); }
+      .addon-grid .card .c-price { margin:6px 0 10px; }
+      @media (min-width:720px) {
+        .addons-banner { grid-template-columns:1.1fr 1fr; align-items:center; }
+        .addons-banner .ab-img img { height:100%; min-height:220px; }
+      }
     </style>
 
     <!-- Meta Pixel -->
@@ -175,7 +261,14 @@
 <div class="saletop">🎄 Новорічний розпродаж — знижки до −30% на всі ялинки</div>
 <header>
     <a class="logo" href="#"><img src="logo-mark.png" alt="Yalynka">Yalynka</a>
-    <a class="hphone" href="tel:+380672536941">📞 +380 67 25 369 41</a>
+    <nav class="hdr-nav">
+        <a href="#catalog">Каталог ялинок</a>
+        <a href="#addons">Гірлянди та іграшки</a>
+    </nav>
+    <div class="hdr-right">
+        <a class="hphone" href="tel:+380672536941">📞 +380 67 25 369 41</a>
+        <button class="cartbtn" id="cartBtn" type="button" aria-label="Кошик">🛒<span class="cart-count" id="cartCount">0</span></button>
+    </div>
 </header>
 
 <!-- HERO -->
@@ -251,6 +344,7 @@
                 </select>
 
                 <div id="priceDisplay" style="display:none;text-align:center;font-weight:900;font-size:20px;color:#7F1B15;margin:6px 0 10px;"></div>
+                <div id="orderCartSummary" class="order-cart-summary" style="display:none;"></div>
 
                 <input class="field" type="text" name="name" required autocomplete="name" placeholder="Введіть Ваше ім'я">
                 <input class="field mask_phone" type="tel" name="phone" required inputmode="tel" autocomplete="tel" placeholder="Введіть Ваш телефон">
@@ -286,16 +380,34 @@
 </section>
 
 <!-- ДОПОВНЕННЯ -->
-<section class="sec">
-    <h2 class="h2">🎁 Доповнення до ялинки</h2>
-    <p class="sub">Гірлянди від 195 ₴ · Набори іграшок 1090 ₴</p>
+<section class="sec" id="addons">
+    <div class="addons-banner">
+        <div class="ab-text">
+            <div class="ab-kicker">СВЯТКОВІ ДОПОВНЕННЯ</div>
+            <h2 class="ab-title">Гірлянди та іграшки для ялинки</h2>
+            <p class="ab-sub">Додайте до замовлення разом із ялинкою — приїде однією посилкою.</p>
+        </div>
+        <div class="ab-img"><img loading="lazy" src="garlands/rosa-100m.webp" alt="Гірлянда Роса"></div>
+    </div>
+
+    <h3 class="addons-h">Гірлянди</h3>
+    <div class="catgrid addon-grid">
+        <div class="card"><div class="ph"><img loading="lazy" src="garlands/rosa-20m.webp" alt="Гірлянда Роса 20 м"></div><div class="b"><div class="nm">Роса — 20 м, 200 LED</div><div class="c-price">195 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 20 м" data-price="195" data-img="garlands/rosa-20m.webp">Додати в кошик →</button></div></div>
+        <div class="card"><div class="ph"><img loading="lazy" src="garlands/rosa-50m.webp" alt="Гірлянда Роса 50 м"></div><div class="b"><div class="nm">Роса — 50 м, 500 LED</div><div class="c-price">595 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 50 м" data-price="595" data-img="garlands/rosa-50m.webp">Додати в кошик →</button></div></div>
+        <div class="card"><div class="ph"><img loading="lazy" src="garlands/rosa-100m.webp" alt="Гірлянда Роса 100 м"></div><div class="b"><div class="nm">Роса — 100 м, 1000 LED</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Роса 100 м" data-price="1090" data-img="garlands/rosa-100m.webp">Додати в кошик →</button></div></div>
+        <div class="card"><div class="ph"><img loading="lazy" src="garlands/hvoyna-30m.webp" alt="Хвойна Лапа 30 м"></div><div class="b"><div class="nm">Хвойна Лапа — 30 м</div><div class="c-price">1 075 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 30 м" data-price="1075" data-img="garlands/hvoyna-30m.webp">Додати в кошик →</button></div></div>
+        <div class="card"><div class="ph"><img loading="lazy" src="garlands/hvoyna-50m.webp" alt="Хвойна Лапа 50 м"></div><div class="b"><div class="nm">Хвойна Лапа — 50 м</div><div class="c-price">1 490 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 50 м" data-price="1490" data-img="garlands/hvoyna-50m.webp">Додати в кошик →</button></div></div>
+        <div class="card"><div class="ph"><img loading="lazy" src="garlands/hvoyna-100m.webp" alt="Хвойна Лапа 100 м"></div><div class="b"><div class="nm">Хвойна Лапа — 100 м</div><div class="c-price">2 600 ₴</div><button class="cbuy addon-cart" type="button" data-name="Гірлянда Хвойна Лапа 100 м" data-price="2600" data-img="garlands/hvoyna-100m.webp">Додати в кошик →</button></div></div>
+    </div>
+
+    <h3 class="addons-h">Набори іграшок</h3>
+    <div class="catgrid addon-grid">
+        <div class="card"><div class="ph"><img loading="lazy" src="toys/асорті/gold.jpg" alt="Набір Асорті"></div><div class="b"><div class="nm">Набір «Асорті»</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Асорті»" data-price="1090" data-img="toys/асорті/gold.jpg">Додати в кошик →</button></div></div>
+        <div class="card"><div class="ph"><img loading="lazy" src="toys/бархат/dark-red.jpg" alt="Набір Оксамит"></div><div class="b"><div class="nm">Набір «Оксамит»</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Оксамит»" data-price="1090" data-img="toys/бархат/dark-red.jpg">Додати в кошик →</button></div></div>
+        <div class="card"><div class="ph"><img loading="lazy" src="toys/блиск/gold.jpg" alt="Набір Блиск"></div><div class="b"><div class="nm">Набір «Блиск»</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Блиск»" data-price="1090" data-img="toys/блиск/gold.jpg">Додати в кошик →</button></div></div>
+        <div class="card"><div class="ph"><img loading="lazy" src="toys/бите-скло/red.jpg" alt="Набір Бите скло"></div><div class="b"><div class="nm">Набір «Бите скло»</div><div class="c-price">1 090 ₴</div><button class="cbuy addon-cart" type="button" data-name="Набір іграшок «Бите скло»" data-price="1090" data-img="toys/бите-скло/red.jpg">Додати в кошик →</button></div></div>
+    </div>
 </section>
-<div class="rail">
-    <div class="card"><div class="ph"><img loading="lazy" src="garlands/rosa-50m.webp" alt="Гірлянда Роса 50 м"></div><div class="b"><div class="nm">Гірлянда Роса 50 м</div><div class="pr">595 ₴</div><button class="addon-order button" type="button" style="background:var(--grn);color:#fff;border:none;border-radius:9px;padding:10px;font-weight:700;cursor:pointer;">Замовити</button></div></div>
-    <div class="card"><div class="ph"><img loading="lazy" src="garlands/hvoyna-30m.webp" alt="Хвойна Лапа 30 м"></div><div class="b"><div class="nm">Хвойна Лапа 30 м</div><div class="pr">1075 ₴ <span>1280</span></div><button class="addon-order button" type="button" style="background:var(--grn);color:#fff;border:none;border-radius:9px;padding:10px;font-weight:700;cursor:pointer;">Замовити</button></div></div>
-    <div class="card"><div class="ph"><img loading="lazy" src="toys/бархат/red.jpg" alt="Набір Оксамит"></div><div class="b"><div class="nm">Набір іграшок «Оксамит»</div><div class="pr">1090 ₴ <span>1290</span></div><button class="addon-order button" type="button" style="background:var(--grn);color:#fff;border:none;border-radius:9px;padding:10px;font-weight:700;cursor:pointer;">Замовити</button></div></div>
-    <div class="card"><div class="ph"><img loading="lazy" src="toys/блиск/gold.jpg" alt="Набір Блиск"></div><div class="b"><div class="nm">Набір іграшок «Блиск»</div><div class="pr">1090 ₴ <span>1290</span></div><button class="addon-order button" type="button" style="background:var(--grn);color:#fff;border:none;border-radius:9px;padding:10px;font-weight:700;cursor:pointer;">Замовити</button></div></div>
-</div>
 
 <!-- ВІДГУКИ -->
 <section class="sec">
@@ -334,9 +446,43 @@
     <button type="button" class="addon-close" style="margin-top:16px;background:var(--org);color:#fff;border:none;border-radius:8px;padding:10px 22px;font-weight:700;cursor:pointer;">Зрозуміло</button>
 </div>
 
+<!-- Кошик (drawer) -->
+<div class="cart-ov" id="cartOv"></div>
+<aside class="cart-dr" id="cartDr" aria-hidden="true">
+    <div class="cart-hd"><b>🛒 Ваш кошик</b><button class="cart-x" id="cartX" type="button" aria-label="Закрити">✕</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-empty" id="cartEmpty">Кошик порожній.<br>Оберіть ялинку з каталогу 🎄</div>
+    <div class="cart-ft" id="cartFt">
+        <div class="cart-total-row"><span>Разом:</span><b id="cartTotal">0 ₴</b></div>
+        <button class="btn cart-checkout" id="cartCheckout" type="button">Оформити замовлення →</button>
+    </div>
+</aside>
+
+<!-- Швидкий перегляд товару (quick-view) -->
+<div class="qv-ov" id="qvOv"></div>
+<div class="qv" id="qv" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="qv-x" id="qvX" type="button" aria-label="Закрити">✕</button>
+    <div class="qv-gallery">
+        <img id="qvImg" src="" alt="">
+        <span class="qv-badge" id="qvBadge"></span>
+    </div>
+    <div class="qv-info">
+        <div class="qv-crumb">YALYNKA · КАТАЛОГ</div>
+        <h3 class="qv-title" id="qvTitle"></h3>
+        <p class="qv-desc">Штучна ялинка Yalynka від виробника. Оберіть колір і висоту — ціна оновиться автоматично.</p>
+        <div id="qvColors" class="qv-colors"></div>
+        <div class="qv-label">Оберіть висоту</div>
+        <select class="h-sel" id="qvHeight"></select>
+        <div class="qv-price" id="qvPrice"></div>
+        <div class="qv-econ" id="qvEcon"></div>
+        <button class="btn qv-add" id="qvAdd" type="button">Додати в кошик →</button>
+        <p class="qv-note">Можна додати гірлянди та прикраси до замовлення. Доставка Новою Поштою, оплата при отриманні. Оформлення — через кошик.</p>
+    </div>
+</div>
+
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=10"></script>
+<script defer src="js/scripts.js?v=11"></script>
 </body>
 </html>

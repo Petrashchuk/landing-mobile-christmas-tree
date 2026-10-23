@@ -146,17 +146,48 @@ function parseSizeAndPrice(str) {
 
 function extractOrderData(body) {
     const {name, phone, type, size, event_id, comment} = body;
-    const {size: parsedSize, price} = parseSizeAndPrice(size);
+    // Кошик (міні-магазин): кілька позицій одним замовленням. Якщо його нема —
+    // лягаємо на стару логіку одного дерева (type + size "1.5 м - 2090грн").
+    const items = parseCartItems(body.cart);
+    let parsedSize = null, singlePrice = 0;
+    if (!items.length && size) {
+        const p = parseSizeAndPrice(size) || {};
+        parsedSize = p.size || null;
+        singlePrice = p.price || 0;
+    }
+    const total = items.length
+        ? items.reduce((s, i) => s + (Number(i.price) || 0) * (i.qty || 1), 0)
+        : singlePrice;
     return {
         name,
         phone,
         type,
         size: parsedSize,
-        price,
+        price: total,       // сума замовлення — CAPI використовує як value
+        items,              // [] для legacy-одного-дерева
         event_id: event_id || crypto.randomUUID(),
         comment: typeof comment === 'string' ? comment.trim().slice(0, 1000) : '',
         delivery: extractDelivery(body),
     };
+}
+
+// Кошик із фронта: JSON-масив позицій. Назва дерева = ключ CRM_VARIANT_SKU
+// (напр. "Роял Засніжена"), тож SKU резолвиться на сервері. Доповнення
+// (гірлянди/іграшки) йдуть без SKU — CRM створить позицію за назвою+ціною.
+function parseCartItems(raw) {
+    if (!raw) return [];
+    let arr;
+    try { arr = typeof raw === 'string' ? JSON.parse(raw) : raw; } catch { return []; }
+    if (!Array.isArray(arr)) return [];
+    return arr
+        .map(it => ({
+            name: String(it.name || '').slice(0, 200),
+            variant: it.variant ? String(it.variant).slice(0, 100) : '',
+            price: Number(it.price) || 0,
+            qty: Math.max(1, Math.min(99, parseInt(it.qty, 10) || 1)),
+        }))
+        .filter(it => it.name && it.price > 0)
+        .slice(0, 50);
 }
 
 // Доставка Нова Пошта (на відділення) — зібрана фронтом із Ref'ами. Валідна
@@ -287,7 +318,7 @@ function crmVariantSku(type, size) {
     return (CRM_VARIANT_SKU[type] && CRM_VARIANT_SKU[type][size]) || null;
 }
 
-async function sendCrmOrder({name, phone, type, size, price, event_id, utm, delivery, comment}) {
+async function sendCrmOrder({name, phone, type, size, price, items, event_id, utm, delivery, comment}) {
     if (!process.env.CRM_API_URL || !process.env.CRM_API_KEY) return;
 
     const {firstName, lastName} = splitName(name);
@@ -297,6 +328,25 @@ async function sendCrmOrder({name, phone, type, size, price, event_id, utm, deli
     // (SKU-прив'язка), тому в коментар їх більше не дублюємо.
     const crmComment = (comment || '').trim().slice(0, 2000);
 
+    // Позиції замовлення: з кошика (кілька) або одне дерево (legacy). SKU
+    // резолвиться за назвою+варіантом; доповнення без SKU — вільна позиція.
+    const lineItems = (items && items.length)
+        ? items.map(it => ({
+            name: it.name,
+            ...(it.variant ? {variant: it.variant} : {}),
+            ...(crmVariantSku(it.name, it.variant) ? {sku: crmVariantSku(it.name, it.variant)} : {}),
+            quantity: it.qty || 1,
+            price: Number(it.price) || 0,
+        }))
+        : [{
+            name: type || 'Ялинка',
+            ...(size ? {variant: size} : {}),
+            // SKU варіанта → CRM прив'яже товар+варіант (фото/залишок/ціна з каталогу).
+            ...(crmVariantSku(type, size) ? {sku: crmVariantSku(type, size)} : {}),
+            quantity: 1,
+            price: Number(price) || 0, // публічний API приймає гривні
+        }];
+
     const payload = {
         client: {
             phone,
@@ -305,16 +355,7 @@ async function sendCrmOrder({name, phone, type, size, price, event_id, utm, deli
             // Адреса Нової Пошти (відділення) — CRM префіллить нею форму ТТН.
             ...(delivery ? {delivery_address: delivery} : {}),
         },
-        items: [
-            {
-                name: type || 'Ялинка',
-                ...(size ? {variant: size} : {}),
-                // SKU варіанта → CRM прив'яже товар+варіант (фото/залишок/ціна з каталогу).
-                ...(crmVariantSku(type, size) ? {sku: crmVariantSku(type, size)} : {}),
-                quantity: 1,
-                price: Number(price) || 0, // публічний API приймає гривні
-            },
-        ],
+        items: lineItems,
         payment_type: 'cod',
         source,
         // Ідемпотентність: повторний сабміт з тим самим event_id не задвоїть

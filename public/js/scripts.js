@@ -277,10 +277,10 @@ treeSelect.addEventListener("change", function () {
     upd();
 })();
 
-// Інтерактивний каталог (нова сторінка): картка з вибором кольору + висоти + живою ціною + фільтр + акція
+// ============ Міні-магазин: каталог + quick-view + кошик ============
 (function () {
-    var box = document.getElementById("catalogCards");
-    if (!box || typeof treeSizes === "undefined") return;
+    if (typeof treeSizes === "undefined") return;
+    var catBox = document.getElementById("catalogCards");
     var DISCOUNT = 30; // % «старої ціни» (анкер магазину); 0 = показувати лише поточну ціну
     var CARDS = [
         { title: "Казка", img: "trees/kazka/1.webp", cats: ["Зелена"], colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
@@ -305,6 +305,7 @@ treeSelect.addEventListener("change", function () {
     var CATS = ["Усі", "Зелена", "Білі кінчики", "Засніжена", "Лита", "З декором"];
     function priceNum(v) { var m = (v || "").match(/(\d[\d\s]*)\s*грн/i); return m ? parseInt(m[1].replace(/\s/g, ""), 10) : 0; }
     function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
+    function oldPrice(p) { return DISCOUNT > 0 ? Math.round(p / (1 - DISCOUNT / 100) / 10) * 10 : 0; }
     function fillHeights(sel, model) {
         sel.innerHTML = "";
         (treeSizes[model] || []).forEach(function (s) {
@@ -313,17 +314,112 @@ treeSelect.addEventListener("change", function () {
             sel.appendChild(o);
         });
     }
-    // фільтр-пілюлі категорій
-    var pillsBox = document.getElementById("catPills");
-    var pills = [];
-    if (pillsBox) {
+
+    // ---------- Кошик (localStorage) ----------
+    var CART_KEY = "yalynka_cart_v1";
+    var cart = [];
+    try { cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]") || []; } catch (_) { cart = []; }
+    function saveCart() { try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (_) {} }
+    function cartCount() { return cart.reduce(function (s, i) { return s + (i.qty || 1); }, 0); }
+    function cartTotal() { return cart.reduce(function (s, i) { return s + (Number(i.price) || 0) * (i.qty || 1); }, 0); }
+    function cartAdd(item) {
+        var key = item.name + "|" + (item.variant || "");
+        var ex = cart.filter(function (i) { return (i.name + "|" + (i.variant || "")) === key; })[0];
+        if (ex) ex.qty = (ex.qty || 1) + 1;
+        else cart.push({ name: item.name, variant: item.variant || "", price: Number(item.price) || 0, img: item.img || "", qty: 1 });
+        saveCart(); renderCart(); updateBadge(); flashCart();
+    }
+    function cartSetQty(idx, d) { if (!cart[idx]) return; cart[idx].qty = (cart[idx].qty || 1) + d; if (cart[idx].qty < 1) cart.splice(idx, 1); saveCart(); renderCart(); updateBadge(); }
+    function cartRemove(idx) { cart.splice(idx, 1); saveCart(); renderCart(); updateBadge(); }
+    function cartClear() { cart = []; saveCart(); renderCart(); updateBadge(); }
+
+    var badgeEl = document.getElementById("cartCount");
+    function updateBadge() { var n = cartCount(); if (badgeEl) { badgeEl.textContent = n; badgeEl.classList.toggle("empty", n === 0); } }
+
+    var drawer = document.getElementById("cartDr"), cartOv = document.getElementById("cartOv");
+    var cartItemsEl = document.getElementById("cartItems"), cartEmptyEl = document.getElementById("cartEmpty"),
+        cartFtEl = document.getElementById("cartFt"), cartTotalEl = document.getElementById("cartTotal");
+    function renderCart() {
+        if (!cartItemsEl) return;
+        cartItemsEl.innerHTML = "";
+        if (!cart.length) { if (cartEmptyEl) cartEmptyEl.style.display = "flex"; if (cartFtEl) cartFtEl.style.display = "none"; return; }
+        if (cartEmptyEl) cartEmptyEl.style.display = "none";
+        if (cartFtEl) cartFtEl.style.display = "block";
+        cart.forEach(function (it, idx) {
+            var row = document.createElement("div"); row.className = "cart-row";
+            row.innerHTML =
+                '<img src="' + (it.img || "") + '" alt="">' +
+                '<div class="ci"><div class="ci-nm">' + it.name + '</div>' +
+                (it.variant ? '<div class="ci-v">' + it.variant + '</div>' : '') +
+                '<div class="ci-pr">' + fmt(it.price) + ' ₴</div>' +
+                '<div class="ci-qty"><button type="button" data-a="dec">−</button><span>' + (it.qty || 1) + '</span><button type="button" data-a="inc">+</button></div>' +
+                '<button type="button" class="ci-rm">Видалити</button></div>';
+            row.querySelector('[data-a="dec"]').addEventListener("click", function () { cartSetQty(idx, -1); });
+            row.querySelector('[data-a="inc"]').addEventListener("click", function () { cartSetQty(idx, 1); });
+            row.querySelector('.ci-rm').addEventListener("click", function () { cartRemove(idx); });
+            cartItemsEl.appendChild(row);
+        });
+        if (cartTotalEl) cartTotalEl.textContent = fmt(cartTotal()) + " ₴";
+    }
+    function openCart() { if (drawer) { drawer.classList.add("show"); drawer.setAttribute("aria-hidden", "false"); } if (cartOv) cartOv.classList.add("show"); }
+    function closeCart() { if (drawer) { drawer.classList.remove("show"); drawer.setAttribute("aria-hidden", "true"); } if (cartOv) cartOv.classList.remove("show"); }
+    function flashCart() { var b = document.getElementById("cartBtn"); if (b && b.animate) { b.animate([{ transform: "scale(1)" }, { transform: "scale(1.25)" }, { transform: "scale(1)" }], { duration: 300 }); } }
+    var cartBtn = document.getElementById("cartBtn"); if (cartBtn) cartBtn.addEventListener("click", openCart);
+    var cartX = document.getElementById("cartX"); if (cartX) cartX.addEventListener("click", closeCart);
+    if (cartOv) cartOv.addEventListener("click", closeCart);
+
+    // ---------- Quick-view ----------
+    var qv = document.getElementById("qv"), qvOv = document.getElementById("qvOv"),
+        qvImg = document.getElementById("qvImg"), qvBadge = document.getElementById("qvBadge"),
+        qvTitle = document.getElementById("qvTitle"), qvColors = document.getElementById("qvColors"),
+        qvHeight = document.getElementById("qvHeight"), qvPrice = document.getElementById("qvPrice"),
+        qvEcon = document.getElementById("qvEcon"), qvAdd = document.getElementById("qvAdd");
+    var qvModel = null;
+    function qvRefresh() {
+        var p = priceNum(qvHeight.value);
+        if (!p) { qvPrice.textContent = ""; qvEcon.textContent = ""; return; }
+        if (DISCOUNT > 0) { var o = oldPrice(p); qvPrice.innerHTML = fmt(p) + ' ₴ <span class="old">' + fmt(o) + ' ₴</span>'; qvEcon.textContent = "Економія " + fmt(o - p) + " ₴"; }
+        else { qvPrice.textContent = fmt(p) + " ₴"; qvEcon.textContent = ""; }
+    }
+    function openQuickView(c) {
+        if (!qv) return;
+        qvImg.src = c.img; qvImg.alt = c.title;
+        if (qvBadge) { qvBadge.textContent = DISCOUNT > 0 ? ("−" + DISCOUNT + "%") : ""; qvBadge.style.display = DISCOUNT > 0 ? "block" : "none"; }
+        qvTitle.textContent = c.title;
+        qvModel = c.colors[0].v;
+        qvColors.innerHTML = "";
+        if (c.colors.length > 1) {
+            c.colors.forEach(function (col, i) {
+                var b = document.createElement("button"); b.type = "button"; b.className = "sw" + (i === 0 ? " on" : ""); b.style.background = col.sw; b.title = col.label;
+                b.addEventListener("click", function () { qvColors.querySelectorAll(".sw").forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on"); qvModel = col.v; fillHeights(qvHeight, col.v); qvRefresh(); });
+                qvColors.appendChild(b);
+            });
+        }
+        fillHeights(qvHeight, qvModel); qvRefresh();
+        qv.classList.add("show"); qv.setAttribute("aria-hidden", "false"); if (qvOv) qvOv.classList.add("show");
+    }
+    function closeQuickView() { if (qv) { qv.classList.remove("show"); qv.setAttribute("aria-hidden", "true"); } if (qvOv) qvOv.classList.remove("show"); }
+    if (qvHeight) qvHeight.addEventListener("change", qvRefresh);
+    var qvX = document.getElementById("qvX"); if (qvX) qvX.addEventListener("click", closeQuickView);
+    if (qvOv) qvOv.addEventListener("click", closeQuickView);
+    if (qvAdd) qvAdd.addEventListener("click", function () {
+        var p = priceNum(qvHeight.value); if (!p) return;
+        var variant = (qvHeight.value.split(" - ")[0] || "").trim();
+        cartAdd({ name: qvModel, variant: variant, price: p, img: qvImg.src });
+        closeQuickView(); openCart();
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeQuickView(); closeCart(); } });
+
+    // ---------- Рендер каталогу ----------
+    var pillsBox = document.getElementById("catPills"); var pills = [];
+    if (pillsBox && catBox) {
         CATS.forEach(function (cat, i) {
             var b = document.createElement("button");
             b.type = "button"; b.className = "catpill" + (i === 0 ? " on" : ""); b.textContent = cat; b.setAttribute("data-cat", cat);
             b.addEventListener("click", function () {
                 pills.forEach(function (p) { p.classList.remove("on"); });
                 b.classList.add("on");
-                box.querySelectorAll(".card").forEach(function (cd) {
+                catBox.querySelectorAll(".card").forEach(function (cd) {
                     var show = cat === "Усі" || (cd.getAttribute("data-cat") || "").split("|").indexOf(cat) >= 0;
                     cd.classList.toggle("hide", !show);
                 });
@@ -331,7 +427,7 @@ treeSelect.addEventListener("change", function () {
             pillsBox.appendChild(b); pills.push(b);
         });
     }
-    CARDS.forEach(function (c) {
+    if (catBox) CARDS.forEach(function (c) {
         var model = c.colors[0].v;
         var multi = c.colors.length > 1;
         var swHtml = multi
@@ -347,8 +443,8 @@ treeSelect.addEventListener("change", function () {
             '<div class="b"><div class="nm">' + c.title + '</div>' + swHtml +
             '<div class="sellabel">Оберіть висоту</div><select class="h-sel"></select>' +
             '<div class="c-price"></div><div class="c-econ"></div>' +
-            '<a class="cbuy" href="#order">Замовити</a></div>';
-        box.appendChild(card);
+            '<a class="cbuy" href="#">Додати в кошик →</a></div>';
+        catBox.appendChild(card);
         var hsel = card.querySelector(".h-sel");
         var priceEl = card.querySelector(".c-price");
         var econEl = card.querySelector(".c-econ");
@@ -356,35 +452,73 @@ treeSelect.addEventListener("change", function () {
         function refresh() {
             var p = priceNum(hsel.value);
             if (!p) { priceEl.textContent = ""; econEl.textContent = ""; return; }
-            if (DISCOUNT > 0) {
-                var old = Math.round(p / (1 - DISCOUNT / 100) / 10) * 10;
-                priceEl.innerHTML = fmt(p) + ' ₴ <span class="old">' + fmt(old) + ' ₴</span>';
-                econEl.textContent = "Економія " + fmt(old - p) + " ₴";
-            } else {
-                priceEl.textContent = fmt(p) + " ₴";
-                econEl.textContent = "";
-            }
+            if (DISCOUNT > 0) { var o = oldPrice(p); priceEl.innerHTML = fmt(p) + ' ₴ <span class="old">' + fmt(o) + ' ₴</span>'; econEl.textContent = "Економія " + fmt(o - p) + " ₴"; }
+            else { priceEl.textContent = fmt(p) + " ₴"; econEl.textContent = ""; }
         }
         fillHeights(hsel, model); refresh();
         hsel.addEventListener("change", refresh);
-        card.querySelectorAll(".sw").forEach(function (b) {
+        card.querySelectorAll(".swatches .sw").forEach(function (b) {
             b.addEventListener("click", function () {
-                card.querySelectorAll(".sw").forEach(function (x) { x.classList.remove("on"); });
+                card.querySelectorAll(".swatches .sw").forEach(function (x) { x.classList.remove("on"); });
                 b.classList.add("on");
                 model = b.getAttribute("data-v");
                 if (clName) clName.textContent = b.getAttribute("data-label");
                 fillHeights(hsel, model); refresh();
             });
         });
+        var ph = card.querySelector(".ph"); ph.style.cursor = "pointer";
+        ph.addEventListener("click", function () { openQuickView(c); });
+        card.querySelector(".nm").style.cursor = "pointer";
+        card.querySelector(".nm").addEventListener("click", function () { openQuickView(c); });
         card.querySelector(".cbuy").addEventListener("click", function (e) {
             e.preventDefault();
-            try { if (typeof treeSelect !== "undefined" && treeSelect) { treeSelect.value = model; treeSelect.dispatchEvent(new Event("change")); } } catch (_) {}
-            var ss = document.getElementById("sizeSelect");
-            if (ss) { ss.value = hsel.value; ss.dispatchEvent(new Event("change")); }
-            var order = document.getElementById("order");
-            if (order) window.scrollTo({ top: order.offsetTop - 8, behavior: "smooth" });
+            var p = priceNum(hsel.value); if (!p) return;
+            var variant = (hsel.value.split(" - ")[0] || "").trim();
+            cartAdd({ name: model, variant: variant, price: p, img: c.img });
+            openCart();
         });
     });
+
+    // ---------- Доповнення (гірлянди/іграшки) → кошик ----------
+    document.querySelectorAll(".addon-cart").forEach(function (b) {
+        b.addEventListener("click", function () {
+            cartAdd({ name: b.getAttribute("data-name"), variant: "", price: Number(b.getAttribute("data-price")) || 0, img: b.getAttribute("data-img") || "" });
+            openCart();
+        });
+    });
+
+    // ---------- Оформлення: кошик → форма ----------
+    var checkoutBtn = document.getElementById("cartCheckout");
+    var orderForm = document.getElementById("order_form");
+    var ocs = document.getElementById("orderCartSummary");
+    function renderOrderSummary() {
+        if (!ocs) return;
+        if (!cart.length) { ocs.style.display = "none"; if (orderForm) orderForm.classList.remove("cart-mode"); return; }
+        var html = '<div class="ocs-hd">🛒 Ваше замовлення</div>';
+        cart.forEach(function (it) { html += '<div class="ocs-li"><span>' + it.name + (it.variant ? (" · " + it.variant) : "") + ' ×' + (it.qty || 1) + '</span><span>' + fmt(it.price * (it.qty || 1)) + ' ₴</span></div>'; });
+        html += '<div class="ocs-tot"><span>Разом</span><span>' + fmt(cartTotal()) + ' ₴</span></div>';
+        html += '<span class="ocs-edit" id="ocsEdit">← Змінити кошик</span>';
+        ocs.innerHTML = html; ocs.style.display = "block";
+        if (orderForm) orderForm.classList.add("cart-mode");
+        var ed = document.getElementById("ocsEdit"); if (ed) ed.addEventListener("click", openCart);
+    }
+    if (checkoutBtn) checkoutBtn.addEventListener("click", function () {
+        if (!cart.length) return;
+        renderOrderSummary();
+        closeCart();
+        var order = document.getElementById("order");
+        if (order) window.scrollTo({ top: order.offsetTop - 8, behavior: "smooth" });
+    });
+
+    // доступ для обробника сабміту форми
+    window.YalCart = {
+        items: function () { return cart.map(function (i) { return { name: i.name, variant: i.variant, price: i.price, qty: i.qty }; }); },
+        count: cartCount, total: cartTotal, clear: cartClear,
+        has: function () { return cart.length > 0; },
+        refreshSummary: renderOrderSummary
+    };
+
+    updateBadge(); renderCart();
 })();
 
 // автопідстановка при кліку на кнопку
@@ -431,19 +565,21 @@ document.getElementById("order_form").addEventListener("submit", async function 
         }
     }
 
-    // Тип ялинки
+    // Замовлення з кошика (міні-магазин) чи одна ялинка з форми?
+    const cartMode = !!(window.YalCart && window.YalCart.has());
+
+    // Тип + розмір ялинки — валідуємо лише коли замовлення НЕ з кошика
     const treeSelect = document.getElementById("treeSelect");
-    clearError(treeSelect);
-
-    if (!treeSelect.value) {
-        showError(treeSelect, "Будь ласка, виберіть вид ялинки.");
-    }
-
-    // Розмір
     const sizeSelect = document.getElementById("sizeSelect");
+    clearError(treeSelect);
     clearError(sizeSelect);
-    if (sizeSelect.disabled || !sizeSelect.value) {
-        showError(sizeSelect, "Будь ласка, виберіть розмір ялинки.");
+    if (!cartMode) {
+        if (!treeSelect.value) {
+            showError(treeSelect, "Будь ласка, виберіть вид ялинки.");
+        }
+        if (sizeSelect.disabled || !sizeSelect.value) {
+            showError(sizeSelect, "Будь ласка, виберіть розмір ялинки.");
+        }
     }
 
     // Ім’я
@@ -488,10 +624,11 @@ document.getElementById("order_form").addEventListener("submit", async function 
 
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
+            const cartItems = cartMode ? window.YalCart.items() : null;
             if (typeof fbq === 'function') {
                 fbq('track', 'Lead', {
-                    content_name: data.type,
-                    content_category: data.size,
+                    content_name: cartMode ? 'Кошик' : data.type,
+                    content_category: cartMode ? (cartItems.length + ' поз.') : data.size,
                 }, {
                     eventID: event_id
                 });
@@ -501,6 +638,7 @@ document.getElementById("order_form").addEventListener("submit", async function 
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     ...data,
+                    ...(cartMode ? {cart: JSON.stringify(cartItems)} : {}),
                     _fbp: getFbClientId(),
                     _fbc: getFbClickId(),
                     ...getUtmParams() // utm_source/medium/campaign/content/term з URL → CRM-атрибуція
@@ -510,6 +648,7 @@ document.getElementById("order_form").addEventListener("submit", async function 
             // якщо сервер повертає JSON з redirect
             const json = await response.json();
             if (json?.redirect) {
+                if (cartMode && window.YalCart) window.YalCart.clear();
                 window.location.href = json.redirect; // вручну робимо редірект
             } else {
                 // fallback: якщо сервер віддав 200/HTML, можна парсити або перейти вручну
