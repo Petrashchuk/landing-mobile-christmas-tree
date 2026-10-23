@@ -277,45 +277,58 @@ treeSelect.addEventListener("change", function () {
     upd();
 })();
 
-// Інтерактивний каталог (нова сторінка): картка з вибором кольору + висоти + живою ціною
+// Інтерактивний каталог (нова сторінка): картка з вибором кольору + висоти + живою ціною + фільтр + акція
 (function () {
     var box = document.getElementById("catalogCards");
     if (!box || typeof treeSizes === "undefined") return;
+    var DISCOUNT = 30; // % «старої ціни» (анкер магазину); 0 = показувати лише поточну ціну
     var CARDS = [
-        { title: "Снігова Королева", img: "trees/snow-queen/1.png", colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
-        { title: "Казка", img: "trees/kazka/1.png", colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
-        { title: "Елітна з шишкою", img: "trees/elite/1.png", colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
-        { title: "Кармен + ягідки", img: "trees/karmen/1.png", colors: [
+        { title: "Казка", img: "trees/kazka/1.webp", cat: "Зелена", colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
+        { title: "Снігова Королева", img: "trees/snow-queen/1.webp", cat: "Білі кінчики", colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
+        { title: "Елітна з шишкою", img: "trees/elite/1.webp", cat: "З декором", colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
+        { title: "Кармен + ягідки", img: "trees/karmen/1.webp", cat: "З декором", colors: [
             { label: "Червоні", v: "Кармен + червоні ягідки", sw: "#c0392b" },
             { label: "Сині", v: "Кармен + сині ягідки", sw: "#2e5fb0" },
             { label: "Срібні", v: "Кармен + срібні ягідки", sw: "#c9ccd1" },
             { label: "Золоті", v: "Кармен + золоті ягідки", sw: "#d4af37" } ] },
-        { title: "Тріумф (лита)", img: "trees/triumph-green/1.png", colors: [
+        { title: "Тріумф (лита)", img: "trees/triumph-green/1.webp", cat: "Лита", colors: [
             { label: "Зелена", v: "Тріумф Зелена", sw: "#2e7d32" },
             { label: "Блакитна", v: "Тріумф Блакитна", sw: "#7fb0d8" },
             { label: "Засніжена", v: "Тріумф Засніжена", sw: "#eaf2ff" } ] },
-        { title: "Роял (лита)", img: "trees/royal-green/1.png", colors: [
+        { title: "Роял (лита)", img: "trees/royal-green/1.webp", cat: "Лита", colors: [
             { label: "Зелена", v: "Роял Зелена", sw: "#2e7d32" },
             { label: "Блакитна", v: "Роял Блакитна", sw: "#7fb0d8" },
             { label: "Засніжена", v: "Роял Засніжена", sw: "#eaf2ff" } ] },
-        { title: "Буковельська", img: "trees/bukovelska-green/1.png", colors: [
-            { label: "Зелена", v: "Буковельська Зелена", sw: "#2e7d32" },
-            { label: "Блакитна", v: "Буковельська Блакитна", sw: "#7fb0d8" },
-            { label: "Засніжена", v: "Буковельська Засніжена", sw: "#eaf2ff" } ] },
-        { title: "Віденська", img: "trees/videnska/1.png", colors: [{ label: "Зелена", v: "Віденська", sw: "#2e7d32" }] },
-        { title: "Смерека", img: "trees/smereka/1.png", colors: [{ label: "Зелена", v: "Смерека", sw: "#2e7d32" }] },
-        { title: "Горщик — Роял", img: "trees/royal-green/1.png", colors: [
-            { label: "Зелена", v: "Горщик - Роял Зелена", sw: "#2e7d32" },
-            { label: "Блакитна", v: "Горщик - Роял Блакитна", sw: "#7fb0d8" },
-            { label: "Засніжена", v: "Горщик - Роял Засніжена", sw: "#eaf2ff" } ] }
+        { title: "Віденська", img: "trees/videnska/1.webp", cat: "Зелена", colors: [{ label: "Зелена", v: "Віденська", sw: "#2e7d32" }] },
+        { title: "Смерека", img: "trees/smereka/1.webp", cat: "Зелена", colors: [{ label: "Зелена", v: "Смерека", sw: "#2e7d32" }] }
     ];
-    function priceOf(v) { var m = (v || "").match(/(\d[\d\s]*)\s*грн/i); return m ? m[1].replace(/\s/g, "") : ""; }
+    var CATS = ["Усі", "Зелена", "Білі кінчики", "Лита", "З декором"];
+    function priceNum(v) { var m = (v || "").match(/(\d[\d\s]*)\s*грн/i); return m ? parseInt(m[1].replace(/\s/g, ""), 10) : 0; }
+    function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
     function fillHeights(sel, model) {
         sel.innerHTML = "";
         (treeSizes[model] || []).forEach(function (s) {
             var o = document.createElement("option");
             o.value = s; o.textContent = (s.split(" - ")[0] || s).trim();
             sel.appendChild(o);
+        });
+    }
+    // фільтр-пілюлі категорій
+    var pillsBox = document.getElementById("catPills");
+    var pills = [];
+    if (pillsBox) {
+        CATS.forEach(function (cat, i) {
+            var b = document.createElement("button");
+            b.type = "button"; b.className = "catpill" + (i === 0 ? " on" : ""); b.textContent = cat; b.setAttribute("data-cat", cat);
+            b.addEventListener("click", function () {
+                pills.forEach(function (p) { p.classList.remove("on"); });
+                b.classList.add("on");
+                box.querySelectorAll(".card").forEach(function (cd) {
+                    var show = cat === "Усі" || cd.getAttribute("data-cat") === cat;
+                    cd.classList.toggle("hide", !show);
+                });
+            });
+            pillsBox.appendChild(b); pills.push(b);
         });
     }
     CARDS.forEach(function (c) {
@@ -325,19 +338,33 @@ treeSelect.addEventListener("change", function () {
             ? '<div class="collabel">Колір: <b class="cl-name">' + c.colors[0].label + '</b></div><div class="swatches">' +
               c.colors.map(function (col, i) { return '<button type="button" class="sw' + (i === 0 ? " on" : "") + '" style="background:' + col.sw + '" data-v="' + col.v + '" data-label="' + col.label + '" title="' + col.label + '"></button>'; }).join("") + '</div>'
             : "";
+        var badge = DISCOUNT > 0 ? '<span class="badge">−' + DISCOUNT + '%</span>' : "";
         var card = document.createElement("div");
         card.className = "card";
+        card.setAttribute("data-cat", c.cat);
         card.innerHTML =
-            '<div class="ph"><img loading="lazy" src="' + c.img + '" alt="' + c.title + '"></div>' +
+            '<div class="ph"><img loading="lazy" src="' + c.img + '" alt="' + c.title + '">' + badge + '</div>' +
             '<div class="b"><div class="nm">' + c.title + '</div>' + swHtml +
             '<div class="sellabel">Оберіть висоту</div><select class="h-sel"></select>' +
-            '<div class="c-price"></div>' +
+            '<div class="c-price"></div><div class="c-econ"></div>' +
             '<a class="cbuy" href="#order">Замовити</a></div>';
         box.appendChild(card);
         var hsel = card.querySelector(".h-sel");
         var priceEl = card.querySelector(".c-price");
+        var econEl = card.querySelector(".c-econ");
         var clName = card.querySelector(".cl-name");
-        function refresh() { var p = priceOf(hsel.value); priceEl.textContent = p ? (p + " ₴") : ""; }
+        function refresh() {
+            var p = priceNum(hsel.value);
+            if (!p) { priceEl.textContent = ""; econEl.textContent = ""; return; }
+            if (DISCOUNT > 0) {
+                var old = Math.round(p / (1 - DISCOUNT / 100) / 10) * 10;
+                priceEl.innerHTML = fmt(p) + ' ₴ <span class="old">' + fmt(old) + ' ₴</span>';
+                econEl.textContent = "Економія " + fmt(old - p) + " ₴";
+            } else {
+                priceEl.textContent = fmt(p) + " ₴";
+                econEl.textContent = "";
+            }
+        }
         fillHeights(hsel, model); refresh();
         hsel.addEventListener("change", refresh);
         card.querySelectorAll(".sw").forEach(function (b) {

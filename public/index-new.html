@@ -10,10 +10,15 @@
     <meta property="og:title" content="Yalynka — штучні ялинки від виробника">
     <meta property="og:description" content="Преміальні штучні ялинки: ПВХ, литі, у горщику. Доставка по Україні, оплата при отриманні.">
     <meta property="og:url" content="https://land.yalynkahub.com.ua/">
-    <meta property="og:image" content="https://land.yalynkahub.com.ua/ktn.png">
+    <meta property="og:image" content="https://land.yalynkahub.com.ua/logo-full.png">
     <meta property="og:locale" content="uk_UA">
-    <meta name="theme-color" content="#1f7a3f">
-    <link rel="shortcut icon" href="ktn.png" type="image/png">
+    <meta name="theme-color" content="#042623">
+    <link rel="shortcut icon" href="logo-mark.png" type="image/png">
+
+    <!-- Бренд-шрифт -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
 
     <!-- Стилі форми (поля/НП) + owl для слайдера відгуків -->
     <link rel="stylesheet" href="css/owl.carousel.min.css">
@@ -32,9 +37,21 @@
     </script>
 
     <style>
-      :root { --org:#F77A1E; --grn:#1f7a3f; --grn-d:#15532b; --dark:#242424; --bg:#ffffff; --soft:#f5f7f5; }
+      /* Yalynka brand guideline */
+      @font-face { font-family:"Mateur"; src:url("fonts/Mateur.woff2") format("woff2"), url("fonts/Mateur.ttf") format("truetype"); font-display:swap; }
+      :root {
+        --bg:#F8F5F0;      /* крем */
+        --grn-d:#042623;   /* темно-зелений */
+        --grn:#0a4a3a;     /* зелений (похідний) */
+        --org:#7F1B15;     /* цегляний — основний акцент */
+        --gold:#C6A15B;    /* золото (лого) */
+        --sage:#BFBE9F;    /* шавлія */
+        --dark:#2a211c;    /* теплий темний текст */
+        --soft:#efeae0;    /* м'яка крем-панель */
+        --display:"Mateur","Inter",system-ui,sans-serif;
+      }
       * { box-sizing: border-box; }
-      body { margin:0; background:var(--bg); color:var(--dark); font-family:"AvenirNextCyr","Segoe UI",system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+      body { margin:0; background:var(--bg); color:var(--dark); font-family:"Inter","Segoe UI",system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
       img { max-width:100%; display:block; }
       a { color:inherit; text-decoration:none; }
       .wrap { max-width:480px; margin:0 auto; }
@@ -42,19 +59,19 @@
       .h2 { font-size:22px; font-weight:800; text-align:center; margin:0 0 4px; color:var(--grn-d); }
       .h2 b { color:var(--org); }
       .sub { text-align:center; color:#666; font-size:14px; margin:0 0 16px; }
-      .btn { display:inline-block; background:var(--org); color:#fff; font-weight:800; font-size:16px; padding:14px 26px; border-radius:30px; border:none; cursor:pointer; box-shadow:0 6px 18px rgba(247,122,30,.35); transition:transform .15s; text-align:center; }
+      .btn { display:inline-block; background:var(--org); color:#fff; font-weight:800; font-size:16px; padding:14px 26px; border-radius:30px; border:none; cursor:pointer; box-shadow:0 6px 18px rgba(127,27,21,.28); transition:transform .15s; text-align:center; }
       .btn:active { transform:scale(.98); }
-      .btn-grn { background:var(--grn); box-shadow:0 6px 18px rgba(31,122,63,.3); }
+      .btn-grn { background:var(--grn); box-shadow:0 6px 18px rgba(4,38,35,.3); }
 
       /* Header */
       header { position:sticky; top:0; z-index:40; background:var(--grn-d); color:#fff; display:flex; align-items:center; justify-content:space-between; padding:8px 14px; }
       header .logo { display:flex; align-items:center; gap:8px; font-weight:800; font-size:18px; }
       header .logo img { width:34px; height:34px; border-radius:6px; }
-      header .hphone { font-size:13px; font-weight:700; color:#ffd9b3; white-space:nowrap; }
+      header .hphone { font-size:13px; font-weight:700; color:var(--gold); white-space:nowrap; }
       .saletop { background:var(--org); color:#fff; text-align:center; font-weight:800; font-size:13px; padding:7px 10px; }
 
       /* Hero */
-      .hero { position:relative; color:#fff; text-align:center; padding:34px 18px 28px; background:linear-gradient(180deg, rgba(21,83,43,.55), rgba(21,83,43,.75)), url('trees/royal-snow/1.png') center/cover no-repeat; }
+      .hero { position:relative; color:#fff; text-align:center; padding:34px 18px 28px; background:linear-gradient(180deg, rgba(4,38,35,.55), rgba(4,38,35,.82)), url('trees/royal-snow/1.png') center/cover no-repeat; }
       .hero h1 { font-size:27px; line-height:1.2; font-weight:900; margin:0 0 10px; text-shadow:0 2px 10px rgba(0,0,0,.4); }
       .hero p { font-size:15px; margin:0 0 18px; opacity:.95; }
       .hero .btn { font-size:17px; }
@@ -82,13 +99,24 @@
       .card .collabel { font-size:12px; color:#666; margin:8px 0 4px; }
       .card .swatches { display:flex; gap:8px; margin-bottom:8px; }
       .card .sw { width:26px; height:26px; border-radius:50%; border:2px solid #ddd; cursor:pointer; padding:0; }
-      .card .sw.on { border-color:var(--org); box-shadow:0 0 0 2px rgba(247,122,30,.25); }
+      .card .sw.on { border-color:var(--org); box-shadow:0 0 0 2px rgba(127,27,21,.22); }
       .card .sellabel { font-size:12px; color:#666; margin:2px 0 3px; }
       .card select.h-sel { width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:14px; background:#fff; color:#333; cursor:pointer; }
-      .card .c-price { color:var(--org); font-weight:800; font-size:19px; margin:9px 0 10px; }
+      .card .c-price { color:var(--org); font-weight:800; font-size:19px; margin:9px 0 2px; }
+      .card .c-price .old { color:#b7a98f; font-weight:600; font-size:13px; text-decoration:line-through; margin-left:7px; }
+      .card .c-econ { color:var(--grn); font-weight:700; font-size:12px; margin:0 0 10px; }
+      .card .ph { position:relative; }
+      .card .badge { position:absolute; top:10px; right:10px; background:var(--org); color:#fff; font-weight:800; font-size:12px; padding:5px 9px; border-radius:8px; box-shadow:0 3px 8px rgba(0,0,0,.2); }
+
+      /* Catalog filter pills */
+      .catpills { display:flex; gap:8px; overflow-x:auto; padding:4px 0 2px; justify-content:center; flex-wrap:wrap; }
+      .catpills::-webkit-scrollbar { height:0; }
+      .catpill { flex:0 0 auto; background:#fff; border:1px solid #ddd; color:var(--grn-d); font-weight:700; font-size:13px; padding:8px 16px; border-radius:30px; cursor:pointer; white-space:nowrap; transition:.15s; }
+      .catpill.on { background:var(--org); border-color:var(--org); color:#fff; }
+      .card.hide { display:none; }
 
       /* Size hint */
-      .hint { max-width:440px; margin:0 auto; background:#fff3e8; border:1px dashed var(--org); border-radius:12px; padding:12px 14px; color:#8a4b12; font-size:14px; text-align:center; }
+      .hint { max-width:440px; margin:0 auto; background:#f4efe3; border:1px dashed var(--gold); border-radius:12px; padding:12px 14px; color:#6a5230; font-size:14px; text-align:center; }
       .hint b { color:var(--org); }
 
       /* Order box */
@@ -99,7 +127,7 @@
       .offer_section .field { width:100% !important; max-width:400px; padding-left:20px !important; background-image:none !important; }
       .offer_section .field[name="type"], .offer_section .field[name="size"] { padding-left:20px !important; }
       .np-autocomplete, .np-note { max-width:400px; }
-      .order_form .button[type="submit"] { display:block; width:100%; max-width:400px; margin:14px auto 0; background:var(--org); color:#fff; border:none; border-radius:30px; padding:15px; font-weight:800; font-size:17px; cursor:pointer; box-shadow:0 6px 18px rgba(247,122,30,.35); }
+      .order_form .button[type="submit"] { display:block; width:100%; max-width:400px; margin:14px auto 0; background:var(--org); color:#fff; border:none; border-radius:30px; padding:15px; font-weight:800; font-size:17px; cursor:pointer; box-shadow:0 6px 18px rgba(127,27,21,.28); }
 
       /* FAQ */
       .faq__item { border-bottom:1px solid #eaeaea; }
@@ -115,7 +143,7 @@
 
       /* Footer */
       footer.ft { background:var(--grn-d); color:#fff; text-align:center; padding:22px 16px 90px; font-size:14px; line-height:1.9; }
-      footer.ft a.org { color:var(--org); }
+      footer.ft a.org { color:var(--gold); }
       footer.ft .soc { display:flex; justify-content:center; gap:14px; margin:12px 0; }
       footer.ft .soc img { width:38px; }
 
@@ -139,7 +167,7 @@
 
 <div class="saletop">🎄 Новорічний розпродаж — знижки до −30% на всі ялинки</div>
 <header>
-    <a class="logo" href="#"><img src="ktn.png" alt="Yalynka">Yalynka</a>
+    <a class="logo" href="#"><img src="logo-mark.png" alt="Yalynka">Yalynka</a>
     <a class="hphone" href="tel:+380672536941">📞 +380 67 25 369 41</a>
 </header>
 
@@ -164,6 +192,7 @@
 <section class="sec" id="catalog">
     <h2 class="h2">Обери свою <b>ялинку</b></h2>
     <p class="sub">Оберіть колір і висоту прямо на картці — ціна оновиться. Тоді «Замовити».</p>
+    <div class="catpills" id="catPills"></div>
 </section>
 <div class="rail" id="catalogCards"></div>
 
@@ -214,7 +243,7 @@
                     <option>Виберіть розмір ялинки</option>
                 </select>
 
-                <div id="priceDisplay" style="display:none;text-align:center;font-weight:900;font-size:20px;color:#F77A1E;margin:6px 0 10px;"></div>
+                <div id="priceDisplay" style="display:none;text-align:center;font-weight:900;font-size:20px;color:#7F1B15;margin:6px 0 10px;"></div>
 
                 <input class="field" type="text" name="name" required autocomplete="name" placeholder="Введіть Ваше ім'я">
                 <input class="field mask_phone" type="tel" name="phone" required inputmode="tel" autocomplete="tel" placeholder="Введіть Ваш телефон">
@@ -274,17 +303,6 @@
     </div>
 </section>
 
-<!-- FAQ -->
-<section class="sec" id="faq">
-    <h2 class="h2">Часті <b>запитання</b></h2>
-    <div class="faq__item"><button class="faq__q" type="button">З якого матеріалу ялинки?</button><div class="faq__a"><p>Залежно від моделі — ПВХ, литі (PE) або у горщику. Усі без запаху, з сертифікатом якості та екологічно безпечні.</p></div></div>
-    <div class="faq__item"><button class="faq__q" type="button">Яку висоту обрати?</button><div class="faq__a"><p>Обирайте ялинку щонайменше на 30–40 см нижчу за стелю, щоб вистачило місця для верхівки/зірки.</p></div></div>
-    <div class="faq__item"><button class="faq__q" type="button">Скільки триває доставка?</button><div class="faq__a"><p>Відправляємо Новою Поштою протягом 1–2 днів. Доставка по Україні зазвичай 2–3 дні.</p></div></div>
-    <div class="faq__item"><button class="faq__q" type="button">Як оплатити?</button><div class="faq__a"><p>Накладений платіж — оплата при отриманні на відділенні Нової Пошти, оглянувши товар.</p></div></div>
-    <div class="faq__item"><button class="faq__q" type="button">Чи складно зібрати?</button><div class="faq__a"><p>Ні, збирання займає 10–15 хвилин — секції з'єднуються, гілки розправляються. Інструменти не потрібні.</p></div></div>
-    <div class="faq__item"><button class="faq__q" type="button">Чи є гарантія та повернення?</button><div class="faq__a"><p>Так, можна оглянути товар при отриманні, а також обміняти/повернути протягом 14 днів згідно із законом.</p></div></div>
-</section>
-
 <footer class="ft">
     <b>ІНТЕРНЕТ-МАГАЗИН ШТУЧНИХ ЯЛИНОК ВІД ВИРОБНИКА</b><br>
     Працюємо щодня 07:00–23:00
@@ -312,6 +330,6 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=8"></script>
+<script defer src="js/scripts.js?v=9"></script>
 </body>
 </html>
