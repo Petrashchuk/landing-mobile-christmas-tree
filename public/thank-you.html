@@ -1,717 +1,375 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <title>Cпецпропозиція від нашого інтернет-магазину, товари за супер-ціною! Знижки до 80%.</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./ktn.png" type="image/x-icon">
-    <meta name="csrf-param" content="_csrf">
-    <meta name="csrf-token"
-          content="ORooqqz9EesT0qacTwZScoS1VrjnobTv4rR6uTCHXNtVUmDJnqpLnViV8eo3dhwazuwO0qbT9biK2xbaX_4Vqg==">
-
-    <link href="css/thankyou.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дякуємо за замовлення — Yalynka</title>
+<meta name="robots" content="noindex">
+<link rel="shortcut icon" href="logo-mark.png" type="image/png">
+<link rel="apple-touch-icon" href="logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--grn-d:#7C1A14;--gold:#C6A15B;--org:#9A2016;--bg:#F8F5F0;--soft:#efeae0;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:#2a211c;font-family:'Inter',system-ui,sans-serif;line-height:1.5;}
+  a{text-decoration:none;color:inherit;}
+  .ty-header{position:sticky;top:0;z-index:10;background:var(--grn-d);display:flex;align-items:center;justify-content:space-between;padding:10px 18px;}
+  .ty-header .logo img{height:46px;width:auto;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));}
+  .ty-header .ty-phone{color:var(--gold);font-weight:800;font-size:15px;white-space:nowrap;}
+  .ty-wrap{max-width:1180px;margin:0 auto;padding:0 16px;}
+  .ty-hero{background:#fff;border-radius:18px;box-shadow:0 10px 34px rgba(124,26,20,.10);margin:24px auto;padding:34px 26px;text-align:center;max-width:720px;border:1px solid #efe7da;}
+  .ty-hero .ty-check{width:66px;height:66px;border-radius:50%;background:#eaf6ec;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+  .ty-hero .ty-check svg{width:34px;height:34px;stroke:#2e9d4e;}
+  .ty-hero h1{font-size:27px;font-weight:900;margin:0 0 10px;color:var(--grn-d);}
+  .ty-hero p{font-size:15.5px;color:#5a5047;margin:8px 0;}
+  .ty-hero .ty-phone-b{font-weight:900;color:var(--org);white-space:nowrap;}
+  .ty-hero .ty-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+  .ty-btn{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:15px;padding:13px 24px;border-radius:30px;cursor:pointer;border:none;}
+  .ty-btn-gold{background:var(--gold);color:#3a2a10;}
+  .ty-btn-tg{background:#229ED9;color:#fff;}
+  .ty-sec-title{text-align:center;margin:38px 0 6px;font-size:24px;font-weight:900;color:var(--grn-d);}
+  .ty-sec-sub{text-align:center;color:#6a5f54;font-size:14.5px;margin:0 auto 22px;max-width:560px;}
+  .ty-sub-h{grid-column:1/-1;font-size:19px;font-weight:800;color:var(--grn-d);margin:14px 2px 2px;}
+  .ty-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  @media(min-width:760px){.ty-grid{grid-template-columns:repeat(4,1fr);gap:18px;}}
+  .ty-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.07);display:flex;flex-direction:column;border:1px solid #f0e9dd;transition:transform .15s,box-shadow .15s;}
+  .ty-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(124,26,20,.12);}
+  .ty-ph{aspect-ratio:1/1;background:var(--soft);}
+  .ty-ph img{width:100%;height:100%;object-fit:cover;display:block;}
+  .ty-b{padding:12px 12px 14px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .ty-nm{font-size:13.5px;font-weight:700;color:#3a2f27;line-height:1.35;}
+  .ty-price{font-size:19px;font-weight:900;color:var(--org);margin-top:auto;}
+  .ty-old{font-size:13px;font-weight:700;color:#aa9f90;text-decoration:line-through;margin-left:4px;}
+  .ty-buy{background:var(--gold);color:#3a2a10;border:none;border-radius:9px;padding:11px;font-weight:800;font-size:14px;cursor:pointer;}
+  .ty-buy:hover{filter:brightness(1.05);}
+  .ty-note{text-align:center;color:#9a8f80;font-size:12.5px;margin:26px 0 6px;}
+  .ty-footer{background:var(--grn-d);color:#fff;text-align:center;padding:26px 16px;margin-top:40px;font-size:14px;}
+  .ty-footer a{color:var(--gold);font-weight:700;}
+  /* popup */
+  .ty-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;}
+  .ty-pop{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:92%;max-width:420px;background:#fff;border-radius:16px;padding:26px 22px;z-index:51;box-shadow:0 24px 70px rgba(0,0,0,.4);text-align:center;}
+  .ty-pop h3{margin:0 0 10px;color:var(--grn-d);font-size:20px;font-weight:900;}
+  .ty-pop p{color:#5a5047;font-size:14.5px;margin:0 0 18px;}
+  .ty-pop .ty-btn{width:100%;justify-content:center;}
+  .ty-pop .ty-pop-x{position:absolute;top:12px;right:14px;font-size:20px;color:#b3a890;cursor:pointer;line-height:1;}
+</style>
 </head>
-<body class="man" data-new-gr-c-s-check-loaded="14.1223.0" data-gr-ext-installed="">
-<div class="section block-1">
-    <div class="wrap">
-        <div class="top-title">
-            <h2>
-                <h2><span id="customer-name"></span>, Дякуємо за замовлення!</h2>
-            <div>
-                Оператор зв`яжеться з Вами найближчим часом за номером <strong>096 096 8665</strong>.
-            </div>
-            <div class="line"><img src="icons/thankyou-divider.png" alt=""></div>
-            <div class="text">
-                <p>
-                    Якщо Ви допустили помилку, поверніться на сторінку замовлення та відправте форму повторно.
-                </p>
-                <a class="return-to-site" href="/">Повернутися</a>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end container -->
-<div class="wrapper_green">
-    <div class="gifts" id="subscribeBlock">
-<!--        <img class="gifts__mobpict" src="icons/giftsmob.png">-->
-        <div class="gifts__content">
-            <div class="social-block">
-                <p>
-                    Приєднуйтесь до нашого Telegram-магазину і отримуйте знижки на популярні товари. </p>
-                <ul class="social-links">
-                    <li>
-                        <a href="https://t.me/HLINSKYI">
-                            <img src="icons/telegram.png" alt="telegram">
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <p id="dop">
-        Не пропустіть! Будьте першими, хто дізнається про топові товари та новинки магазину.
-    </p>
-<!--    <p style="text-align:center;">-->
-<!--        *актуальну ціну уточнюйте у оператора-->
-<!--    </p>-->
-    <div class="row" id="homeBlock">
-        <div class="col-lg-12 title">
-            <h3>
-            </h3>
-        </div>
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Оксамит - червоний</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бархат/red.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Оксамит - смарагд</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бархат/smaragd.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Оксамит - рожевий</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бархат/pink.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Оксамит - бежевий</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бархат/bezh.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Оксамит - синій</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бархат/blue.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Оксамит - бордовий</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бархат/dark-red.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Оксамит - м'ятний</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бархат/mint.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Оксамит - фіолетовий</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бархат/violet.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Оксамит - сірий</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бархат/grey1.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Блиск - червоний</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/блиск/reg1.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Блиск - синій</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/блиск/blue1.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Блиск - коричневий</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/блиск/brown.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Блиск - золотий</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/блиск/gold.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Блиск - срібний</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/блиск/silver.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Блиск - смарагд</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/блиск/smaragd.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Бите скло - смарагд</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бите-скло/smaragd.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Бите скло - чорний</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бите-скло/black.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Бите скло - червоний</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бите-скло/red.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Бите скло - Жовтий</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бите-скло/gold.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Бите скло - Срібний</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бите-скло/silver.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Бите скло - фіолетовий</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/бите-скло/violet.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Асорті - червоний</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/асорті/red.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Асорті - золотий</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/асорті/gold.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Асорті - синій</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/асорті/blue.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Асорті - фіолетовий</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/асорті/violet.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
-        <!-- / -->
-        <!-- -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Асорті - сірий</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/асорті/grey.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
+<body>
+<header class="ty-header">
+  <a class="logo" href="/"><img src="logo-site.png" alt="Yalynka"></a>
+  <a class="ty-phone" href="tel:+380960968665">096 096 8665</a>
+</header>
 
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Подарунковий набір Асорті - зелений</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="toys/асорті/green.jpg"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1290грн</span></div>
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
-        </div>
+<div class="ty-wrap">
+  <div class="ty-hero">
+    <div class="ty-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <h1><span id="customer-name">Дякуємо</span>, замовлення прийнято! 🎄</h1>
+    <p>Оператор зв'яжеться з Вами найближчим часом за номером <span class="ty-phone-b">096 096 8665</span> для підтвердження.</p>
+    <p>Якщо сталася помилка — поверніться на сайт і оформте замовлення повторно.</p>
+    <div class="ty-actions">
+      <a class="ty-btn ty-btn-gold" href="/">← Повернутися на сайт</a>
+      <a class="ty-btn ty-btn-tg" href="https://t.me/HLINSKYI" target="_blank" rel="noopener">Наш Telegram</a>
+    </div>
+  </div>
 
-        <!-- ───── ГІРЛЯНДИ ───── -->
-        <div class="col-lg-12 title">
-            <h3>🎄 Новорічні гірлянди</h3>
+  <div class="ty-sec-title">✨ Додайте до замовлення зі знижкою</div>
+  <p class="ty-sec-sub">Поки замовлення не відправлене — можна додати прикраси та гірлянди за спеціальною ціною. Натисніть «Замовити» і назвіть товар оператору.</p>
+
+  <div class="ty-grid">
+    <div class="ty-sub-h">🎁 Набори новорічних іграшок</div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бархат/red.jpg" alt="Подарунковий набір Оксамит - червоний"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Оксамит - червоний</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
         </div>
-        <!-- Роса 20м -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Гірлянда Роса нитка 20 м · 200 LED</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="garlands/rosa-20m.webp"></div>
-                <div class="left">
-                    <div class="pop-price"><span>195 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бархат/smaragd.jpg" alt="Подарунковий набір Оксамит - смарагд"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Оксамит - смарагд</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
         </div>
-        <!-- Роса 50м -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Гірлянда Роса нитка 50 м · 500 LED</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="garlands/rosa-50m.webp"></div>
-                <div class="left">
-                    <div class="pop-price"><span>595 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бархат/pink.jpg" alt="Подарунковий набір Оксамит - рожевий"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Оксамит - рожевий</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
         </div>
-        <!-- Роса 100м -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Гірлянда Роса нитка 100 м · 1000 LED</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="garlands/rosa-100m.webp"></div>
-                <div class="left">
-                    <div class="pop-price"><span>1090 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бархат/bezh.jpg" alt="Подарунковий набір Оксамит - бежевий"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Оксамит - бежевий</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
         </div>
-        <!-- Хвойна лапа 30м -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Гірлянда Хвойна Лапа 30 м · 900 LED</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="garlands/hvoyna-30m.webp"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1280грн</span></div>
-                    <div class="pop-price"><span>1075 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бархат/blue.jpg" alt="Подарунковий набір Оксамит - синій"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Оксамит - синій</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
         </div>
-        <!-- Хвойна лапа 50м -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Гірлянда Хвойна Лапа 50 м · 1500 LED</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="garlands/hvoyna-50m.webp"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">1960грн</span></div>
-                    <div class="pop-price"><span>1490 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бархат/dark-red.jpg" alt="Подарунковий набір Оксамит - бордовий"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Оксамит - бордовий</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
         </div>
-        <!-- Хвойна лапа 100м -->
-        <div class="col-md-3 col-sm-6 col-exsm-6">
-            <div class="pop-block">
-                <div class="pop-name">
-                    <span>Гірлянда Хвойна Лапа 100 м · 3000 LED</span>
-                </div>
-                <div class="images_block">
-                    <img loading="lazy" class="pop-img" src="garlands/hvoyna-100m.webp"></div>
-                <div class="left">
-                    <div class="pop-old-price" style="text-decoration:line-through;font-size:17px;font-weight:700;">
-                        Стара ціна <span class="price-old">3200грн</span></div>
-                    <div class="pop-price"><span>2600 грн.*</span></div>
-                </div>
-                <a href="#" class="btn-popup dop">
-                    <div class="pop-button">Замовити</div>
-                </a>
-            </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бархат/mint.jpg" alt="Подарунковий набір Оксамит - м'ятний"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Оксамит - м'ятний</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
         </div>
-    </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бархат/violet.jpg" alt="Подарунковий набір Оксамит - фіолетовий"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Оксамит - фіолетовий</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бархат/grey1.jpg" alt="Подарунковий набір Оксамит - сірий"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Оксамит - сірий</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/блиск/reg1.jpg" alt="Подарунковий набір Блиск - червоний"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Блиск - червоний</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/блиск/blue1.jpg" alt="Подарунковий набір Блиск - синій"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Блиск - синій</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/блиск/brown.jpg" alt="Подарунковий набір Блиск - коричневий"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Блиск - коричневий</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/блиск/gold.jpg" alt="Подарунковий набір Блиск - золотий"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Блиск - золотий</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/блиск/silver.jpg" alt="Подарунковий набір Блиск - срібний"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Блиск - срібний</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/блиск/smaragd.jpg" alt="Подарунковий набір Блиск - смарагд"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Блиск - смарагд</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бите-скло/smaragd.jpg" alt="Подарунковий набір Бите скло - смарагд"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Бите скло - смарагд</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бите-скло/black.jpg" alt="Подарунковий набір Бите скло - чорний"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Бите скло - чорний</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бите-скло/red.jpg" alt="Подарунковий набір Бите скло - червоний"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Бите скло - червоний</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бите-скло/gold.jpg" alt="Подарунковий набір Бите скло - Жовтий"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Бите скло - Жовтий</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бите-скло/silver.jpg" alt="Подарунковий набір Бите скло - Срібний"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Бите скло - Срібний</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/бите-скло/violet.jpg" alt="Подарунковий набір Бите скло - фіолетовий"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Бите скло - фіолетовий</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/асорті/red.jpg" alt="Подарунковий набір Асорті - червоний"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Асорті - червоний</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/асорті/gold.jpg" alt="Подарунковий набір Асорті - золотий"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Асорті - золотий</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/асорті/blue.jpg" alt="Подарунковий набір Асорті - синій"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Асорті - синій</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/асорті/violet.jpg" alt="Подарунковий набір Асорті - фіолетовий"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Асорті - фіолетовий</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/асорті/grey.jpg" alt="Подарунковий набір Асорті - сірий"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Асорті - сірий</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="toys/асорті/green.jpg" alt="Подарунковий набір Асорті - зелений"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Подарунковий набір Асорті - зелений</div>
+            <div class="ty-price">1090 ₴ <span class="ty-old">1290грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+    <div class="ty-sub-h">🎄 Новорічні гірлянди</div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="garlands/rosa-20m.webp" alt="Гірлянда Роса нитка 20 м · 200 LED"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Гірлянда Роса нитка 20 м · 200 LED</div>
+            <div class="ty-price">195 ₴ </div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="garlands/rosa-50m.webp" alt="Гірлянда Роса нитка 50 м · 500 LED"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Гірлянда Роса нитка 50 м · 500 LED</div>
+            <div class="ty-price">595 ₴ </div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="garlands/rosa-100m.webp" alt="Гірлянда Роса нитка 100 м · 1000 LED"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Гірлянда Роса нитка 100 м · 1000 LED</div>
+            <div class="ty-price">1090 ₴ </div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="garlands/hvoyna-30m.webp" alt="Гірлянда Хвойна Лапа 30 м · 900 LED"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Гірлянда Хвойна Лапа 30 м · 900 LED</div>
+            <div class="ty-price">1075 ₴ <span class="ty-old">1280грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="garlands/hvoyna-50m.webp" alt="Гірлянда Хвойна Лапа 50 м · 1500 LED"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Гірлянда Хвойна Лапа 50 м · 1500 LED</div>
+            <div class="ty-price">1490 ₴ <span class="ty-old">1960грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+        <div class="ty-card">
+          <div class="ty-ph"><img loading="lazy" src="garlands/hvoyna-100m.webp" alt="Гірлянда Хвойна Лапа 100 м · 3000 LED"></div>
+          <div class="ty-b">
+            <div class="ty-nm">Гірлянда Хвойна Лапа 100 м · 3000 LED</div>
+            <div class="ty-price">2600 ₴ <span class="ty-old">3200грн</span></div>
+            <button type="button" class="ty-buy">Замовити</button>
+          </div>
+        </div>
+  </div>
+  <p class="ty-note">*актуальну ціну та наявність уточнюйте у оператора</p>
 </div>
-<div class="popup" style="display:none;">
-    <div class="close"
-         style="float: right;cursor: pointer;position: absolute;top: 10px;right: 10px;border: 1px solid #fb041b;padding: 3px;font-size: 16px;line-height: 18px;text-align: center;background: rgba(255,0 ,0,.5);transition: all 0.5s ease-out;color: #fff;width: 25px;height: 25px;">
-        X
-    </div>
-    <p style="color:rgba(0,0,0);text-align:center;margin-bottom: 0;text-align:center;">
-        Для замовлення товарів з акційної пропозиції, назвіть оператору його найменування і товар буде доданий до вашого
-        основного замовлення
-    </p>
+
+<footer class="ty-footer">
+  Yalynka — інтернет-магазин штучних ялинок від виробника<br>
+  Працюємо щодня 07:00–23:00 · <a href="tel:+380960968665">096 096 8665</a>
+</footer>
+
+<div class="ty-ov" id="tyOv"></div>
+<div class="ty-pop" id="tyPop">
+  <span class="ty-pop-x" id="tyPopX">✕</span>
+  <h3>Додаємо до замовлення</h3>
+  <p>Щоб додати цей товар — назвіть його оператору під час дзвінка, і він додасть його до вашого основного замовлення.</p>
+  <button type="button" class="ty-btn ty-btn-gold" id="tyPopOk">Зрозуміло</button>
 </div>
-<div class="overlay" style="display:none;"></div>
-<script src="js/jquery.min.js"></script>
+
 <script>
-
-
-    document.querySelectorAll('.btn-popup.dop').forEach(function (button) {
-        button.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector('.popup').style.display = 'block';
-            document.querySelector('.overlay').style.cssText = 'display: block;width: 100%;height: 100%;position: fixed;top: 0;left: 0;right: 0;bottom: 0;background: rgba(0, 0, 0, .7);z-index:3;';
-        });
-    });
-    document.querySelector('.close').addEventListener('click', function () {
-        document.querySelector('.popup').style.display = 'none';
-        document.querySelector('.overlay').style.display = 'none';
-    });
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const name = urlParams.get('name') || 'Клієнт';
-    document.getElementById('customer-name').textContent = name;
+  var name=new URLSearchParams(location.search).get('name');
+  if(name) document.getElementById('customer-name').textContent='Дякуємо, '+name;
+  var ov=document.getElementById('tyOv'),pop=document.getElementById('tyPop');
+  function openPop(){ov.style.display='block';pop.style.display='block';}
+  function closePop(){ov.style.display='none';pop.style.display='none';}
+  document.querySelectorAll('.ty-buy').forEach(function(b){b.addEventListener('click',openPop);});
+  document.getElementById('tyPopX').addEventListener('click',closePop);
+  document.getElementById('tyPopOk').addEventListener('click',closePop);
+  ov.addEventListener('click',closePop);
 </script>
 </body>
 </html>
