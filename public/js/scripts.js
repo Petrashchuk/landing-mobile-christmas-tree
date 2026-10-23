@@ -908,18 +908,30 @@ document.getElementById("order_form").addEventListener("submit", async function 
         }
     }
 
-    // Ім'я (прізвище — необов'язкове)
+    // Ім'я / Прізвище — лише літери (укр/лат), пробіл, апостроф, дефіс
+    const NAME_RE = /^[A-Za-zА-Яа-яЇїІіЄєҐґÀ-ÿ'’\-\s]+$/;
     const firstName = this.querySelector('[name="first_name"]');
     clearError(firstName);
     if (!firstName || firstName.value.trim().length < 2) {
         showError(firstName, "Введіть ім'я (мінімум 2 символи).");
+    } else if (!NAME_RE.test(firstName.value.trim())) {
+        showError(firstName, "Ім'я може містити лише літери.");
+    }
+    const lastName = this.querySelector('[name="last_name"]');
+    clearError(lastName);
+    if (lastName && lastName.value.trim() && !NAME_RE.test(lastName.value.trim())) {
+        showError(lastName, "Прізвище може містити лише літери.");
     }
 
-    // Телефон
+    // Телефон — український мобільний (+38 0XX ...), перевірка коду оператора
     const phone = this.phone;
     clearError(phone);
-    if (phone.value.includes("_") || phone.value.length < 17) {
-        showError(phone, "Будь ласка, введіть повний номер телефону.");
+    const phoneDigits = (phone.value || "").replace(/\D/g, "");
+    const UA_CODES = ["39", "50", "63", "66", "67", "68", "73", "89", "91", "92", "93", "94", "95", "96", "97", "98", "99"];
+    if (phoneDigits.length !== 12 || phoneDigits.slice(0, 3) !== "380") {
+        showError(phone, "Введіть повний номер телефону.");
+    } else if (UA_CODES.indexOf(phoneDigits.slice(3, 5)) < 0) {
+        showError(phone, "Перевірте код оператора (напр. 067, 095, 073).");
     }
 
     // Спосіб доставки: відділення НП або кур'єр
