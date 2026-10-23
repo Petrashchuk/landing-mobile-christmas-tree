@@ -319,6 +319,17 @@ treeSelect.addEventListener("change", function () {
         { title: "Смерека", img: "trees/smereka/1.webp", gallery: ["trees/smereka/1.webp", "trees/smereka/2.webp", "trees/smereka/3.webp", "trees/smereka/4.webp"], cats: ["Лита","Зелена"], colors: [{ label: "Зелена", v: "Смерека", sw: "#2e7d32" }] }
     ];
     var CATS = ["Усі", "Зелена", "Білі кінчики", "Засніжена", "Лита", "З декором"];
+    // Базові характеристики з yalynkahub (референс — розмір 1.5 м)
+    var SPECS = {
+        "Казка": [["Матеріал", "ПВХ (голки)"], ["Довжина голочки", "4 см"], ["Кількість гілок", "200"], ["Кількість рядів", "10"], ["Діаметр низу", "0.9 м"], ["Вага", "3.55 кг"]],
+        "Снігова Королева": [["Матеріал", "ПВХ (голки)"], ["Довжина голочки", "4 см"], ["Кількість гілок", "220"], ["Кількість рядів", "10"], ["Діаметр низу", "0.9 м"], ["Вага", "3.5 кг"]],
+        "Елітна з шишкою": [["Матеріал", "ПВХ (голки)"], ["Довжина голочки", "4 см"], ["Кількість гілок", "290"], ["Кількість рядів", "10"], ["Діаметр низу", "1.0 м"], ["Вага", "4.45 кг"]],
+        "Кармен + ягідки": [["Матеріал", "ПВХ (голки)"], ["Довжина голочки", "4 см"], ["Кількість гілок", "302"], ["Кількість рядів", "10"], ["Діаметр низу", "1.0 м"], ["Вага", "4.6 кг"]],
+        "Тріумф (лита)": [["Матеріал", "Лита (PE)"], ["Довжина голочки", "2.5 см"], ["Кількість гілок", "217"], ["Кількість рядів", "13"], ["Діаметр низу", "1.0 м"], ["Вага", "5.9 кг"]],
+        "Роял (лита)": [["Матеріал", "Лита (PE)"], ["Довжина голочки", "2.0 см"], ["Кількість гілок", "227"], ["Кількість рядів", "13"], ["Діаметр низу", "1.0 м"], ["Вага", "5.3 кг"]],
+        "Віденська": [["Матеріал", "Лита (PE)"], ["Довжина голочки", "1.5 см"], ["Кількість гілок", "289"], ["Кількість рядів", "14"], ["Діаметр низу", "1.0 м"], ["Вага", "5.2 кг"]],
+        "Смерека": [["Матеріал", "Лита (PE)"], ["Довжина голочки", "1.5 см"], ["Кількість гілок", "305"], ["Кількість рядів", "14"], ["Діаметр низу", "1.0 м"], ["Вага", "5.2 кг"]]
+    };
     function priceNum(v) { var m = (v || "").match(/(\d[\d\s]*)\s*грн/i); return m ? parseInt(m[1].replace(/\s/g, ""), 10) : 0; }
     function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
     function oldPrice(p) { return DISCOUNT > 0 ? Math.round(p / (1 - DISCOUNT / 100) / 10) * 10 : 0; }
@@ -390,7 +401,7 @@ treeSelect.addEventListener("change", function () {
         qvTitle = document.getElementById("qvTitle"), qvColors = document.getElementById("qvColors"),
         qvHeight = document.getElementById("qvHeight"), qvPrice = document.getElementById("qvPrice"),
         qvEcon = document.getElementById("qvEcon"), qvAdd = document.getElementById("qvAdd"),
-        qvThumbs = document.getElementById("qvThumbs");
+        qvThumbs = document.getElementById("qvThumbs"), qvSpecs = document.getElementById("qvSpecs");
     var qvModel = null, qvGallery = [], qvIdx = 0;
     function qvRefresh() {
         var p = priceNum(qvHeight.value);
@@ -417,6 +428,10 @@ treeSelect.addEventListener("change", function () {
         }
         if (qvBadge) { qvBadge.textContent = DISCOUNT > 0 ? ("−" + DISCOUNT + "%") : ""; qvBadge.style.display = DISCOUNT > 0 ? "block" : "none"; }
         qvTitle.textContent = c.title;
+        if (qvSpecs) {
+            var sp = SPECS[c.title];
+            qvSpecs.innerHTML = sp ? ('<div class="spec-hd">Характеристики (базовий розмір 1.5 м)</div>' + sp.map(function (r) { return '<div class="spec-row"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>'; }).join("")) : "";
+        }
         qvModel = c.colors[0].v;
         qvColors.innerHTML = "";
         if (c.colors.length > 1) {
