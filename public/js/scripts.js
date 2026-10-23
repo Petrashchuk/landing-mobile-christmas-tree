@@ -356,8 +356,15 @@ treeSelect.addEventListener("change", function () {
         else cart.push({ name: item.name, variant: item.variant || "", price: Number(item.price) || 0, img: item.img || "", qty: 1 });
         saveCart(); renderCart(); updateBadge(); flashCart();
     }
-    function cartSetQty(idx, d) { if (!cart[idx]) return; cart[idx].qty = (cart[idx].qty || 1) + d; if (cart[idx].qty < 1) cart.splice(idx, 1); saveCart(); renderCart(); updateBadge(); }
-    function cartRemove(idx) { cart.splice(idx, 1); saveCart(); renderCart(); updateBadge(); }
+    function confirmLast() { return cart.length > 1 || window.confirm("Прибрати останній товар і очистити кошик?"); }
+    function cartSetQty(idx, d) {
+        if (!cart[idx]) return;
+        var next = (cart[idx].qty || 1) + d;
+        if (next < 1) { if (!confirmLast()) return; cart.splice(idx, 1); }
+        else cart[idx].qty = next;
+        saveCart(); renderCart(); updateBadge();
+    }
+    function cartRemove(idx) { if (!confirmLast()) return; cart.splice(idx, 1); saveCart(); renderCart(); updateBadge(); }
     function cartClear() { cart = []; saveCart(); renderCart(); updateBadge(); }
 
     var badgeEl = document.getElementById("cartCount");
@@ -665,11 +672,11 @@ document.getElementById("order_form").addEventListener("submit", async function 
         }
     }
 
-    // Ім’я
-    const name = this.name;
-    clearError(name);
-    if (name.value.trim().length < 2) {
-        showError(name, "Введіть коректне ім’я (мінімум 2 символи).");
+    // Ім'я (прізвище — необов'язкове)
+    const firstName = this.querySelector('[name="first_name"]');
+    clearError(firstName);
+    if (!firstName || firstName.value.trim().length < 2) {
+        showError(firstName, "Введіть ім'я (мінімум 2 символи).");
     }
 
     // Телефон
@@ -774,10 +781,11 @@ document.getElementById("order_form").addEventListener("submit", async function 
 
     }
 
-    const nameInput = document.querySelector('input[name="name"]');
+    const nameInput = document.querySelector('input[name="first_name"]');
     const phoneInput = document.querySelector('input[name="phone"]');
 
     [treeSelect, sizeSelect, nameInput, phoneInput].forEach(input => {
+        if (!input) return;
         input.addEventListener("input", () => clearError(input)); // для тексту
         input.addEventListener("change", () => clearError(input)); // для select і будь-яких змін
     });

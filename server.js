@@ -145,7 +145,11 @@ function parseSizeAndPrice(str) {
 }
 
 function extractOrderData(body) {
-    const {name, phone, type, size, event_id, comment} = body;
+    const {name, first_name, last_name, phone, type, size, event_id, comment} = body;
+    // Ім'я/прізвище окремими полями (краще для CRM); фолбек на старе єдине name.
+    const firstName = (first_name || '').trim();
+    const lastName = (last_name || '').trim();
+    const fullName = [firstName, lastName].filter(Boolean).join(' ').trim() || name;
     // Кошик (міні-магазин): кілька позицій одним замовленням. Якщо його нема —
     // лягаємо на стару логіку одного дерева (type + size "1.5 м - 2090грн").
     const items = parseCartItems(body.cart);
@@ -159,7 +163,9 @@ function extractOrderData(body) {
         ? items.reduce((s, i) => s + (Number(i.price) || 0) * (i.qty || 1), 0)
         : singlePrice;
     return {
-        name,
+        name: fullName,
+        first_name: firstName,
+        last_name: lastName,
         phone,
         type,
         size: parsedSize,
@@ -318,10 +324,12 @@ function crmVariantSku(type, size) {
     return (CRM_VARIANT_SKU[type] && CRM_VARIANT_SKU[type][size]) || null;
 }
 
-async function sendCrmOrder({name, phone, type, size, price, items, event_id, utm, delivery, comment}) {
+async function sendCrmOrder({name, first_name, last_name, phone, type, size, price, items, event_id, utm, delivery, comment}) {
     if (!process.env.CRM_API_URL || !process.env.CRM_API_KEY) return;
 
-    const {firstName, lastName} = splitName(name);
+    const split = splitName(name);
+    const firstName = (first_name || '').trim() || split.firstName;
+    const lastName = (last_name || '').trim() || split.lastName;
     const source = process.env.CRM_ORDER_SOURCE || 'Лендінг ялинки';
 
     // Лише коментар клієнта. Вид/розмір товару видно в позиції замовлення
