@@ -38,6 +38,11 @@ $(document).ready((function () {
         autoplayTimeout: 5000,
         autoplayHoverPause: true
     });
+    // Перерахунок ширини слайдів після завантаження фото / ресайзу (інакше банер ріже)
+    $(window).on("load resize", function () {
+        $(".hero-slider").trigger("refresh.owl.carousel");
+        $(".reviews_list4").trigger("refresh.owl.carousel");
+    });
     var t = $(".voice_count b").text().replace(/\D/g, "");
 
 
