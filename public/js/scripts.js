@@ -992,3 +992,23 @@ function getFbClickId() {
         });
     });
 })();
+
+// ---------- Scroll-spy для меню в шапці ----------
+(function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll(".hdr-nav a"));
+    var map = [];
+    links.forEach(function (a) {
+        var id = a.getAttribute("href");
+        if (id && id.charAt(0) === "#") { var el = document.querySelector(id); if (el) map.push({ a: a, el: el }); }
+    });
+    if (!map.length) return;
+    function onScroll() {
+        var y = (window.scrollY || window.pageYOffset) + 130;
+        var cur = null;
+        map.forEach(function (m) { if (m.el.offsetTop <= y) cur = m; });
+        links.forEach(function (a) { a.classList.remove("active"); });
+        if (cur) cur.a.classList.add("active");
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+})();
