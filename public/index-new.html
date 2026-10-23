@@ -150,7 +150,10 @@
       .faq__a p { padding:0 4px 15px; margin:0; }
 
       /* Reviews (owl) */
-      .reviews_list4 .review_item img { border-radius:12px; }
+      .reviews_list4 { max-width:1200px; margin:0 auto; }
+      .reviews_list4 .review_item img { width:100%; height:380px; object-fit:cover; border-radius:14px; box-shadow:0 4px 14px rgba(0,0,0,.08); }
+      .reviews_list4 .owl-nav button.owl-prev, .reviews_list4 .owl-nav button.owl-next { font-size:28px !important; color:var(--grn-d) !important; }
+      .reviews_list4 .owl-dots .owl-dot.active span { background:var(--org) !important; }
 
       /* Footer */
       footer.ft { background:var(--grn-d); color:#fff; text-align:center; padding:22px 16px 90px; font-size:14px; line-height:1.9; }
@@ -483,6 +486,6 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=11"></script>
+<script defer src="js/scripts.js?v=12"></script>
 </body>
 </html>
