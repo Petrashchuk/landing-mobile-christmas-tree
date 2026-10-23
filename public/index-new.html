@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=480">
+    <title>Yalynka — штучні ялинки від виробника | Доставка по Україні</title>
+    <meta name="description" content="Преміальні штучні ялинки від виробника: ПВХ, литі та у горщику. Розміри 1.0–3.0 м, сертифікат якості, доставка Новою Поштою, оплата при отриманні.">
+    <link rel="canonical" href="https://land.yalynkahub.com.ua/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Yalynka — штучні ялинки від виробника">
+    <meta property="og:description" content="Преміальні штучні ялинки: ПВХ, литі, у горщику. Доставка по Україні, оплата при отриманні.">
+    <meta property="og:url" content="https://land.yalynkahub.com.ua/">
+    <meta property="og:image" content="https://land.yalynkahub.com.ua/ktn.png">
+    <meta property="og:locale" content="uk_UA">
+    <meta name="theme-color" content="#1f7a3f">
+    <link rel="shortcut icon" href="ktn.png" type="image/png">
+
+    <!-- Стилі форми (поля/НП) + owl для слайдера відгуків -->
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Штучні ялинки Yalynka (ПВХ, литі, у горщику)",
+      "image": "https://land.yalynkahub.com.ua/ktn.png",
+      "description": "Преміальні штучні ялинки від виробника: ПВХ, литі та у горщику. Розміри 1.0–3.0 м.",
+      "brand": { "@type": "Brand", "name": "Yalynka" },
+      "offers": { "@type": "AggregateOffer", "priceCurrency": "UAH", "lowPrice": "500", "highPrice": "10400", "availability": "https://schema.org/InStock" }
+    }
+    </script>
+
+    <style>
+      :root { --org:#F77A1E; --grn:#1f7a3f; --grn-d:#15532b; --dark:#242424; --bg:#ffffff; --soft:#f5f7f5; }
+      * { box-sizing: border-box; }
+      body { margin:0; background:var(--bg); color:var(--dark); font-family:"AvenirNextCyr","Segoe UI",system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+      img { max-width:100%; display:block; }
+      a { color:inherit; text-decoration:none; }
+      .wrap { max-width:480px; margin:0 auto; }
+      .sec { padding:22px 16px; }
+      .h2 { font-size:22px; font-weight:800; text-align:center; margin:0 0 4px; color:var(--grn-d); }
+      .h2 b { color:var(--org); }
+      .sub { text-align:center; color:#666; font-size:14px; margin:0 0 16px; }
+      .btn { display:inline-block; background:var(--org); color:#fff; font-weight:800; font-size:16px; padding:14px 26px; border-radius:30px; border:none; cursor:pointer; box-shadow:0 6px 18px rgba(247,122,30,.35); transition:transform .15s; text-align:center; }
+      .btn:active { transform:scale(.98); }
+      .btn-grn { background:var(--grn); box-shadow:0 6px 18px rgba(31,122,63,.3); }
+
+      /* Header */
+      header { position:sticky; top:0; z-index:40; background:var(--grn-d); color:#fff; display:flex; align-items:center; justify-content:space-between; padding:8px 14px; }
+      header .logo { display:flex; align-items:center; gap:8px; font-weight:800; font-size:18px; }
+      header .logo img { width:34px; height:34px; border-radius:6px; }
+      header .hphone { font-size:13px; font-weight:700; color:#ffd9b3; white-space:nowrap; }
+      .saletop { background:var(--org); color:#fff; text-align:center; font-weight:800; font-size:13px; padding:7px 10px; }
+
+      /* Hero */
+      .hero { position:relative; color:#fff; text-align:center; padding:34px 18px 28px; background:linear-gradient(180deg, rgba(21,83,43,.55), rgba(21,83,43,.75)), url('trees/royal-snow/1.png') center/cover no-repeat; }
+      .hero h1 { font-size:27px; line-height:1.2; font-weight:900; margin:0 0 10px; text-shadow:0 2px 10px rgba(0,0,0,.4); }
+      .hero p { font-size:15px; margin:0 0 18px; opacity:.95; }
+      .hero .btn { font-size:17px; }
+      .hero .note { margin-top:12px; font-size:12px; opacity:.9; }
+
+      /* USP */
+      .usp { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; padding:16px; }
+      .usp .u { background:var(--soft); border-radius:12px; padding:12px 6px; text-align:center; }
+      .usp .u .i { font-size:24px; }
+      .usp .u .t { font-size:12px; font-weight:700; margin-top:6px; line-height:1.25; color:var(--grn-d); }
+
+      /* Horizontal card rail */
+      .rail { display:flex; gap:12px; overflow-x:auto; padding:4px 16px 14px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+      .rail::-webkit-scrollbar { height:0; }
+      .card { flex:0 0 72%; max-width:260px; scroll-snap-align:start; background:#fff; border:1px solid #eee; border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(0,0,0,.06); display:flex; flex-direction:column; }
+      .card .ph { background:var(--soft); }
+      .card .ph img { width:100%; height:180px; object-fit:cover; }
+      .card .b { padding:10px 12px 12px; display:flex; flex-direction:column; flex:1; }
+      .card .nm { font-size:14px; font-weight:700; min-height:38px; line-height:1.25; }
+      .card .pr { color:var(--org); font-weight:800; font-size:16px; margin:6px 0 10px; }
+      .card .pr span { color:#999; font-weight:600; font-size:12px; }
+      .card .order-form-wrapper-btn { margin-top:auto; }
+      .card .order-form-wrapper-btn .button { display:block; background:var(--grn); color:#fff; text-align:center; font-weight:700; font-size:14px; padding:10px; border-radius:9px; cursor:pointer; }
+      .card .cbuy { display:block; background:var(--org); color:#fff; text-align:center; font-weight:800; font-size:14px; padding:11px; border-radius:9px; cursor:pointer; margin-top:auto; }
+      .card .collabel { font-size:12px; color:#666; margin:8px 0 4px; }
+      .card .swatches { display:flex; gap:8px; margin-bottom:8px; }
+      .card .sw { width:26px; height:26px; border-radius:50%; border:2px solid #ddd; cursor:pointer; padding:0; }
+      .card .sw.on { border-color:var(--org); box-shadow:0 0 0 2px rgba(247,122,30,.25); }
+      .card .sellabel { font-size:12px; color:#666; margin:2px 0 3px; }
+      .card select.h-sel { width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:14px; background:#fff; color:#333; cursor:pointer; }
+      .card .c-price { color:var(--org); font-weight:800; font-size:19px; margin:9px 0 10px; }
+
+      /* Size hint */
+      .hint { max-width:440px; margin:0 auto; background:#fff3e8; border:1px dashed var(--org); border-radius:12px; padding:12px 14px; color:#8a4b12; font-size:14px; text-align:center; }
+      .hint b { color:var(--org); }
+
+      /* Order box */
+      .orderbox { background:var(--soft); }
+      .orderbox .order_form.pat { padding:4px 0 8px; }
+      /* форма: використовує .offer_section .field зі style.css */
+      .offer_section { width:100%; }
+      .offer_section .field { width:100% !important; max-width:400px; padding-left:20px !important; background-image:none !important; }
+      .offer_section .field[name="type"], .offer_section .field[name="size"] { padding-left:20px !important; }
+      .np-autocomplete, .np-note { max-width:400px; }
+      .order_form .button[type="submit"] { display:block; width:100%; max-width:400px; margin:14px auto 0; background:var(--org); color:#fff; border:none; border-radius:30px; padding:15px; font-weight:800; font-size:17px; cursor:pointer; box-shadow:0 6px 18px rgba(247,122,30,.35); }
+
+      /* FAQ */
+      .faq__item { border-bottom:1px solid #eaeaea; }
+      .faq__q { width:100%; text-align:left; background:none; border:none; padding:15px 28px 15px 4px; font-size:15px; font-weight:600; color:var(--grn-d); cursor:pointer; position:relative; }
+      .faq__q::after { content:"+"; position:absolute; right:6px; top:50%; transform:translateY(-50%); font-size:20px; color:var(--org); }
+      .faq__item.open .faq__q::after { content:"–"; }
+      .faq__a { max-height:0; overflow:hidden; transition:max-height .3s; color:#555; font-size:14px; line-height:1.5; }
+      .faq__item.open .faq__a { max-height:320px; }
+      .faq__a p { padding:0 4px 15px; margin:0; }
+
+      /* Reviews (owl) */
+      .reviews_list4 .review_item img { border-radius:12px; }
+
+      /* Footer */
+      footer.ft { background:var(--grn-d); color:#fff; text-align:center; padding:22px 16px 90px; font-size:14px; line-height:1.9; }
+      footer.ft a.org { color:var(--org); }
+      footer.ft .soc { display:flex; justify-content:center; gap:14px; margin:12px 0; }
+      footer.ft .soc img { width:38px; }
+
+      /* Sticky CTA */
+      .sticky-cta { position:fixed; left:50%; bottom:14px; transform:translate(-50%,160%); z-index:50; background:var(--org); color:#fff; padding:14px 32px; border-radius:30px; font-weight:800; font-size:16px; box-shadow:0 6px 22px rgba(0,0,0,.35); transition:transform .3s; white-space:nowrap; }
+      .sticky-cta.show { transform:translate(-50%,0); }
+
+      /* Addon popup */
+      .addon-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:55; }
+      .addon-popup { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:60; background:#fff; border-radius:14px; padding:26px 20px 20px; max-width:320px; width:88%; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,.3); }
+      .addon-popup .x { position:absolute; top:8px; right:14px; font-size:22px; color:#999; cursor:pointer; }
+    </style>
+
+    <!-- Meta Pixel -->
+    <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init','362898322806679');fbq('track','PageView');
+    </script>
+</head>
+<body>
+
+<div class="saletop">🎄 Новорічний розпродаж — знижки до −30% на всі ялинки</div>
+<header>
+    <a class="logo" href="#"><img src="ktn.png" alt="Yalynka">Yalynka</a>
+    <a class="hphone" href="tel:+380672536941">📞 +380 67 25 369 41</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <h1>Штучні ялинки,<br>що роблять дім святом 🌲</h1>
+    <p>Преміальні ялинки від виробника · розміри 1.0–3.0 м<br>Доставка по Україні · оплата при отриманні</p>
+    <a href="#order" class="btn">Обрати ялинку</a>
+    <div class="note">✓ Власне виробництво ✓ Сертифікат якості ✓ Без запаху</div>
+</section>
+
+<!-- USP -->
+<div class="wrap">
+    <div class="usp">
+        <div class="u"><div class="i">🏭</div><div class="t">Власне виробництво</div></div>
+        <div class="u"><div class="i">🚚</div><div class="t">Доставка Новою Поштою</div></div>
+        <div class="u"><div class="i">💵</div><div class="t">Оплата при отриманні</div></div>
+    </div>
+</div>
+
+<!-- КАТАЛОГ (галерея) -->
+<section class="sec" id="catalog">
+    <h2 class="h2">Обери свою <b>ялинку</b></h2>
+    <p class="sub">Оберіть колір і висоту прямо на картці — ціна оновиться. Тоді «Замовити».</p>
+</section>
+<div class="rail" id="catalogCards"></div>
+
+<section class="sec">
+    <div class="hint">💡 <b>Порада:</b> обирайте ялинку на <b>30–40 см нижчу</b> за стелю — щоб вистачило місця для зірки.</div>
+</section>
+
+<!-- ФОРМА ЗАМОВЛЕННЯ -->
+<section class="sec orderbox" id="order">
+    <h2 class="h2">Оформити <b>замовлення</b></h2>
+    <p class="sub">Оберіть модель і розмір — ціна покажеться одразу</p>
+    <div class="offer_section">
+        <div class="order_form pat">
+            <form id="order_form" class="order_form" name="order-form">
+                <input type="hidden" name="event_id" id="event_id">
+                <select id="treeSelect" name="type" class="field">
+                    <optgroup label="Ялинка ПВХ">
+                        <option>Виберіть ялинку</option>
+                        <option value="Снігова Королева">Снігова Королева</option>
+                        <option value="Казка">Казка</option>
+                        <option value="Елітна з шишкою">Елітна з шишкою</option>
+                        <option value="Кармен + сині ягідки">Кармен + сині ягідки</option>
+                        <option value="Кармен + червоні ягідки">Кармен + червоні ягідки</option>
+                        <option value="Кармен + срібні ягідки">Кармен + срібні ягідки</option>
+                        <option value="Кармен + золоті ягідки">Кармен + золоті ягідки</option>
+                    </optgroup>
+                    <optgroup label="Ялинка Лита">
+                        <option value="Тріумф Зелена">Тріумф Зелена</option>
+                        <option value="Тріумф Блакитна">Тріумф Блакитна</option>
+                        <option value="Тріумф Засніжена">Тріумф Засніжена</option>
+                        <option value="Роял Зелена">Роял Зелена</option>
+                        <option value="Роял Блакитна">Роял Блакитна</option>
+                        <option value="Роял Засніжена">Роял Засніжена</option>
+                        <option value="Буковельська Зелена">Буковельська Зелена</option>
+                        <option value="Буковельська Блакитна">Буковельська Блакитна</option>
+                        <option value="Буковельська Засніжена">Буковельська Засніжена</option>
+                        <option value="Віденська">Віденська</option>
+                        <option value="Смерека">Смерека</option>
+                    </optgroup>
+                    <optgroup label="Ялинка у Горщику">
+                        <option value="Горщик - Роял Зелена">Горщик - Роял Зелена</option>
+                        <option value="Горщик - Роял Блакитна">Горщик - Роял Блакитна</option>
+                        <option value="Горщик - Роял Засніжена">Горщик - Роял Засніжена</option>
+                    </optgroup>
+                </select>
+
+                <select class="field" name="size" id="sizeSelect" disabled required="">
+                    <option>Виберіть розмір ялинки</option>
+                </select>
+
+                <div id="priceDisplay" style="display:none;text-align:center;font-weight:900;font-size:20px;color:#F77A1E;margin:6px 0 10px;"></div>
+
+                <input class="field" type="text" name="name" required autocomplete="name" placeholder="Введіть Ваше ім'я">
+                <input class="field mask_phone" type="tel" name="phone" required inputmode="tel" autocomplete="tel" placeholder="Введіть Ваш телефон">
+
+                <div class="np-note">🚚 Доставка Новою Поштою на відділення</div>
+
+                <select class="field np-field" name="np_area" id="npArea">
+                    <option value="" selected disabled>Регіон / Область</option>
+                </select>
+
+                <div class="np-autocomplete">
+                    <input class="field np-field" type="text" name="np_city" id="npCity" placeholder="Місто" autocomplete="off" disabled>
+                    <ul class="np-list" id="npCityList"></ul>
+                </div>
+
+                <div class="np-autocomplete">
+                    <input class="field np-field" type="text" name="np_warehouse" id="npWarehouse" placeholder="Відділення / Поштомат" autocomplete="off" disabled>
+                    <ul class="np-list" id="npWarehouseList"></ul>
+                </div>
+
+                <input type="hidden" name="city_ref" id="npCityRef">
+                <input type="hidden" name="city_name" id="npCityName">
+                <input type="hidden" name="warehouse_ref" id="npWarehouseRef">
+                <input type="hidden" name="warehouse_number" id="npWarehouseNumber">
+                <input type="hidden" name="warehouse_description" id="npWarehouseDesc">
+
+                <textarea class="field np-field np-comment" name="comment" id="orderComment" placeholder="Коментар до замовлення (необов'язково)"></textarea>
+
+                <button type="submit" class="button">Придбати зараз</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ДОПОВНЕННЯ -->
+<section class="sec">
+    <h2 class="h2">🎁 Доповнення до ялинки</h2>
+    <p class="sub">Гірлянди від 195 ₴ · Набори іграшок 1090 ₴</p>
+</section>
+<div class="rail">
+    <div class="card"><div class="ph"><img loading="lazy" src="garlands/rosa-50m.webp" alt="Гірлянда Роса 50 м"></div><div class="b"><div class="nm">Гірлянда Роса 50 м</div><div class="pr">595 ₴</div><button class="addon-order button" type="button" style="background:var(--grn);color:#fff;border:none;border-radius:9px;padding:10px;font-weight:700;cursor:pointer;">Замовити</button></div></div>
+    <div class="card"><div class="ph"><img loading="lazy" src="garlands/hvoyna-30m.webp" alt="Хвойна Лапа 30 м"></div><div class="b"><div class="nm">Хвойна Лапа 30 м</div><div class="pr">1075 ₴ <span>1280</span></div><button class="addon-order button" type="button" style="background:var(--grn);color:#fff;border:none;border-radius:9px;padding:10px;font-weight:700;cursor:pointer;">Замовити</button></div></div>
+    <div class="card"><div class="ph"><img loading="lazy" src="toys/бархат/red.jpg" alt="Набір Оксамит"></div><div class="b"><div class="nm">Набір іграшок «Оксамит»</div><div class="pr">1090 ₴ <span>1290</span></div><button class="addon-order button" type="button" style="background:var(--grn);color:#fff;border:none;border-radius:9px;padding:10px;font-weight:700;cursor:pointer;">Замовити</button></div></div>
+    <div class="card"><div class="ph"><img loading="lazy" src="toys/блиск/gold.jpg" alt="Набір Блиск"></div><div class="b"><div class="nm">Набір іграшок «Блиск»</div><div class="pr">1090 ₴ <span>1290</span></div><button class="addon-order button" type="button" style="background:var(--grn);color:#fff;border:none;border-radius:9px;padding:10px;font-weight:700;cursor:pointer;">Замовити</button></div></div>
+</div>
+
+<!-- ВІДГУКИ -->
+<section class="sec">
+    <h2 class="h2">Фото від <b>покупців</b></h2>
+    <p class="sub">Реальні ялинки Yalynka у домівках клієнтів</p>
+    <div class="reviews_list4 owl-carousel">
+        <div class="review_item"><img loading="lazy" src="feedbacks/1.jpeg" alt="Відгук клієнта Yalynka"></div>
+        <div class="review_item"><img loading="lazy" src="feedbacks/2.jpeg" alt="Відгук клієнта Yalynka"></div>
+        <div class="review_item"><img loading="lazy" src="feedbacks/3.jpeg" alt="Відгук клієнта Yalynka"></div>
+        <div class="review_item"><img loading="lazy" src="feedbacks/4.jpeg" alt="Відгук клієнта Yalynka"></div>
+        <div class="review_item"><img loading="lazy" src="feedbacks/5.jpeg" alt="Відгук клієнта Yalynka"></div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq">
+    <h2 class="h2">Часті <b>запитання</b></h2>
+    <div class="faq__item"><button class="faq__q" type="button">З якого матеріалу ялинки?</button><div class="faq__a"><p>Залежно від моделі — ПВХ, литі (PE) або у горщику. Усі без запаху, з сертифікатом якості та екологічно безпечні.</p></div></div>
+    <div class="faq__item"><button class="faq__q" type="button">Яку висоту обрати?</button><div class="faq__a"><p>Обирайте ялинку щонайменше на 30–40 см нижчу за стелю, щоб вистачило місця для верхівки/зірки.</p></div></div>
+    <div class="faq__item"><button class="faq__q" type="button">Скільки триває доставка?</button><div class="faq__a"><p>Відправляємо Новою Поштою протягом 1–2 днів. Доставка по Україні зазвичай 2–3 дні.</p></div></div>
+    <div class="faq__item"><button class="faq__q" type="button">Як оплатити?</button><div class="faq__a"><p>Накладений платіж — оплата при отриманні на відділенні Нової Пошти, оглянувши товар.</p></div></div>
+    <div class="faq__item"><button class="faq__q" type="button">Чи складно зібрати?</button><div class="faq__a"><p>Ні, збирання займає 10–15 хвилин — секції з'єднуються, гілки розправляються. Інструменти не потрібні.</p></div></div>
+    <div class="faq__item"><button class="faq__q" type="button">Чи є гарантія та повернення?</button><div class="faq__a"><p>Так, можна оглянути товар при отриманні, а також обміняти/повернути протягом 14 днів згідно із законом.</p></div></div>
+</section>
+
+<footer class="ft">
+    <b>ІНТЕРНЕТ-МАГАЗИН ШТУЧНИХ ЯЛИНОК ВІД ВИРОБНИКА</b><br>
+    Працюємо щодня 07:00–23:00
+    <div class="soc">
+        <a href="https://www.instagram.com/yalynka.hub" target="_blank" rel="noopener"><img src="icons/instagram.png" alt="Instagram"></a>
+        <a href="https://t.me/dropmanager_99" target="_blank" rel="noopener"><img src="icons/telegram.png" alt="Telegram"></a>
+    </div>
+    <a class="org" href="politics.html" target="_blank" rel="noopener noreferrer">Політика конфіденційності</a><br>
+    <a class="org" href="tel:+380672536941">+380 67 25 369 41</a><br>
+    Всі права захищено © 2023–<span id="footerYear">2026</span>
+</footer>
+
+<!-- Липка кнопка -->
+<a href="#order" class="sticky-cta">🎄 Замовити ялинку</a>
+
+<!-- Попап допродажу -->
+<div class="addon-overlay"></div>
+<div class="addon-popup">
+    <span class="x addon-close">×</span>
+    <p style="font-weight:700;font-size:16px;margin:0 0 8px;">Додати доповнення? 🎁</p>
+    <p style="color:#555;font-size:14px;margin:0;line-height:1.4;">Впишіть назву в <b>коментар до замовлення</b> або скажіть оператору під час дзвінка — додамо до вашої посилки.</p>
+    <button type="button" class="addon-close" style="margin-top:16px;background:var(--org);color:#fff;border:none;border-radius:8px;padding:10px 22px;font-weight:700;cursor:pointer;">Зрозуміло</button>
+</div>
+
+<script defer src="js/jquery.min.js"></script>
+<script defer src="js/owl.carousel.min.js"></script>
+<script defer src="js/jquery.maskedinput.min.js"></script>
+<script defer src="js/scripts.js?v=8"></script>
+</body>
+</html>

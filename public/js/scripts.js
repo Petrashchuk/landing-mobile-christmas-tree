@@ -119,16 +119,19 @@ document.addEventListener("scroll", (function (e) {
     const t = window.scrollY;
     t > 160 && (t > lastScrollTop ? document.querySelector("header").classList.remove("active") : document.querySelector("header").classList.add("active"), lastScrollTop = t)
 }));
-const menuItems = document.querySelectorAll("#menu a");
-hamburger.addEventListener("click", (function (e) {
-    e.preventDefault();
-    e.currentTarget;
-    menu.classList.contains("show-menu") ? menu.classList.remove("show-menu") : menu.classList.add("show-menu")
-})), menuItems.forEach((function (e, t) {
-    e.addEventListener("click", (function (e) {
-        menu.classList.remove("show-menu")
-    }))
-}));
+// Бургер-меню — лише якщо елементи присутні (новий лендінг їх не має → без помилки)
+var hamburgerEl = document.getElementById("hamburger");
+var menuEl = document.getElementById("menu");
+if (hamburgerEl && menuEl) {
+    var menuItems = menuEl.querySelectorAll("a");
+    hamburgerEl.addEventListener("click", function (e) {
+        e.preventDefault();
+        menuEl.classList.toggle("show-menu");
+    });
+    menuItems.forEach(function (a) {
+        a.addEventListener("click", function () { menuEl.classList.remove("show-menu"); });
+    });
+}
 
 const treeSelect = document.getElementById("treeSelect");
 const sizeSelect = document.getElementById("sizeSelect");
@@ -272,6 +275,89 @@ treeSelect.addEventListener("change", function () {
     window.addEventListener("scroll", upd, { passive: true });
     window.addEventListener("resize", upd);
     upd();
+})();
+
+// Інтерактивний каталог (нова сторінка): картка з вибором кольору + висоти + живою ціною
+(function () {
+    var box = document.getElementById("catalogCards");
+    if (!box || typeof treeSizes === "undefined") return;
+    var CARDS = [
+        { title: "Снігова Королева", img: "trees/snow-queen/1.png", colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
+        { title: "Казка", img: "trees/kazka/1.png", colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
+        { title: "Елітна з шишкою", img: "trees/elite/1.png", colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
+        { title: "Кармен + ягідки", img: "trees/karmen/1.png", colors: [
+            { label: "Червоні", v: "Кармен + червоні ягідки", sw: "#c0392b" },
+            { label: "Сині", v: "Кармен + сині ягідки", sw: "#2e5fb0" },
+            { label: "Срібні", v: "Кармен + срібні ягідки", sw: "#c9ccd1" },
+            { label: "Золоті", v: "Кармен + золоті ягідки", sw: "#d4af37" } ] },
+        { title: "Тріумф (лита)", img: "trees/triumph-green/1.png", colors: [
+            { label: "Зелена", v: "Тріумф Зелена", sw: "#2e7d32" },
+            { label: "Блакитна", v: "Тріумф Блакитна", sw: "#7fb0d8" },
+            { label: "Засніжена", v: "Тріумф Засніжена", sw: "#eaf2ff" } ] },
+        { title: "Роял (лита)", img: "trees/royal-green/1.png", colors: [
+            { label: "Зелена", v: "Роял Зелена", sw: "#2e7d32" },
+            { label: "Блакитна", v: "Роял Блакитна", sw: "#7fb0d8" },
+            { label: "Засніжена", v: "Роял Засніжена", sw: "#eaf2ff" } ] },
+        { title: "Буковельська", img: "trees/bukovelska-green/1.png", colors: [
+            { label: "Зелена", v: "Буковельська Зелена", sw: "#2e7d32" },
+            { label: "Блакитна", v: "Буковельська Блакитна", sw: "#7fb0d8" },
+            { label: "Засніжена", v: "Буковельська Засніжена", sw: "#eaf2ff" } ] },
+        { title: "Віденська", img: "trees/videnska/1.png", colors: [{ label: "Зелена", v: "Віденська", sw: "#2e7d32" }] },
+        { title: "Смерека", img: "trees/smereka/1.png", colors: [{ label: "Зелена", v: "Смерека", sw: "#2e7d32" }] },
+        { title: "Горщик — Роял", img: "trees/royal-green/1.png", colors: [
+            { label: "Зелена", v: "Горщик - Роял Зелена", sw: "#2e7d32" },
+            { label: "Блакитна", v: "Горщик - Роял Блакитна", sw: "#7fb0d8" },
+            { label: "Засніжена", v: "Горщик - Роял Засніжена", sw: "#eaf2ff" } ] }
+    ];
+    function priceOf(v) { var m = (v || "").match(/(\d[\d\s]*)\s*грн/i); return m ? m[1].replace(/\s/g, "") : ""; }
+    function fillHeights(sel, model) {
+        sel.innerHTML = "";
+        (treeSizes[model] || []).forEach(function (s) {
+            var o = document.createElement("option");
+            o.value = s; o.textContent = (s.split(" - ")[0] || s).trim();
+            sel.appendChild(o);
+        });
+    }
+    CARDS.forEach(function (c) {
+        var model = c.colors[0].v;
+        var multi = c.colors.length > 1;
+        var swHtml = multi
+            ? '<div class="collabel">Колір: <b class="cl-name">' + c.colors[0].label + '</b></div><div class="swatches">' +
+              c.colors.map(function (col, i) { return '<button type="button" class="sw' + (i === 0 ? " on" : "") + '" style="background:' + col.sw + '" data-v="' + col.v + '" data-label="' + col.label + '" title="' + col.label + '"></button>'; }).join("") + '</div>'
+            : "";
+        var card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML =
+            '<div class="ph"><img loading="lazy" src="' + c.img + '" alt="' + c.title + '"></div>' +
+            '<div class="b"><div class="nm">' + c.title + '</div>' + swHtml +
+            '<div class="sellabel">Оберіть висоту</div><select class="h-sel"></select>' +
+            '<div class="c-price"></div>' +
+            '<a class="cbuy" href="#order">Замовити</a></div>';
+        box.appendChild(card);
+        var hsel = card.querySelector(".h-sel");
+        var priceEl = card.querySelector(".c-price");
+        var clName = card.querySelector(".cl-name");
+        function refresh() { var p = priceOf(hsel.value); priceEl.textContent = p ? (p + " ₴") : ""; }
+        fillHeights(hsel, model); refresh();
+        hsel.addEventListener("change", refresh);
+        card.querySelectorAll(".sw").forEach(function (b) {
+            b.addEventListener("click", function () {
+                card.querySelectorAll(".sw").forEach(function (x) { x.classList.remove("on"); });
+                b.classList.add("on");
+                model = b.getAttribute("data-v");
+                if (clName) clName.textContent = b.getAttribute("data-label");
+                fillHeights(hsel, model); refresh();
+            });
+        });
+        card.querySelector(".cbuy").addEventListener("click", function (e) {
+            e.preventDefault();
+            try { if (typeof treeSelect !== "undefined" && treeSelect) { treeSelect.value = model; treeSelect.dispatchEvent(new Event("change")); } } catch (_) {}
+            var ss = document.getElementById("sizeSelect");
+            if (ss) { ss.value = hsel.value; ss.dispatchEvent(new Event("change")); }
+            var order = document.getElementById("order");
+            if (order) window.scrollTo({ top: order.offsetTop - 8, behavior: "smooth" });
+        });
+    });
 })();
 
 // автопідстановка при кліку на кнопку
