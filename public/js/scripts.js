@@ -433,7 +433,35 @@ treeSelect.addEventListener("change", function () {
         qvHeight = document.getElementById("qvHeight"), qvPrice = document.getElementById("qvPrice"),
         qvEcon = document.getElementById("qvEcon"), qvAdd = document.getElementById("qvAdd"),
         qvThumbs = document.getElementById("qvThumbs"), qvSpecs = document.getElementById("qvSpecs");
-    var qvModel = null, qvGallery = [], qvIdx = 0;
+    var qvModel = null, qvGallery = [], qvIdx = 0, qvCardTitle = null;
+    function heightOf(label) { var m = (label || "").match(/([\d.]+)\s*м/); return m ? parseFloat(m[1]) : 1.5; }
+    // Масштабування характеристик 1.5 м → обрана висота (матеріал/голочка сталі; решта — орієнтовні)
+    function scaleSpecs(sp, h) {
+        var r = h / 1.5;
+        var parts = h <= 1.6 ? 2 : (h <= 2.6 ? 3 : 4);
+        var boxR = (h / parts) / 0.75;
+        return sp.map(function (row) {
+            var k = row[0], v = row[1];
+            if (k === "Матеріал" || k === "Довжина голочки") return [k, v];
+            if (k === "Кількість гілок") { var n = parseInt(v, 10) || 0; return [k, String(Math.round(n * r / 5) * 5)]; }
+            if (k === "Кількість рядів") { var n2 = parseInt(v, 10) || 0; return [k, String(Math.max(6, n2 + Math.round((h - 1.5) / 0.3)))]; }
+            if (k === "Кількість частин") return [k, String(parts)];
+            if (k === "Діаметр низу") { var d = parseFloat(v) || 0; return [k, (d * (0.55 + 0.45 * r)).toFixed(1) + "м"]; }
+            if (k === "Висота до гілок") { var s = parseInt(v, 10) || 0; return [k, String(Math.round(s * r)) + "см"]; }
+            if (k === "Коробка") { var pr = v.split("/"); var L = parseInt(pr[0], 10) || 0; pr[0] = Math.round(L * boxR) + "см"; return [k, pr.join("/")]; }
+            if (k === "Вага") { var w = parseFloat(v) || 0; return [k, (w * r).toFixed(1) + "кг"]; }
+            return [k, v];
+        });
+    }
+    function renderQvSpecs() {
+        if (!qvSpecs) return;
+        var base = SPECS[qvCardTitle];
+        if (!base) { qvSpecs.innerHTML = ""; return; }
+        var h = heightOf(qvHeight && qvHeight.value);
+        var sp = scaleSpecs(base, h);
+        var hd = '<div class="spec-hd">Характеристики — ' + (h % 1 === 0 ? h.toFixed(1) : h) + ' м</div>';
+        qvSpecs.innerHTML = hd + sp.map(function (r) { return '<div class="spec-row"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>'; }).join("") + '<div class="spec-note">* параметри орієнтовні, точні уточнюйте у менеджера</div>';
+    }
     function qvRefresh() {
         var p = priceNum(qvHeight.value);
         if (!p) { qvPrice.textContent = ""; qvEcon.textContent = ""; return; }
@@ -458,26 +486,23 @@ treeSelect.addEventListener("change", function () {
         qvImg.alt = c.title;
         if (qvBadge) { qvBadge.textContent = DISCOUNT > 0 ? ("−" + DISCOUNT + "%") : ""; qvBadge.style.display = DISCOUNT > 0 ? "block" : "none"; }
         qvTitle.textContent = c.title;
-        if (qvSpecs) {
-            var sp = SPECS[c.title];
-            qvSpecs.innerHTML = sp ? ('<div class="spec-hd">Характеристики (базовий розмір 1.5 м)</div>' + sp.map(function (r) { return '<div class="spec-row"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>'; }).join("")) : "";
-        }
+        qvCardTitle = c.title;
         qvModel = c.colors[0].v;
         qvColors.innerHTML = "";
         if (c.colors.length > 1) {
             c.colors.forEach(function (col, i) {
                 var b = document.createElement("button"); b.type = "button"; b.className = "sw" + (i === 0 ? " on" : ""); b.style.background = col.sw; b.title = col.label;
-                b.addEventListener("click", function () { qvColors.querySelectorAll(".sw").forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on"); qvModel = col.v; qvSetGallery(col.gallery || [col.img]); fillHeights(qvHeight, col.v); qvRefresh(); });
+                b.addEventListener("click", function () { qvColors.querySelectorAll(".sw").forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on"); qvModel = col.v; qvSetGallery(col.gallery || [col.img]); fillHeights(qvHeight, col.v); qvRefresh(); renderQvSpecs(); });
                 qvColors.appendChild(b);
             });
         }
         var g0 = (c.colors[0] && c.colors[0].gallery) ? c.colors[0].gallery : (c.gallery || [c.img]);
         qvSetGallery(g0);
-        fillHeights(qvHeight, qvModel); qvRefresh();
+        fillHeights(qvHeight, qvModel); qvRefresh(); renderQvSpecs();
         qv.classList.add("show"); qv.setAttribute("aria-hidden", "false"); if (qvOv) qvOv.classList.add("show");
     }
     function closeQuickView() { if (qv) { qv.classList.remove("show"); qv.setAttribute("aria-hidden", "true"); } if (qvOv) qvOv.classList.remove("show"); }
-    if (qvHeight) qvHeight.addEventListener("change", qvRefresh);
+    if (qvHeight) qvHeight.addEventListener("change", function () { qvRefresh(); renderQvSpecs(); });
     var qvX = document.getElementById("qvX"); if (qvX) qvX.addEventListener("click", closeQuickView);
     if (qvOv) qvOv.addEventListener("click", closeQuickView);
     if (qvAdd) qvAdd.addEventListener("click", function () {
