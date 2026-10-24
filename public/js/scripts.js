@@ -1086,6 +1086,7 @@ function getFbClientId() {
     const area = document.getElementById("npArea");
     const areaRefEl = document.getElementById("npAreaRef");
     const areaList = document.getElementById("npAreaList");
+    const areaSearch = document.getElementById("npAreaSearch");
     const city = document.getElementById("npCity");
     const cityList = document.getElementById("npCityList");
     const warehouse = document.getElementById("npWarehouse");
@@ -1161,27 +1162,41 @@ function getFbClientId() {
         AREAS = (data.items || []).map((a) => ({ref: a.ref, label: a.name, name: a.name}));
     });
 
+    function pickArea(it) {
+        area.value = it.name;
+        areaRefEl.value = it.ref;
+        area.classList.add("filled");
+        resetWarehouse();
+        resetCity();
+        city.disabled = false;
+        if (areaSearch) { areaSearch.style.display = "none"; areaSearch.value = ""; }
+    }
+    // Фільтр списку областей за підрядком (пошук працює навіть коли вводять без слова «область»)
+    function renderAreas(filter) {
+        var f = (filter || "").trim().toLowerCase();
+        var items = f ? AREAS.filter(function (a) { return a.label.toLowerCase().indexOf(f) >= 0; }) : AREAS;
+        renderList(areaList, items, pickArea, AREAS.length ? "Нічого не знайдено" : "Завантаження…");
+    }
     function openAreaList() {
-        renderList(areaList, AREAS, (it) => {
-            area.value = it.name;
-            areaRefEl.value = it.ref;
-            area.classList.add("filled");
-            resetWarehouse();
-            resetCity();
-            city.disabled = false;
-        }, "Завантаження…");
+        if (areaSearch) { areaSearch.style.display = "block"; areaSearch.value = ""; }
+        renderAreas("");
+        if (areaSearch) setTimeout(function () { areaSearch.focus(); }, 0);
     }
 
     // 2) Клік по полю області → показати/сховати список
     area.addEventListener("click", function () {
         if (areaList.classList.contains("open")) {
             areaList.classList.remove("open");
+            if (areaSearch) areaSearch.style.display = "none";
         } else {
             cityList.classList.remove("open");
             whList.classList.remove("open");
             openAreaList();
         }
     });
+    if (areaSearch) {
+        areaSearch.addEventListener("input", function () { renderAreas(areaSearch.value); });
+    }
 
     // 3) Пошук міста
     const onCityInput = debounce(async function () {
@@ -1260,6 +1275,7 @@ function getFbClientId() {
     document.addEventListener("click", function (e) {
         if (!e.target.closest(".np-autocomplete")) {
             areaList.classList.remove("open");
+            if (areaSearch) areaSearch.style.display = "none";
             cityList.classList.remove("open");
             whList.classList.remove("open");
             if (streetList) streetList.classList.remove("open");

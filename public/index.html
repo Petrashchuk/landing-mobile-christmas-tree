@@ -77,9 +77,9 @@
       .hhours b { color:var(--gold); font-weight:800; }
       @media (max-width:860px) { .hhours { display:none; } }
       @media (max-width:560px) { header .hphone { display:none; } }
-      .hdr-nav { order:3; flex-basis:100%; display:flex; justify-content:center; gap:26px; overflow-x:auto; padding-top:8px; border-top:1px solid rgba(255,255,255,.14); margin-top:5px; }
+      .hdr-nav { order:3; flex-basis:100%; display:flex; flex-wrap:wrap; justify-content:center; gap:7px 16px; padding-top:8px; border-top:1px solid rgba(255,255,255,.14); margin-top:5px; }
       .hdr-nav::-webkit-scrollbar { height:0; }
-      .hdr-nav a { position:relative; font-size:15px; font-weight:700; color:#fff; white-space:nowrap; padding:2px 0; opacity:.95; transition:color .15s; }
+      .hdr-nav a { position:relative; font-size:14px; font-weight:700; color:#fff; white-space:nowrap; padding:2px 0; opacity:.95; transition:color .15s; }
       .hdr-nav a::after { content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px; background:var(--gold); border-radius:2px; transform:scaleX(0); transition:transform .18s; }
       .hdr-nav a:hover, .hdr-nav a.active { color:var(--gold); }
       .hdr-nav a:hover::after, .hdr-nav a.active::after { transform:scaleX(1); }
@@ -382,7 +382,7 @@
       .certs-grid .cert img { width:100%; aspect-ratio:3/4; object-fit:contain; background:#fff; padding:6px; }
 
       /* Image lightbox */
-      .lb-ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:90; align-items:center; justify-content:center; }
+      .lb-ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:2147483647; align-items:center; justify-content:center; }
       .lb-ov.show { display:flex; }
       .lb-img { max-width:90vw; max-height:84vh; object-fit:contain; border-radius:8px; box-shadow:0 10px 50px rgba(0,0,0,.5); }
       .lb-x { position:absolute; top:16px; right:18px; width:42px; height:42px; border-radius:50%; border:none; background:rgba(255,255,255,.15); color:#fff; font-size:20px; cursor:pointer; }
@@ -559,6 +559,7 @@
                 <div class="np-autocomplete np-area-wrap">
                     <input class="field np-field np-select" type="text" name="np_area_label" id="npArea" placeholder="Регіон / Область" autocomplete="off" readonly aria-haspopup="listbox">
                     <input type="hidden" name="np_area" id="npAreaRef">
+                    <input class="field np-field np-area-search" type="text" id="npAreaSearch" placeholder="Пошук області…" autocomplete="off" style="display:none">
                     <ul class="np-list" id="npAreaList"></ul>
                 </div>
 
@@ -800,7 +801,7 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=49"></script>
+<script defer src="js/scripts.js?v=50"></script>
 <!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
 <script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
 </body>

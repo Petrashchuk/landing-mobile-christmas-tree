@@ -166,7 +166,7 @@ function parseSizeAndPrice(str) {
 }
 
 function extractOrderData(body) {
-    const {name, first_name, last_name, phone, type, size, event_id, comment} = body;
+    const {name, first_name, last_name, phone, type, size, event_id, comment, _fbp, _fbc} = body;
     // Ім'я/прізвище окремими полями (краще для CRM); фолбек на старе єдине name.
     const firstName = (first_name || '').trim();
     const lastName = (last_name || '').trim();
@@ -195,6 +195,10 @@ function extractOrderData(body) {
         event_id: event_id || crypto.randomUUID(),
         comment: typeof comment === 'string' ? comment.trim().slice(0, 1000) : '',
         delivery: extractDelivery(body),
+        // Meta browser match ids (cookies) — forwarded to the CRM so a later `website` Purchase
+        // (sent when the parcel is picked up) ties back to the ad click; also sharpens our own Lead.
+        _fbp: _fbp || null,
+        _fbc: _fbc || null,
     };
 }
 
@@ -345,7 +349,7 @@ function crmVariantSku(type, size) {
     return (CRM_VARIANT_SKU[type] && CRM_VARIANT_SKU[type][size]) || null;
 }
 
-async function sendCrmOrder({name, first_name, last_name, phone, type, size, price, items, event_id, utm, delivery, comment}) {
+async function sendCrmOrder({name, first_name, last_name, phone, type, size, price, items, event_id, utm, delivery, comment, _fbp, _fbc}) {
     if (!process.env.CRM_API_URL || !process.env.CRM_API_KEY) return;
 
     const split = splitName(name);
@@ -390,6 +394,9 @@ async function sendCrmOrder({name, first_name, last_name, phone, type, size, pri
         // Ідемпотентність: повторний сабміт з тим самим event_id не задвоїть
         // замовлення (CRM дедуплікує за external_id у межах продавця).
         external_id: `landing:${event_id}`,
+        // Meta browser match ids → CRM стамп на замовленні для website-Purchase по викупу.
+        ...(_fbp ? {fbp: _fbp} : {}),
+        ...(_fbc ? {fbc: _fbc} : {}),
         ...(crmComment ? {comment: crmComment} : {}),
         // Повертаному клієнту оновити збережену адресу на щойно обрану (сайт/CMS
         // чекаут авторитетний щодо місця доставки — інакше ТТН візьме стару).
