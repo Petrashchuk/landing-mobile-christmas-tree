@@ -442,6 +442,18 @@ treeSelect.addEventListener("change", function () {
         if (ex) ex.qty = (ex.qty || 1) + 1;
         else cart.push({ name: item.name, variant: item.variant || "", price: Number(item.price) || 0, old: Number(item.old) || 0, img: item.img || "", qty: 1 });
         saveCart(); renderCart(); updateBadge(); flashCart();
+        // Meta Pixel: мід-воронка «Додавання в кошик» (value-based). Стандартна подія,
+        // фіксується на кожне додавання — живить оптимізацію й аудиторії ретаргету.
+        try {
+            if (typeof fbq === "function") {
+                fbq("track", "AddToCart", {
+                    content_name: item.variant ? (item.name + " — " + item.variant) : item.name,
+                    content_type: "product",
+                    value: Number(item.price) || 0,
+                    currency: "UAH",
+                });
+            }
+        } catch (_) {}
     }
     function uiConfirm(msg) {
         return new Promise(function (resolve) {
