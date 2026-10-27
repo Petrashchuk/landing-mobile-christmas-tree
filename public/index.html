@@ -284,8 +284,8 @@
       @media (min-width:720px) {
         .cart-dr { inset:auto; top:0; right:0; bottom:0; left:auto; width:440px; max-width:440px; height:100%; transform:translateX(100%); box-shadow:-8px 0 40px rgba(0,0,0,.25); }
         .cart-dr.show { transform:translateX(0); }
-        .cs-modal { inset:auto; top:50%; left:50%; width:94%; max-width:460px; height:auto; max-height:88vh; border-radius:18px; border:2px solid var(--gold); box-shadow:0 24px 70px rgba(0,0,0,.5); transform:translate(-50%,-50%) scale(.96); }
-        .cs-modal.show { transform:translate(-50%,-50%) scale(1); }
+        .cs-modal { inset:auto; top:50%; left:50%; width:94%; max-width:460px; height:auto; max-height:88vh; border-radius:18px; border:2px solid var(--gold); box-shadow:0 24px 70px rgba(0,0,0,.5); transform:translate(-50%,-50%) scale(.96); opacity:0; visibility:hidden; }
+        .cs-modal.show { transform:translate(-50%,-50%) scale(1); opacity:1; visibility:visible; }
       }
       .cs-head { flex:none; position:relative; background:var(--grn-d); color:#fff; padding:20px 20px 22px; }
       .cs-added { display:inline-block; background:linear-gradient(180deg,#dcae6a,#b5803f); color:#241703; font-weight:800; font-size:14px; padding:7px 14px; border-radius:20px; }
@@ -682,9 +682,9 @@
 
                 <div class="co-label">Спосіб оплати</div>
                 <div class="pay-opts deliv-opts">
+                    <label class="pay-opt on" data-pm="cod"><input type="radio" name="payment_method" value="cod" checked><span class="do-rb"></span><span class="do-txt"><b>Накладений платіж</b><small>Оплата при отриманні на відділенні Нової пошти</small></span></label>
                     <label class="pay-opt" data-pm="online"><input type="radio" name="payment_method" value="online"><span class="do-rb"></span><span class="do-txt"><b>Оплатити онлайн</b><small>Apple Pay, Google Pay або картка. Оплата на захищеній сторінці.</small></span></label>
                     <label class="pay-opt pay-opt-inst" data-pm="installment"><input type="radio" name="payment_method" value="installment"><span class="do-rb"></span><span class="do-txt"><b>Оплата частинами</b><small>Від 1 000 грн · 2–3 платежі · monobank, ПриватБанк, ПУМБ, А-Банк, ОТП · 0% без переплат</small></span></label>
-                    <label class="pay-opt on" data-pm="cod"><input type="radio" name="payment_method" value="cod" checked><span class="do-rb"></span><span class="do-txt"><b>Накладений платіж</b><small>Оплата при отриманні на відділенні Нової пошти</small></span></label>
                 </div>
                 <div class="inst-picker" id="instPicker" hidden>
                     <div class="inst-row"><div class="inst-lbl">Банк</div><div class="inst-banks" id="instBanks"></div></div>
@@ -1054,6 +1054,33 @@ document.addEventListener('DOMContentLoaded', function () {
     if (sel && sel.value === 'installment') renderInstBreak();
   }
   syncInstPicker();
+
+  // Частинами доступні лише від 1000₴ — ховаємо опцію, якщо сума кошика менша,
+  // і якщо вона була обрана → перемикаємо на «Накладений платіж».
+  function gateInstallment() {
+    var totalEl = document.getElementById('cartTotal2') || document.getElementById('cartTotal');
+    var total = totalEl ? (parseInt(String(totalEl.textContent).replace(/[^0-9]/g, ''), 10) || 0) : 0;
+    var instOpt = document.querySelector('.pay-opt-inst');
+    if (!instOpt) return;
+    var ok = total >= 1000;
+    instOpt.style.display = ok ? '' : 'none';
+    if (!ok) {
+      var instRadio = instOpt.querySelector('input');
+      if (instRadio && instRadio.checked) {
+        var codRadio = document.querySelector('.pay-opt[data-pm="cod"] input');
+        if (codRadio) {
+          codRadio.checked = true;
+          document.querySelectorAll('.pay-opt').forEach(function (x) { x.classList.toggle('on', x.getAttribute('data-pm') === 'cod'); });
+        }
+        syncInstPicker();
+      }
+    }
+  }
+  var totalElW = document.getElementById('cartTotal2');
+  if (totalElW && window.MutationObserver) {
+    new MutationObserver(gateInstallment).observe(totalElW, { childList: true, characterData: true, subtree: true });
+  }
+  gateInstallment();
 });
 </script>
 </body>
