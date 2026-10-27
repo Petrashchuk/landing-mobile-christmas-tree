@@ -13,10 +13,11 @@
     <meta property="og:image" content="https://land.yalynkahub.com.ua/logo-full.png">
     <meta property="og:locale" content="uk_UA">
     <meta name="theme-color" content="#052623">
-    <link rel="shortcut icon" href="logo-mark.png" type="image/png">
-    <link rel="icon" type="image/png" sizes="32x32" href="logo-mark.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="logo-mark.png">
-    <link rel="apple-touch-icon" href="logo-mark.png">
+    <link rel="shortcut icon" href="favicon.png?v=1" type="image/png">
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon.png?v=1">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png?v=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png?v=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1">
 
     <!-- Бренд-шрифт -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,24 +69,31 @@
       .btn-grn { background:var(--grn); box-shadow:0 6px 18px rgba(4,38,35,.3); }
 
       /* Header */
-      header { position:sticky; top:0; z-index:40; background:var(--grn-d); color:#fff; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; padding:8px 14px; gap:6px 10px; }
-      header .logo { display:flex; align-items:center; }
+      header { position:sticky; top:0; z-index:40; background:var(--grn-d); color:#fff; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; column-gap:8px; padding:8px 14px; box-shadow:0 3px 14px rgba(0,0,0,.2); }
+      .hdr-burger { justify-self:start; display:inline-flex; align-items:center; background:none; border:none; color:#fff; cursor:pointer; padding:6px; margin:-6px; }
+      .hdr-burger svg { width:28px; height:28px; }
+      header .logo { display:flex; align-items:center; justify-self:center; }
       header .logo img { width:auto; height:48px; filter:drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
       header .hphone { font-size:13px; font-weight:700; color:var(--gold); white-space:nowrap; }
-      .hdr-right { display:flex; align-items:center; gap:14px; }
+      .hdr-right { display:flex; align-items:center; gap:14px; justify-self:end; }
       .hhours { font-size:12px; color:#f1e7d6; white-space:nowrap; line-height:1.2; }
       .hhours b { color:var(--gold); font-weight:800; }
       @media (max-width:860px) { .hhours { display:none; } }
       @media (max-width:560px) { header .hphone { display:none; } }
-      .hdr-nav { order:3; flex-basis:100%; display:flex; flex-wrap:wrap; justify-content:center; gap:7px 16px; padding-top:8px; border-top:1px solid rgba(255,255,255,.14); margin-top:5px; }
+      .hdr-nav { grid-column:1 / -1; display:none; flex-direction:column; gap:0; margin-top:8px; padding-top:4px; border-top:1px solid rgba(255,255,255,.14); }
+      .hdr-nav.open { display:flex; }
       .hdr-nav::-webkit-scrollbar { height:0; }
-      .hdr-nav a { position:relative; font-size:14px; font-weight:700; color:#fff; white-space:nowrap; padding:2px 0; opacity:.95; transition:color .15s; }
-      .hdr-nav a::after { content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px; background:var(--gold); border-radius:2px; transform:scaleX(0); transition:transform .18s; }
+      .hdr-nav a { position:relative; font-size:16px; font-weight:700; color:#fff; padding:13px 6px; border-bottom:1px solid rgba(255,255,255,.08); transition:color .15s; }
+      .hdr-nav a::after { display:none; }
       .hdr-nav a:hover, .hdr-nav a.active { color:var(--gold); }
       .hdr-nav a:hover::after, .hdr-nav a.active::after { transform:scaleX(1); }
-      @media (min-width:720px) {
-        header { flex-wrap:nowrap; padding:10px 24px; }
-        .hdr-nav { order:2; flex:1; flex-basis:auto; justify-content:center; border-top:none; padding-top:0; margin-top:0; overflow:visible; }
+      @media (min-width:860px) {
+        header { display:flex; flex-wrap:nowrap; align-items:center; justify-content:space-between; padding:10px 32px; }
+        .hdr-burger { display:none; }
+        header .logo { order:1; }
+        .hdr-nav { order:2; flex:1; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:30px; margin:0; padding:0; border-top:none; }
+        .hdr-nav a { font-size:15px; padding:0; border-bottom:none; }
+        .hdr-nav .hphone { display:none; }
         .hdr-right { order:3; }
       }
       .saletop { background:var(--org); color:#fff; font-weight:700; font-size:13px; padding:7px 0; overflow:hidden; white-space:nowrap; }
@@ -131,11 +139,14 @@
       .card .pr span { color:#999; font-weight:600; font-size:12px; }
       .card .order-form-wrapper-btn { margin-top:auto; }
       .card .order-form-wrapper-btn .button { display:block; background:var(--grn); color:#fff; text-align:center; font-weight:700; font-size:14px; padding:10px; border-radius:9px; cursor:pointer; }
-      .card .cbuy { display:block; background:var(--org); color:#fff; text-align:center; font-weight:800; font-size:14px; padding:11px; border-radius:9px; cursor:pointer; margin-top:auto; }
+      .card .cbuy { display:block; background:#fff; color:var(--org); border:1.6px solid var(--org); text-align:center; font-weight:800; font-size:14px; padding:11px; border-radius:9px; cursor:pointer; margin-top:auto; }
       .card .cbuy-row { display:flex; gap:8px; margin-top:auto; align-items:stretch; }
       .card .cbuy-row .cbuy { flex:0 0 48px; width:48px; margin-top:0; padding:0; display:flex; align-items:center; justify-content:center; }
       .card .cbuy-row .cbuy svg { width:21px; height:21px; }
-      .card .cbuy-now { flex:1 1 auto; background:var(--gold); color:#3a2a10; text-align:center; font-weight:800; font-size:13px; padding:11px 15px; border-radius:9px; cursor:pointer; white-space:nowrap; display:flex; align-items:center; justify-content:center; }
+      .card .cbuy-now { flex:1 1 auto; background:var(--org); color:#fff; text-align:center; font-weight:800; font-size:13px; padding:11px 15px; border-radius:9px; cursor:pointer; white-space:nowrap; display:flex; align-items:center; justify-content:center; }
+      /* Картки: лишаємо ЛИШЕ «Замовити» на всю ширину — іконку-кошик прибрано (лишається у DOM для cart-логіки, але прихована) */
+      .card .cbuy-row .cbuy { display:none; }
+      .card .cbuy-row .cbuy-now { flex:1 1 100%; width:100%; font-size:14px; }
       .card .collabel { font-size:12px; color:#666; margin:8px 0 4px; }
       .card .swatches { display:flex; gap:8px; margin-bottom:8px; }
       .card .sw { width:26px; height:26px; border-radius:50%; border:2px solid #ddd; cursor:pointer; padding:0; }
@@ -219,17 +230,23 @@
 
       /* Header right + cart button */
       .hdr-right { display:flex; align-items:center; gap:12px; }
-      .cartbtn { display:inline-flex; align-items:center; gap:7px; background:var(--gold); color:#3a2a10; border:none; font-size:14px; font-weight:800; cursor:pointer; padding:8px 15px; border-radius:30px; line-height:1; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+      .cartbtn { position:relative; display:inline-flex; align-items:center; gap:9px; background:linear-gradient(180deg,#e7c079 0%,#c99f52 50%,#b5833c 100%); color:#2a1a04; border:none; font-size:15px; font-weight:800; cursor:pointer; padding:10px 15px 10px 17px; border-radius:40px; line-height:1; box-shadow:0 4px 12px rgba(120,80,20,.28), inset 0 1px 0 rgba(255,255,255,.55); transition:transform .12s, box-shadow .15s; }
+      .cartbtn:hover { box-shadow:0 6px 16px rgba(120,80,20,.34), inset 0 1px 0 rgba(255,255,255,.6); }
+      .cartbtn:active { transform:scale(.97); }
+      .cartbtn .cb-ic { width:21px; height:21px; display:block; flex:none; }
       .cartbtn .cb-label { white-space:nowrap; }
-      .cart-count { min-width:20px; height:20px; padding:0 5px; background:var(--org); color:#fff; font-size:12px; font-weight:800; border-radius:10px; display:flex; align-items:center; justify-content:center; }
-      @media (max-width:420px) { .cartbtn .cb-label { display:none; } }
+      .cart-count { min-width:22px; height:22px; padding:0 6px; background:var(--org); color:#fff; font-size:12.5px; font-weight:800; border-radius:11px; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 3px rgba(0,0,0,.25), 0 0 0 2px rgba(255,255,255,.6); }
+      .cart-count.empty { display:none; }
+      @media (max-width:420px) { .cartbtn .cb-label { display:none; } .cartbtn { padding:10px 14px; } }
 
       /* Cart drawer */
       .cart-ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:2147483646; }
       .cart-ov.show { display:block; }
-      .cart-dr { position:fixed; top:50%; left:50%; width:94%; max-width:480px; max-height:90vh; background:var(--bg); z-index:2147483647; border-radius:16px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 24px 70px rgba(0,0,0,.45); transform:translate(-50%,-50%) scale(.96); opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; }
-      .cart-dr.show { transform:translate(-50%,-50%) scale(1); opacity:1; pointer-events:auto; }
+      .cart-dr { position:fixed; inset:0; width:100%; max-width:100%; height:100%; max-height:100%; background:var(--bg); z-index:2147483647; border-radius:0; overflow:hidden; display:flex; flex-direction:column; box-shadow:none; transform:translateY(100%); pointer-events:none; transition:transform .28s ease; }
+      .cart-dr.show { transform:translateY(0); pointer-events:auto; }
       .cart-hd { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:var(--grn-d); color:#fff; font-size:17px; }
+      .cart-hd b { display:inline-flex; align-items:center; gap:9px; }
+      .cart-hd-ic { width:20px; height:20px; display:block; flex:none; color:var(--gold); }
       .cart-x { background:none; border:none; color:#fff; font-size:22px; cursor:pointer; line-height:1; }
       .cart-scroll { flex:1; overflow-y:auto; }
       .cart-items { padding:12px 14px; }
@@ -258,6 +275,29 @@
       .cart-foot .cf-btn { flex:1; background:linear-gradient(135deg,#B4281B,#8E1C12); color:#fff; border:none; border-radius:12px; padding:15px 14px; font-weight:800; font-size:14.5px; letter-spacing:.02em; text-transform:uppercase; cursor:pointer; box-shadow:0 8px 20px rgba(154,32,22,.35); transition:filter .15s, transform .1s; }
       .cart-foot .cf-btn:hover { filter:brightness(1.07); }
       .cart-foot .cf-btn:active { transform:scale(.99); }
+      /* ----- Крос-сел-модалка (після додавання ялинки) ----- */
+      .cs-ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:2147483646; }
+      .cs-ov.show { display:block; }
+      .cs-modal { display:flex; flex-direction:column; position:fixed; inset:0; width:100%; max-width:100%; height:100%; max-height:100%; overflow:hidden; background:#fff; border:none; border-radius:0; z-index:2147483647; transform:translateY(100%); pointer-events:none; transition:transform .28s ease; }
+      .cs-modal.show { transform:translateY(0); pointer-events:auto; }
+      .cs-head { flex:none; position:relative; background:var(--grn-d); color:#fff; padding:20px 20px 22px; }
+      .cs-added { display:inline-block; background:linear-gradient(180deg,#dcae6a,#b5803f); color:#241703; font-weight:800; font-size:14px; padding:7px 14px; border-radius:20px; }
+      .cs-x { position:absolute; top:16px; right:16px; background:none; border:none; color:#fff; font-size:22px; cursor:pointer; line-height:1; }
+      .cs-title { font-size:24px; font-weight:900; margin:16px 0 6px; line-height:1.15; }
+      .cs-sub { font-size:15px; color:#f0e7da; line-height:1.4; margin:0; }
+      .cs-body { flex:1 1 auto; overflow-y:auto; padding:18px 16px 8px; }
+      .cs-label { font-size:12px; font-weight:800; letter-spacing:.08em; color:#8a8277; text-transform:uppercase; margin:0 2px 12px; }
+      .cs-item { border:1px solid #eadfce; border-radius:14px; padding:12px; margin-bottom:14px; }
+      .cs-item-top { display:flex; gap:14px; align-items:flex-start; margin-bottom:12px; }
+      .cs-item-top img { width:76px; height:76px; object-fit:cover; border-radius:10px; background:var(--soft); flex:none; }
+      .cs-item-nm { font-size:21px; font-weight:800; line-height:1.1; }
+      .cs-item-ds { font-size:14px; color:#6b6358; margin:4px 0 7px; line-height:1.3; }
+      .cs-item-pr { font-size:17px; font-weight:800; color:var(--org); }
+      .cs-item-btn { display:block; text-align:center; background:var(--org); color:#fff; font-weight:800; font-size:15px; padding:14px; border-radius:11px; text-decoration:none; }
+      .cs-item-btn:active { transform:scale(.99); }
+      .cs-foot { flex:none; padding:14px 16px calc(14px + env(safe-area-inset-bottom)); background:#fff; border-top:1px solid #ece2d3; box-shadow:0 -6px 20px rgba(0,0,0,.06); }
+      .cs-checkout { display:block; width:100%; background:linear-gradient(135deg,#B4281B,#8E1C12); color:#fff; border:none; font-weight:800; font-size:16px; padding:16px; border-radius:12px; cursor:pointer; box-shadow:0 8px 20px rgba(154,32,22,.35); }
+      .cs-continue { display:block; text-align:center; color:#2b2b2b; text-decoration:underline; font-size:15px; margin-top:14px; }
       #checkoutMount .button { display:none; }
 
       /* Checkout у кошику */
@@ -272,15 +312,18 @@
       #checkoutMount .np-select { cursor:pointer; padding-right:40px !important; caret-color:transparent; }
       .np-area-wrap::after { content:""; position:absolute; right:17px; top:50%; width:8px; height:8px; border-right:2px solid #8a8378; border-bottom:2px solid #8a8378; transform:translateY(-70%) rotate(45deg); pointer-events:none; transition:transform .18s; }
       .np-area-wrap:has(.np-list.open)::after { transform:translateY(-30%) rotate(225deg); }
+      /* Пошук області: липка «шапка» дропдауна — список лягає ПІД нею, а не поверх */
+      #checkoutMount .np-area-wrap .np-area-search { position:absolute; top:68px; left:0; right:0; z-index:31; margin:0 !important; border-radius:10px 10px 0 0 !important; border-color:var(--org) !important; background:#fff !important; box-shadow:0 10px 24px rgba(0,0,0,.12); }
+      #checkoutMount .np-area-wrap .np-list.open { top:119px; border-top:none; border-radius:0 0 10px 10px; box-shadow:0 14px 24px rgba(0,0,0,.12); }
       #checkoutMount .error-message { color:#d33; font-size:12px; font-weight:600; margin:-3px 0 7px 2px; display:flex; align-items:center; gap:5px; }
       #checkoutMount .error-message::before { content:"⚠"; font-size:12px; }
       .deliv-opts { display:flex; flex-direction:column; gap:9px; }
-      .deliv-opt { display:flex; align-items:center; gap:11px; border:1.5px solid #e0dccf; border-radius:12px; padding:13px 14px; cursor:pointer; background:#fff; }
-      .deliv-opt input { display:none; }
-      .deliv-opt.on { border-color:var(--org); background:#fbf1ef; }
+      .deliv-opt, .pay-opt { display:flex; align-items:center; gap:11px; border:1.5px solid #e0dccf; border-radius:12px; padding:13px 14px; cursor:pointer; background:#fff; }
+      .deliv-opt input, .pay-opt input { display:none; }
+      .deliv-opt.on, .pay-opt.on { border-color:var(--org); background:#fbf1ef; }
       .do-rb, .pc-rb { width:20px; height:20px; border-radius:50%; border:2px solid #bbb; flex:none; position:relative; }
-      .deliv-opt.on .do-rb, .pc-rb { border-color:var(--org); }
-      .deliv-opt.on .do-rb::after, .pc-rb::after { content:""; position:absolute; inset:3px; border-radius:50%; background:var(--org); }
+      .deliv-opt.on .do-rb, .pay-opt.on .do-rb, .pc-rb { border-color:var(--org); }
+      .deliv-opt.on .do-rb::after, .pay-opt.on .do-rb::after, .pc-rb::after { content:""; position:absolute; inset:3px; border-radius:50%; background:var(--org); }
       .do-txt { display:flex; flex-direction:column; }
       .do-txt b { font-size:15px; color:#222; }
       .do-txt small { font-size:12px; color:#888; }
@@ -288,6 +331,16 @@
       .deliv-note { border-left:3px solid var(--org); background:#f6f2ec; border-radius:8px; padding:11px 13px; font-size:12.5px; line-height:1.5; color:#5a5349; }
       .deliv-note b { color:#2f2a24; }
       .pay-logos { display:flex; gap:8px; margin-top:9px; }
+      .inst-picker { margin:6px 0 2px; padding:13px; border:1.5px solid #e0dccf; border-radius:12px; background:#fbf7f1; }
+      .inst-picker[hidden] { display:none; }
+      .inst-row { margin-bottom:11px; }
+      .inst-row:last-of-type { margin-bottom:0; }
+      .inst-lbl { font-size:12px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:#8a7f6e; margin-bottom:7px; }
+      .inst-banks, .inst-parts { display:flex; flex-wrap:wrap; gap:7px; }
+      .inst-chip { display:inline-flex; align-items:center; gap:8px; background:#fff; border:1.5px solid #e0dccf; border-radius:9px; padding:9px 13px; font-size:13.5px; font-weight:700; color:#3a2f27; cursor:pointer; }
+      .inst-logo { height:18px; width:auto; display:block; flex:none; }
+      .inst-chip.on { border-color:var(--org); background:#fbf1ef; color:var(--org); }
+      .inst-note { font-size:11.5px; color:#8a7f6e; line-height:1.45; margin-top:11px; }
       .paylogo { width:44px; height:28px; display:block; filter:drop-shadow(0 1px 2px rgba(0,0,0,.08)); }
       .co-disclaimer { margin:12px 2px 2px; font-size:11.5px; line-height:1.5; color:#8a8378; text-align:center; }
       .co-disclaimer a { color:var(--org); text-decoration:underline; }
@@ -371,6 +424,24 @@
       .addon-sw { display:flex; gap:7px; flex-wrap:wrap; margin:4px 0; }
       .addon-sw .asw { width:24px; height:24px; border-radius:50%; border:2px solid #ddd; cursor:pointer; padding:0; }
       .addon-sw .asw.on { border-color:var(--org); box-shadow:0 0 0 2px rgba(154,32,22,.2); }
+      /* #260 UI/UX: ряд кнопок addon-картки — чистіша ієрархія, без клампу «Замовити».
+         Кошик → контурна secondary-іконка; «Замовити» → головна золота CTA. Рівні 46px. */
+      .addon-grid .card .cbuy-row { gap:6px; align-items:stretch; }
+      .addon-grid .card .cbuy-row .cbuy {
+        flex:0 0 42px; width:42px; height:44px; margin-top:0; padding:0;
+        background:#fff; color:var(--org);
+        border:1.6px solid var(--org); border-radius:11px; box-shadow:none;
+      }
+      .addon-grid .card .cbuy-row .cbuy:active { background:var(--soft); }
+      .addon-grid .card .cbuy-row .cbuy svg { width:19px; height:19px; }
+      .addon-grid .card .cbuy-now {
+        min-width:0; flex:1 1 auto; height:44px; padding:0 6px;
+        background:var(--org); color:#fff;      /* залита брендова червона — чиста головна CTA замість каламутного золота */
+        font-size:13.5px; font-weight:800;
+        border:none; border-radius:11px;
+        box-shadow:0 4px 12px rgba(154,32,22,.28);
+      }
+      .addon-grid .card .cbuy-now:active { transform:scale(.98); }
       @media (min-width:720px) {
         .addons-banner { grid-template-columns:1.1fr 1fr; align-items:center; }
         .addons-banner .ab-img img { height:100%; min-height:220px; }
@@ -430,7 +501,16 @@
     <!-- Meta Pixel -->
     <script>
         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init','362898322806679');fbq('track','PageView');
+        fbq('init','1699908147771028');fbq('track','PageView');
+    </script>
+
+    <!-- TikTok Pixel -->
+    <script>
+        !function (w, d, t) {
+          w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u=r;ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+          ttq.load('DB6SL43C77U6POU99BRG');
+          ttq.page();
+        }(window, document, 'ttq');
     </script>
 </head>
 <body>
@@ -442,19 +522,21 @@
     </div>
 </div>
 <header>
+    <button class="hdr-burger" id="hdrBurger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="hdrNav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
     <a class="logo" href="#"><img src="logo-site.png?v=2" alt="Yalynka XMAS HUB"></a>
-    <nav class="hdr-nav">
-        <a href="#catalog">Ялинки</a>
+    <div class="hdr-right">
+        <button class="cartbtn" id="cartBtn" type="button" aria-label="Кошик"><svg class="cb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.4"></circle><circle cx="18" cy="20" r="1.4"></circle><path d="M2.5 3h2.2l2.1 12.1a1.6 1.6 0 0 0 1.6 1.3h8.9a1.6 1.6 0 0 0 1.6-1.25l1.5-7.35H6"></path></svg><span class="cb-label">Кошик</span> <span class="cart-count empty" id="cartCount">0</span></button>
+    </div>
+    <nav class="hdr-nav" id="hdrNav">
+        <a href="#catalog">Каталог ялинок</a>
         <a href="#toys">Іграшки</a>
         <a href="#garlands">Гірлянди</a>
         <a href="#reviews">Відгуки</a>
         <a href="#certs">Сертифікати якості</a>
-    </nav>
-    <div class="hdr-right">
-        <div class="hhours">🕐 Пн–Нд <b>07:00–23:00</b></div>
         <a class="hphone" href="tel:+380960968665">📞 096 096 8665</a>
-        <button class="cartbtn" id="cartBtn" type="button" aria-label="Кошик">🛒 <span class="cb-label">Кошик</span> <span class="cart-count" id="cartCount">0</span></button>
-    </div>
+    </nav>
 </header>
 
 <!-- HERO банер-слайдер -->
@@ -590,7 +672,18 @@
                 <div class="deliv-note"><b>Доставка оплачується окремо</b> за тарифами Нової пошти — залежить від габаритів, ваги та населеного пункту. Точну суму визначає перевізник під час відправлення.</div>
 
                 <div class="co-label">Спосіб оплати</div>
-                <div class="pay-card"><span class="pc-rb"></span><span class="do-txt"><b>Накладений платіж</b><small>Оплата при отриманні на відділенні Нової пошти</small></span></div>
+                <div class="pay-opts deliv-opts">
+                    <label class="pay-opt" data-pm="online"><input type="radio" name="payment_method" value="online"><span class="do-rb"></span><span class="do-txt"><b>Оплатити онлайн</b><small>Apple Pay, Google Pay або картка. Оплата на захищеній сторінці.</small></span></label>
+                    <label class="pay-opt pay-opt-inst" data-pm="installment"><input type="radio" name="payment_method" value="installment"><span class="do-rb"></span><span class="do-txt"><b>Оплата частинами</b><small>Від 1 000 грн · 2–3 платежі · monobank, ПриватБанк, ПУМБ, А-Банк, ОТП · 0% без переплат</small></span></label>
+                    <label class="pay-opt on" data-pm="cod"><input type="radio" name="payment_method" value="cod" checked><span class="do-rb"></span><span class="do-txt"><b>Накладений платіж</b><small>Оплата при отриманні на відділенні Нової пошти</small></span></label>
+                </div>
+                <div class="inst-picker" id="instPicker" hidden>
+                    <div class="inst-row"><div class="inst-lbl">Банк</div><div class="inst-banks" id="instBanks"></div></div>
+                    <div class="inst-row"><div class="inst-lbl">Кількість платежів</div><div class="inst-parts" id="instPartsEl"></div></div>
+                    <input type="hidden" name="installment_bank" id="instBankVal" value="mono">
+                    <input type="hidden" name="installment_parts" id="instPartsVal" value="3">
+                    <div class="inst-note">0% розстрочка · без переплат. Банк і кількість платежів зафіксуються на захищеній сторінці оплати.</div>
+                </div>
                 <div class="pay-logos">
                     <svg class="paylogo" viewBox="0 0 48 30" aria-label="Visa"><rect width="48" height="30" rx="4" fill="#fff" stroke="#e7e7e7"/><text x="24" y="20" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-style="italic" font-size="12" fill="#1A1F71" text-anchor="middle">VISA</text></svg>
                     <svg class="paylogo" viewBox="0 0 48 30" aria-label="Mastercard"><rect width="48" height="30" rx="4" fill="#fff" stroke="#e7e7e7"/><circle cx="21" cy="15" r="7.5" fill="#EB001B"/><circle cx="29" cy="15" r="7.5" fill="#F79E1B" fill-opacity=".92"/></svg>
@@ -599,7 +692,6 @@
                 <textarea class="field np-field np-comment" name="comment" id="orderComment" placeholder="Коментар до замовлення (за бажанням)"></textarea>
 
                 <button type="submit" class="button">Підтвердити замовлення</button>
-                <p class="co-disclaimer">Натискаючи кнопку, ви погоджуєтесь з <a href="publichna-oferta.html" target="_blank" rel="noopener">умовами оферти</a> та <a href="politics.html" target="_blank" rel="noopener">політикою конфіденційності</a>. Замовлення передається менеджеру для підтвердження.</p>
             </form>
         </div>
     </div>
@@ -742,7 +834,7 @@
 <!-- Кошик (drawer) -->
 <div class="cart-ov" id="cartOv"></div>
 <aside class="cart-dr" id="cartDr" aria-hidden="true">
-    <div class="cart-hd"><b>🛒 Ваш кошик</b><button class="cart-x" id="cartX" type="button" aria-label="Закрити">✕</button></div>
+    <div class="cart-hd"><b><svg class="cart-hd-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.4"></circle><circle cx="18" cy="20" r="1.4"></circle><path d="M2.5 3h2.2l2.1 12.1a1.6 1.6 0 0 0 1.6 1.3h8.9a1.6 1.6 0 0 0 1.6-1.25l1.5-7.35H6"></path></svg> Ваш кошик</b><button class="cart-x" id="cartX" type="button" aria-label="Закрити">✕</button></div>
     <div class="cart-scroll">
         <div class="cart-items" id="cartItems"></div>
         <div class="cart-empty" id="cartEmpty">Кошик порожній.<br>Оберіть ялинку, іграшки чи гірлянди з каталогу 🎄</div>
@@ -756,6 +848,46 @@
         <button type="button" class="cf-btn" id="cartSubmit">Підтвердити замовлення</button>
     </div>
 </aside>
+
+<!-- Крос-сел: модалка після додавання ялинки в кошик -->
+<div class="cs-ov" id="csOv"></div>
+<div class="cs-modal" id="csModal" role="dialog" aria-label="Додати прикраси до ялинки" aria-hidden="true">
+    <div class="cs-head">
+        <span class="cs-added">✓ Ялинку додано в кошик</span>
+        <button class="cs-x" id="csX" type="button" aria-label="Закрити">✕</button>
+        <h3 class="cs-title">Додати до ялинки прикраси?</h3>
+        <p class="cs-sub">Оберіть, що вас цікавить. Це можна зробити зараз або пізніше.</p>
+    </div>
+    <div class="cs-body">
+        <div class="cs-label">Прикраси до ялинки</div>
+        <div class="cs-item">
+            <div class="cs-item-top">
+                <img loading="lazy" src="garlands/rosa/50m-white.webp" alt="Гірлянди">
+                <div class="cs-item-info">
+                    <div class="cs-item-nm">Гірлянди</div>
+                    <div class="cs-item-ds">Роса, Хвойна Лапа, Кінський хвіст — різні кольори світіння</div>
+                    <div class="cs-item-pr">від 195 грн</div>
+                </div>
+            </div>
+            <a class="cs-item-btn cs-see" href="#garlands">Дивитись →</a>
+        </div>
+        <div class="cs-item">
+            <div class="cs-item-top">
+                <img loading="lazy" src="toys/oksamyt/red.webp" alt="Іграшки">
+                <div class="cs-item-info">
+                    <div class="cs-item-nm">Іграшки</div>
+                    <div class="cs-item-ds">Набори кульок: оксамит, блиск, горошина</div>
+                    <div class="cs-item-pr">від 990 грн</div>
+                </div>
+            </div>
+            <a class="cs-item-btn cs-see" href="#toys">Дивитись →</a>
+        </div>
+    </div>
+    <div class="cs-foot">
+        <button type="button" class="cs-checkout" id="csCheckout">Оформити замовлення →</button>
+        <a class="cs-continue" id="csContinue" href="#">Продовжити покупки</a>
+    </div>
+</div>
 
 <!-- Швидкий перегляд товару (quick-view) -->
 <div class="qv-ov" id="qvOv"></div>
@@ -802,8 +934,104 @@
 <script defer src="js/jquery.min.js"></script>
 <script defer src="js/owl.carousel.min.js"></script>
 <script defer src="js/jquery.maskedinput.min.js"></script>
-<script defer src="js/scripts.js?v=51"></script>
-<!-- Orderli: віджет (чат + «Замовити дзвінок») → заявки у CRM -->
-<script src="https://api.orderli.com.ua/api/v1/widget/loader.js?token=efc888c0eac33a98a14af0e4051a76b4" async></script>
+<script defer src="js/scripts.js?v=59"></script>
+<!-- Orderli-віджет (чат + «Замовити дзвінок») прибрано за запитом -->
+
+
+<!-- Варіація дефолтного кольору addon-карток: не завжди 1-й свотч, а різні (детерміновано).
+     Реюзає готовий клік-хендлер свотча (оновлює фото + data-img кнопок). Прев'ю-гард: клікаємо
+     лише якщо фото обраного кольору реально завантажилось → жодних битих картинок. -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.addon-grid .card').forEach(function (card, i) {
+    var sws = card.querySelectorAll('.addon-sw .asw');
+    if (sws.length < 2) return;
+    var idx = (i + 1) % sws.length;      // детермінований зсув → різні кольори по картках
+    if (idx === 0) idx = 1;              // гарантуємо не-перший, коли є вибір
+    var target = sws[idx];
+    var src = target.getAttribute('data-img');
+    if (!src) return;
+    var probe = new Image();
+    probe.onload = function () { target.click(); };  // успіх → перемикаємо (reuse хендлера)
+    probe.src = src;                                   // помилка → лишається дефолт (без битих фото)
+  });
+
+  // Бургер-меню: тогл випадайки + закриття після вибору пункту
+  var burger = document.getElementById('hdrBurger');
+  var nav = document.getElementById('hdrNav');
+  if (burger && nav) {
+    burger.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { nav.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); });
+    });
+  }
+
+  // Спосіб оплати: online / частинами / cod — тогл .on + показ installment-пікера
+  var payOpts = Array.prototype.slice.call(document.querySelectorAll('.pay-opt'));
+  payOpts.forEach(function (o) {
+    o.addEventListener('click', function () {
+      var r = o.querySelector('input'); if (r) r.checked = true;
+      payOpts.forEach(function (x) { x.classList.toggle('on', x === o); });
+      syncInstPicker();
+    });
+  });
+
+  // Installment-пікер (дзеркало основного сайту: від 1000₴, parts лише 2/3).
+  // Банк→parts МУСЯТЬ збігатися з WFP-кабінетом: mono[3] privat[2,3] pumb[3] abank[2,3] otp[3].
+  var INST_BANKS = [
+    { code: 'mono', name: 'monobank', parts: [3] },
+    { code: 'privat', name: 'ПриватБанк', parts: [2, 3] },
+    { code: 'pumb', name: 'ПУМБ', parts: [3] },
+    { code: 'abank', name: 'А-Банк', parts: [2, 3] },
+    { code: 'otp', name: 'ОТП Банк', parts: [3] }
+  ];
+  var instPicker = document.getElementById('instPicker');
+  var instBanksEl = document.getElementById('instBanks');
+  var instPartsEl = document.getElementById('instPartsEl');
+  var instBankVal = document.getElementById('instBankVal');
+  var instPartsVal = document.getElementById('instPartsVal');
+  var curBank = INST_BANKS[0];
+  function renderInstParts() {
+    if (!instPartsEl) return;
+    instPartsEl.innerHTML = '';
+    var def = curBank.parts[curBank.parts.length - 1];
+    if (instPartsVal) instPartsVal.value = def;
+    curBank.parts.forEach(function (p) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'inst-chip' + (p === def ? ' on' : '');
+      b.textContent = p + (p === 1 ? ' платіж' : (p < 5 ? ' платежі' : ' платежів'));
+      b.addEventListener('click', function () {
+        instPartsEl.querySelectorAll('.inst-chip').forEach(function (x) { x.classList.remove('on'); });
+        b.classList.add('on'); if (instPartsVal) instPartsVal.value = p;
+      });
+      instPartsEl.appendChild(b);
+    });
+  }
+  function renderInstBanks() {
+    if (!instBanksEl) return;
+    instBanksEl.innerHTML = '';
+    INST_BANKS.forEach(function (bank, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'inst-chip' + (i === 0 ? ' on' : '');
+      b.innerHTML = '<img class="inst-logo" src="img/banks/' + bank.code + '.svg" alt="" onerror="this.remove()"> ' + bank.name;
+      b.addEventListener('click', function () {
+        instBanksEl.querySelectorAll('.inst-chip').forEach(function (x) { x.classList.remove('on'); });
+        b.classList.add('on'); curBank = bank; if (instBankVal) instBankVal.value = bank.code; renderInstParts();
+      });
+      instBanksEl.appendChild(b);
+    });
+    renderInstParts();
+  }
+  if (instPicker) renderInstBanks();
+  function syncInstPicker() {
+    var sel = document.querySelector('input[name="payment_method"]:checked');
+    if (instPicker) instPicker.hidden = !(sel && sel.value === 'installment');
+  }
+  syncInstPicker();
+});
+</script>
 </body>
 </html>

@@ -39,27 +39,35 @@ app.post('/order', async (req, res) => {
     try {
         const orderData = extractOrderData(req.body);
         const nameEncoded = encodeURIComponent(orderData.name || 'Гість');
-        const redirectUrl = `/thank-you.html?name=${nameEncoded}`;
+        // value + eid йдуть у thank-you для TikTok CompletePayment (purchase-оптимізація + дедуп)
+        const thankYouUrl = `/thank-you.html?name=${nameEncoded}&value=${orderData.price || 0}&eid=${encodeURIComponent(orderData.event_id)}`;
 
-        // Приймачі — незалежні й best-effort: падіння одного не має ламати
-        // оформлення (клієнт усе одно побачить «дякуємо»). Сповіщення в Telegram
-        // іде НЕ звідси, а через CRM-бот (@orderlicrmbot): замовлення створюється
-        // в Orderli, а CRM сам малює картку з кнопками у підключеній групі.
-        await Promise.allSettled([
-            // Facebook CAPI
-            sendFacebookCAPI({
-                ...orderData,
-                ip: req.ip,
-                agent: req.headers['user-agent']
-            }, req.headers.referer),
-            // Orderli CRM — створюємо замовлення в CRM продавця
-            sendCrmOrder({...orderData, utm: extractUtm(req.body)}),
+        // Абсолютний URL повернення клієнта з WayForPay на сторінку подяки (success/fail).
+        const proto = String(req.headers['x-forwarded-proto'] || req.protocol || 'https').split(',')[0];
+        const host = req.headers['x-forwarded-host'] || req.headers.host;
+        const returnUrl = host ? `${proto}://${host}${thankYouUrl}` : null;
+
+        // Піксельні приймачі — best-effort (не блокують і не ламають оформлення).
+        // Сповіщення в Telegram іде НЕ звідси, а через CRM-бот (@orderlicrmbot):
+        // замовлення створюється в Orderli, CRM сам малює картку в групі.
+        const pixels = Promise.allSettled([
+            sendFacebookCAPI({...orderData, ip: req.ip, agent: req.headers['user-agent']}, req.headers.referer),
+            sendTikTokEvents({...orderData, ip: req.ip, agent: req.headers['user-agent']}, req.headers.referer),
         ]);
+        // CRM створює замовлення (+ для online/частин — WFP-лінк). Чекаємо саме його,
+        // бо потрібен pay_url. sendCrmOrder НІКОЛИ не кидає (ловить усередині) → cod-safe.
+        const crm = await sendCrmOrder({...orderData, utm: extractUtm(req.body), return_url: returnUrl});
+        await pixels;
+
+        // online/частинами → на захищену сторінку оплати (pay_url);
+        // накладений або лінк не створено → на сторінку подяки.
+        const payUrl = crm && crm.pay_url ? crm.pay_url : null;
+        const redirectUrl = payUrl || thankYouUrl;
 
         if (req.headers['content-type']?.includes('application/json')) {
             return res.json({redirect: redirectUrl});
         }
-
+        if (payUrl) return res.redirect(payUrl);
         redirectThankYou(res, orderData);
     } catch (error) {
         console.error('Error in /order:', error);
@@ -166,7 +174,7 @@ function parseSizeAndPrice(str) {
 }
 
 function extractOrderData(body) {
-    const {name, first_name, last_name, phone, type, size, event_id, comment, _fbp, _fbc} = body;
+    const {name, first_name, last_name, phone, type, size, event_id, comment, _fbp, _fbc, _ttp, payment_method, installment_bank, installment_parts} = body;
     // Ім'я/прізвище окремими полями (краще для CRM); фолбек на старе єдине name.
     const firstName = (first_name || '').trim();
     const lastName = (last_name || '').trim();
@@ -183,6 +191,14 @@ function extractOrderData(body) {
     const total = items.length
         ? items.reduce((s, i) => s + (Number(i.price) || 0) * (i.qty || 1), 0)
         : singlePrice;
+    // Спосіб оплати (радіо у формі). online/installment → CRM поверне pay_url для редіректу.
+    // Частинами — лише від 1000₴ (як на основному сайті); інакше падаємо на онлайн-оплату.
+    let payMethod = ['online', 'installment', 'cod'].includes(payment_method) ? payment_method : 'cod';
+    if (payMethod === 'installment' && total < 1000) payMethod = 'online';
+    const payment = { method: payMethod };
+    if (payMethod === 'installment' && installment_bank) {
+        payment.installment = { bank: String(installment_bank), parts: Number(installment_parts) || 3 };
+    }
     return {
         name: fullName,
         first_name: firstName,
@@ -195,10 +211,12 @@ function extractOrderData(body) {
         event_id: event_id || crypto.randomUUID(),
         comment: typeof comment === 'string' ? comment.trim().slice(0, 1000) : '',
         delivery: extractDelivery(body),
+        payment,
         // Meta browser match ids (cookies) — forwarded to the CRM so a later `website` Purchase
         // (sent when the parcel is picked up) ties back to the ad click; also sharpens our own Lead.
         _fbp: _fbp || null,
         _fbc: _fbc || null,
+        _ttp: _ttp || null,   // TikTok cookie для серверного match
     };
 }
 
@@ -301,6 +319,58 @@ async function sendFacebookCAPI({name, phone, type, size, price, event_id, ip, a
     }
 }
 
+// Телефон → E.164 для TikTok (він вимагає нормалізацію перед хешем, на відміну від FB)
+function normalizePhoneE164(p) {
+    let d = String(p || '').replace(/\D/g, '');
+    if (d.length === 10 && d[0] === '0') d = '38' + d;      // 0XXXXXXXXX → 380XXXXXXXXX
+    else if (d.length === 9) d = '380' + d;                 // XXXXXXXXX → 380XXXXXXXXX
+    return d ? '+' + d : '';
+}
+
+// TikTok Events API — серверна передача CompletePayment (подія, на яку оптимізуємо).
+// Дедуп із пікселем через однаковий event_id. Access-Token — секрет із .env.
+async function sendTikTokEvents({phone, price, type, event_id, ip, agent, _ttp}, referer) {
+    if (!process.env.TT_ACCESS_TOKEN || !process.env.TT_PIXEL_ID) return;
+
+    const url = 'https://business-api.tiktok.com/open_api/v1.3/event/track/';
+    const e164 = normalizePhoneE164(phone);
+
+    const payload = {
+        event_source: 'web',
+        event_source_id: process.env.TT_PIXEL_ID,
+        ...(process.env.TT_TEST_CODE ? {test_event_code: process.env.TT_TEST_CODE} : {}),
+        data: [
+            {
+                event: 'CompletePayment',
+                event_time: Math.floor(Date.now() / 1000),
+                event_id,
+                user: {
+                    phone: e164 ? hashSHA256(e164) : undefined,
+                    ttp: _ttp || undefined,
+                    ip,
+                    user_agent: agent,
+                },
+                properties: {
+                    currency: 'UAH',
+                    value: price,
+                    contents: [{content_name: type || 'Ялинка', quantity: 1, price}],
+                },
+                page: {url: referer || 'https://land.yalynkahub.com.ua/'},
+            },
+        ],
+    };
+
+    try {
+        const resp = await axios.post(url, payload, {
+            headers: {'Access-Token': process.env.TT_ACCESS_TOKEN, 'Content-Type': 'application/json'},
+        });
+        if (resp.data?.code !== 0) throw new Error('TikTok Events API: ' + (resp.data?.message || 'unknown'));
+        console.log('TikTok Events API send successfully!!!');
+    } catch (err) {
+        console.error('Помилка при відправці TikTok Events API:', err.message);
+    }
+}
+
 // Витягуємо UTM-мітки з тіла запиту (фронт прокидає їх з URL-параметрів
 // посадкової). Повертаємо лише непорожні — CRM приймає гнучкий «плоский» формат.
 function extractUtm(body = {}) {
@@ -349,7 +419,7 @@ function crmVariantSku(type, size) {
     return (CRM_VARIANT_SKU[type] && CRM_VARIANT_SKU[type][size]) || null;
 }
 
-async function sendCrmOrder({name, first_name, last_name, phone, type, size, price, items, event_id, utm, delivery, comment, _fbp, _fbc}) {
+async function sendCrmOrder({name, first_name, last_name, phone, type, size, price, items, event_id, utm, delivery, comment, _fbp, _fbc, payment, return_url}) {
     if (!process.env.CRM_API_URL || !process.env.CRM_API_KEY) return;
 
     const split = splitName(name);
@@ -390,6 +460,11 @@ async function sendCrmOrder({name, first_name, last_name, phone, type, size, pri
         },
         items: lineItems,
         payment_type: 'cod',
+        // Спосіб онлайн-оплати (окремо від payment_type): для online/installment CRM
+        // створить WayForPay-лінк і поверне pay_url; cod → без лінка (як було).
+        ...(payment && payment.method && payment.method !== 'cod'
+            ? { payment: { ...payment, ...(return_url ? { return_url } : {}) } }
+            : {}),
         source,
         // Ідемпотентність: повторний сабміт з тим самим event_id не задвоїть
         // замовлення (CRM дедуплікує за external_id у межах продавця).
@@ -419,15 +494,18 @@ async function sendCrmOrder({name, first_name, last_name, phone, type, size, pri
             `Orderli CRM order ${response.data?.duplicate ? 'deduped' : 'created'}:`,
             data?.order_number || data?.id,
         );
+        // pay_url є лише для online/installment (CRM створив WFP-лінк); інакше null.
+        return { pay_url: data?.pay_url || null };
     } catch (err) {
         // Логуємо тіло помилки CRM (валідація/тариф/ключ), але не кидаємо далі.
         console.error('Помилка при створенні замовлення в CRM:', err.response?.data || err.message);
+        return null;
     }
 }
 
 // Redirect to thank-you page
-function redirectThankYou(res, {name}) {
-    const queryParams = new URLSearchParams({name}).toString();
+function redirectThankYou(res, {name, price, event_id}) {
+    const queryParams = new URLSearchParams({name, value: String(price || 0), eid: event_id || ''}).toString();
     res.redirect(`/thank-you.html?${queryParams}`);
 }
 

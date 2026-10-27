@@ -305,7 +305,7 @@ treeSelect.addEventListener("change", function () {
     var DISCOUNT = 30; // % «старої ціни» (анкер магазину); 0 = показувати лише поточну ціну
     var CARDS = [
         { title: "Казка", img: "trees/kazka/2.webp", gallery: ["trees/kazka/2.webp", "trees/kazka/3.webp", "trees/kazka/4.webp"], cats: ["Зелена"], colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
-        { title: "Снігова Королева", img: "trees/snow-queen/2.webp", gallery: ["trees/snow-queen/2.webp", "trees/snow-queen/3.webp", "trees/snow-queen/4.webp"], cats: ["Білі кінчики"], colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
+        { title: "Снігова Королева", img: "trees/snow-queen/2.webp", gallery: ["trees/snow-queen/2.webp", "trees/snow-queen/1.webp", "trees/snow-queen/4.webp"], cats: ["Білі кінчики"], colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
         { title: "Елітна з шишкою", img: "trees/elite/2.webp", gallery: ["trees/elite/2.webp", "trees/elite/3.webp", "trees/elite/4.webp"], cats: ["Білі кінчики", "З декором"], colors: [{ label: "Зелена", v: "Елітна з шишкою", sw: "#2e7d32" }] },
         { title: "Кармен + ягідки", img: "trees/karmen/red.webp", cats: ["Білі кінчики", "З декором"], colors: [
             { label: "Червоні", v: "Кармен + червоні ягідки", sw: "#c0392b", img: "trees/karmen/red.webp", gallery: ["trees/karmen/red.webp", "trees/karmen/red-1.webp", "trees/karmen/red-2.webp", "trees/karmen/red-3.webp"] },
@@ -454,6 +454,17 @@ treeSelect.addEventListener("change", function () {
                 });
             }
         } catch (_) {}
+        // TikTok Pixel: та сама подія AddToCart (TikTok-піксель завантажено в index.html).
+        try {
+            if (typeof ttq !== "undefined" && ttq && typeof ttq.track === "function") {
+                ttq.track("AddToCart", {
+                    content_name: item.variant ? (item.name + " — " + item.variant) : item.name,
+                    content_type: "product",
+                    value: Number(item.price) || 0,
+                    currency: "UAH",
+                });
+            }
+        } catch (_) {}
     }
     function uiConfirm(msg) {
         return new Promise(function (resolve) {
@@ -537,6 +548,16 @@ treeSelect.addEventListener("change", function () {
     var cartX = document.getElementById("cartX"); if (cartX) cartX.addEventListener("click", closeCart);
     if (cartOv) cartOv.addEventListener("click", closeCart);
 
+    // ---------- Крос-сел-модалка (після додавання ялинки) ----------
+    var csOv = document.getElementById("csOv"), csModal = document.getElementById("csModal");
+    function openCrossSell() { if (csModal) { csModal.classList.add("show"); csModal.setAttribute("aria-hidden", "false"); } if (csOv) csOv.classList.add("show"); document.body.classList.add("modal-open"); }
+    function closeCrossSell() { if (csModal) { csModal.classList.remove("show"); csModal.setAttribute("aria-hidden", "true"); } if (csOv) csOv.classList.remove("show"); document.body.classList.remove("modal-open"); }
+    var csX = document.getElementById("csX"); if (csX) csX.addEventListener("click", closeCrossSell);
+    if (csOv) csOv.addEventListener("click", closeCrossSell);
+    var csCont = document.getElementById("csContinue"); if (csCont) csCont.addEventListener("click", function (e) { e.preventDefault(); closeCrossSell(); });
+    var csCheck = document.getElementById("csCheckout"); if (csCheck) csCheck.addEventListener("click", function () { closeCrossSell(); openCart(); });
+    Array.prototype.forEach.call(document.querySelectorAll(".cs-see"), function (a) { a.addEventListener("click", function () { closeCrossSell(); }); });
+
     // ---------- Quick-view ----------
     var qv = document.getElementById("qv"), qvOv = document.getElementById("qvOv"),
         qvImg = document.getElementById("qvImg"), qvBadge = document.getElementById("qvBadge"),
@@ -599,6 +620,7 @@ treeSelect.addEventListener("change", function () {
     }
     function qvSetGallery(g) {
         qvGallery = (g && g.length) ? g.slice() : [qvImg.src];
+        if (qvGallery.length >= 4) qvGallery.splice(1, 1); // прибрати «твін» головного фото (той самий кадр без інсет-вставки) → без дублю
         qvRenderThumbs(); setQvImg(qvGallery[0]);
         var main = qvImg.closest(".qv-main"); if (main) main.classList.toggle("single", qvGallery.length < 2);
     }
@@ -712,7 +734,7 @@ treeSelect.addEventListener("change", function () {
             pillsBox.appendChild(b); pills.push(b);
         });
     }
-    if (catBox) CARDS.forEach(function (c) {
+    if (catBox) CARDS.forEach(function (c, idx) {
         var model = c.colors[0].v;
         var multi = c.colors.length > 1;
         var swHtml = multi
@@ -723,8 +745,9 @@ treeSelect.addEventListener("change", function () {
         var card = document.createElement("div");
         card.className = "card";
         card.setAttribute("data-cat", c.cats.join("|"));
+        var imgAttr = idx < 2 ? 'fetchpriority="high"' : 'loading="lazy"'; // перші 2 картки (над згином) — пріоритетне завантаження
         card.innerHTML =
-            '<div class="ph"><img loading="lazy" src="' + c.img + '" alt="' + c.title + '">' + badge + '</div>' +
+            '<div class="ph"><img ' + imgAttr + ' src="' + c.img + '" alt="' + c.title + '">' + badge + '</div>' +
             '<div class="card-thumbs"></div>' +
             '<div class="b"><div class="nm">' + c.title + '</div>' + swHtml +
             '<div class="sellabel">Оберіть висоту</div><select class="h-sel"></select>' +
@@ -754,7 +777,10 @@ treeSelect.addEventListener("change", function () {
         function buildThumbs(gallery, activeSrc) {
             if (!thumbsEl) return;
             thumbsEl.innerHTML = ""; thumbEls = [];
-            var thumbs = (gallery || []).slice(1); // перша = головне фото, не дублюємо в мініатюрах
+            // Мініатюри = головне фото + ракурси (головне теж у списку, активне підсвічене).
+            // У 4-кадрових галереях прибираємо лише «твін» (2-ге фото = той самий кадр головного без інсету).
+            var thumbs = (gallery || []).slice();
+            if (thumbs.length >= 4) thumbs.splice(1, 1);
             thumbs.forEach(function (src) {
                 var t = document.createElement("img"); t.loading = "lazy"; t.src = src; t.className = (src === activeSrc ? "on" : "");
                 t.addEventListener("click", function (e) { e.stopPropagation(); currentBase = src; cardImg.src = src; setThumbActive(src); });
@@ -794,18 +820,31 @@ treeSelect.addEventListener("change", function () {
             if (openAfter) openCart();
         }
         card.querySelector(".cbuy").addEventListener("click", function (e) { e.preventDefault(); addCurrent(false); });
-        card.querySelector(".cbuy-now").addEventListener("click", function (e) { e.preventDefault(); addCurrent(true); });
+        card.querySelector(".cbuy-now").addEventListener("click", function (e) { e.preventDefault(); addCurrent(false); openCrossSell(); });
     });
 
     // ---------- Доповнення (гірлянди/іграшки) → кошик ----------
     function addonAdd(b) {
-        cartAdd({ name: b.getAttribute("data-name"), variant: "", price: Number(b.getAttribute("data-price")) || 0, img: b.getAttribute("data-img") || "" });
+        var color = b.getAttribute("data-color") || "";
+        var baseName = b.getAttribute("data-name") || "";
+        cartAdd({ name: color ? (baseName + " — " + color) : baseName, variant: "", price: Number(b.getAttribute("data-price")) || 0, img: b.getAttribute("data-img") || "" });
     }
     document.querySelectorAll(".addon-cart").forEach(function (b) {
         b.addEventListener("click", function () { addonAdd(b); });
     });
     document.querySelectorAll(".addon-buy-now").forEach(function (b) {
         b.addEventListener("click", function () { addonAdd(b); openCart(); });
+    });
+
+    // Клік по addon-картці (фото/назва/ціна) → детальний перегляд (quick-view з
+    // галереєю + характеристиками). Кнопки «кошик»/«Замовити» та свотчі мають
+    // власні дії — їх пропускаємо, щоб клік по них не відкривав модалку.
+    document.querySelectorAll(".addon-grid .card").forEach(function (card) {
+        card.style.cursor = "pointer";
+        card.addEventListener("click", function (e) {
+            if (e.target.closest(".cbuy, .cbuy-now, .asw, .addon-sw")) return;
+            openAddonQuickView(card);
+        });
     });
 
     // ---------- Оформлення: кошик → форма ----------
@@ -1033,6 +1072,7 @@ document.getElementById("order_form").addEventListener("submit", async function 
                     ...(cartMode ? {cart: JSON.stringify(cartItems)} : {}),
                     _fbp: getFbClientId(),
                     _fbc: getFbClickId(),
+                    _ttp: getCookieValue('_ttp'),
                     ...getUtmParams() // utm_source/medium/campaign/content/term з URL → CRM-атрибуція
                 })
             });
@@ -1403,12 +1443,17 @@ function getFbClickId() {
 // ---------- Кольорові свотчі доповнень (іграшки) ----------
 (function () {
     document.querySelectorAll(".addon-sw .asw").forEach(function (b) {
+        // ініціалізація кольору з дефолтного (.on) свотча → data-color на кнопках
+        if (b.classList.contains("on")) {
+            var c0 = b.closest(".card");
+            if (c0) c0.querySelectorAll(".addon-cart, .addon-buy-now").forEach(function (a) { a.setAttribute("data-color", b.title || ""); });
+        }
         b.addEventListener("click", function (e) {
             e.stopPropagation();
             var card = b.closest(".card"); var img = b.getAttribute("data-img");
-            if (card && img) {
-                var im = card.querySelector(".ph img"); if (im) im.src = img;
-                card.querySelectorAll(".addon-cart, .addon-buy-now").forEach(function (a) { a.setAttribute("data-img", img); });
+            if (card) {
+                if (img) { var im = card.querySelector(".ph img"); if (im) im.src = img; }
+                card.querySelectorAll(".addon-cart, .addon-buy-now").forEach(function (a) { if (img) a.setAttribute("data-img", img); a.setAttribute("data-color", b.title || ""); });
             }
             b.parentNode.querySelectorAll(".asw").forEach(function (x) { x.classList.remove("on"); });
             b.classList.add("on");

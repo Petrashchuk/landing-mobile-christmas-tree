@@ -72,7 +72,23 @@
       .faq__a { max-height: 0; overflow: hidden; transition: max-height .3s ease; color: #555; font-size: 14px; line-height: 1.5; }
       .faq__item.open .faq__a { max-height: 320px; }
       .faq__a p { padding: 0 4px 15px; margin: 0; }
+      /* CRO: герой — H1 + ціна-якір, підзаголовок, рейтинг */
+      .hero-h1 { font-size: 24px; line-height: 1.2; font-weight: 900; text-align: center; color: #2b2b2b; margin: 8px 12px 6px; }
+      .hero-h1 span { color: #F77A1E; white-space: nowrap; }
+      .hero-sub { font-size: 14px; line-height: 1.4; text-align: center; color: #555; margin: 0 14px 8px; }
+      .hero-rating { font-size: 14px; font-weight: 700; text-align: center; color: #2b2b2b; margin: 0 12px 10px; }
+      /* CRO: смужка довіри під геройською кнопкою */
+      .hero-trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 14px; max-width: 440px; margin: 10px auto 2px; padding: 0 12px; }
+      .hero-trust span { font-size: 13px; font-weight: 600; color: #1a7f37; white-space: nowrap; }
+      /* CRO: реасюренс під кнопкою форми (знімає тривогу на сабміті) */
+      .form-reassure { text-align: center; font-size: 13px; color: #1a7f37; font-weight: 600; margin: 12px auto 0; max-width: 420px; line-height: 1.4; }
+      /* CRO: теоретичний залишок на картці товару (детермінований per-товар, стабільний) */
+      .stock-badge { text-align: center; font-size: 14px; font-weight: 700; color: #c0392b; margin: 8px auto 10px; }
+      .stock-badge b { color: #F77A1E; font-size: 16px; }
     </style>
+
+    <!-- UI-поліш (ізольований override, ОСТАННІМ — перекриває й зовнішні, й інлайн-стилі) -->
+    <link rel="stylesheet" href="css/polish.css?v=4"/>
 
     <script defer src="js/jquery.min.js"></script>
     <script defer src="js/owl.carousel.min.js"></script>
@@ -86,7 +102,7 @@
 
 
     <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
-    <meta name="theme-color" content="#F77A1E">
+    <meta name="theme-color" content="#7C1A14">
 
     <!-- Meta Pixel Code -->
     <script>
@@ -98,7 +114,7 @@
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '362898322806679');
+        fbq('init', '1699908147771028');
         fbq('track', 'PageView');
     </script>
 
@@ -193,23 +209,7 @@
 <div class="wrap">
     <div class="offer_section offer3 ">
 
-        <div class="timer_block clearfix">
-            <p>Ця пропозиція закінчиться через:</p>
-            <div class="timer clearfix">
-                <div class="timer_item">
-                    <div class="text">годин</div>
-                    <div class="count hours"><span>0</span><span>0</span></div>
-                </div>
-                <div class="timer_item">
-                    <div class="text">хвилин</div>
-                    <div class="count minutes"><span>4</span><span>5</span></div>
-                </div>
-                <div class="timer_item">
-                    <div class="text">секунд</div>
-                    <div class="count seconds"><span>4</span><span>8</span></div>
-                </div>
-            </div>
-        </div>
+        <!-- CRO: прибрано фейковий 45-хв таймер що скидався при перезавантаженні (підривав довіру) -->
 
         <div style="    height: 100%;
     background-size: 100% 100%;
@@ -220,19 +220,18 @@
     font-weight: 900;">
 
             <div class="marquee-container">
-                <div class="marquee-text">
-                    ВСТИГНИ ЗАМОВИТИ ДО ПІДВИЩЕННЯ ЦІН, ЗАМОВЛЯЙ ВЖЕ СЬОГОДНІ ПО ЗНИЖЦІ ДО -30% ДО <span
-                        class="date-container" id="currentDate">28.02</span>
-                </div>
+                <div class="marquee-text">🎄 Новорічна знижка до -30% · оплата при отриманні · доставка по Україні 1–3 дні · обмін 14 днів</div>
             </div>
 
         </div>
 
         <section class="offer">
-            <div class="sub-title">ПРЕМІАЛЬНІ ШТУЧНІ ЯЛИНКИ</div>
+            <h1 class="hero-h1">Штучні ялинки від виробника — <span>від 500 грн</span></h1>
+            <div class="hero-sub">Литі та ПВХ · 1–3 м · сертифікат якості · оплата при отриманні · доставка 1–3 дні</div>
+            <div class="hero-rating">⭐ 4.9 · понад 2000 ялинок доставлено по Україні</div>
             <div class="gallery">
 
-                <img src="images/poster1.webp" alt="Преміальні штучні ялинки Yalynka — колекція">
+                <img src="images/poster1.webp" alt="Преміальні штучні ялинки Yalynka — колекція" fetchpriority="high">
             </div>
         </section>
 
@@ -287,7 +286,12 @@
 
             <a href="#order_form" class="button">Замовити зі знижкою</a>
         </div>
-        <div class="products_count">* Залишилось <b>17</b> шт по знижці</div>
+        <div class="hero-trust">
+            <span>✓ Оплата при отриманні</span>
+            <span>✓ Доставка НП 1–3 дні</span>
+            <span>✓ Обмін 14 днів</span>
+        </div>
+        <div class="products_count">🔥 Залишилось лише <b>17</b> шт за акційною ціною</div>
         <div class="ny-countdown">🎄 До Нового року залишилось <b id="nyDays">—</b> днів — встигни замовити!</div>
     </div>
 
@@ -930,42 +934,42 @@
     <!-- ───── ДОПОВНЕННЯ ДО ЯЛИНКИ (допродаж) ───── -->
     <section class="addons" id="addons">
         <h2 class="title gold">🎁 Доповнення до ялинки</h2>
-        <p class="addons__sub">Гірлянди від 195 ₴ · Набори іграшок 1090 ₴ — зробіть ялинку завершеною</p>
+        <p class="addons__sub">Гірлянди від 595 ₴ · Набори іграшок від 990 ₴ — зробіть ялинку завершеною</p>
         <div class="addons__grid">
             <div class="addon-card">
-                <img loading="lazy" src="garlands/rosa-50m.webp" alt="Гірлянда Роса 50 м">
-                <div class="addon-name">Гірлянда Роса 50 м · 500 LED</div>
+                <img loading="lazy" src="garlands/rosa/50m-white.webp" alt="Гірлянда Роса 50 м">
+                <div class="addon-name">Гірлянда Роса · 50 м, 500 LED</div>
                 <div class="addon-price">595 ₴</div>
                 <button class="addon-order" type="button">Замовити</button>
             </div>
             <div class="addon-card">
-                <img loading="lazy" src="garlands/hvoyna-30m.webp" alt="Гірлянда Хвойна Лапа 30 м">
-                <div class="addon-name">Хвойна Лапа 30 м · 900 LED</div>
+                <img loading="lazy" src="garlands/lapa/30m-white.webp" alt="Гірлянда Хвойна Лапа 30 м">
+                <div class="addon-name">Хвойна Лапа · 30 м</div>
                 <div class="addon-price">1075 ₴</div>
                 <button class="addon-order" type="button">Замовити</button>
             </div>
             <div class="addon-card">
-                <img loading="lazy" src="garlands/rosa-100m.webp" alt="Гірлянда Роса 100 м">
-                <div class="addon-name">Гірлянда Роса 100 м · 1000 LED</div>
+                <img loading="lazy" src="garlands/hvist/2m-white.webp" alt="Гірлянда Кінський хвіст 2 м">
+                <div class="addon-name">Кінський хвіст · 2 м, 1000 LED</div>
+                <div class="addon-price">1400 ₴</div>
+                <button class="addon-order" type="button">Замовити</button>
+            </div>
+            <div class="addon-card">
+                <img loading="lazy" src="toys/oksamyt/red.webp" alt="Набір іграшок Оксамит">
+                <div class="addon-name">Набір «Оксамит» · 40 шт</div>
                 <div class="addon-price">1090 ₴</div>
                 <button class="addon-order" type="button">Замовити</button>
             </div>
             <div class="addon-card">
-                <img loading="lazy" src="toys/бархат/red.jpg" alt="Набір іграшок Оксамит">
-                <div class="addon-name">Набір іграшок «Оксамит»</div>
-                <div class="addon-price">1090 ₴</div>
+                <img loading="lazy" src="toys/blysk/gold.webp" alt="Набір іграшок Блиск">
+                <div class="addon-name">Набір «Блиск» · 40 шт</div>
+                <div class="addon-price">990 ₴</div>
                 <button class="addon-order" type="button">Замовити</button>
             </div>
             <div class="addon-card">
-                <img loading="lazy" src="toys/блиск/gold.jpg" alt="Набір іграшок Блиск">
-                <div class="addon-name">Набір іграшок «Блиск»</div>
-                <div class="addon-price">1090 ₴</div>
-                <button class="addon-order" type="button">Замовити</button>
-            </div>
-            <div class="addon-card">
-                <img loading="lazy" src="toys/асорті/green.jpg" alt="Набір іграшок Асорті">
-                <div class="addon-name">Набір іграшок «Асорті»</div>
-                <div class="addon-price">1090 ₴</div>
+                <img loading="lazy" src="toys/goroshyna/red.webp" alt="Набір іграшок Горошина">
+                <div class="addon-name">Набір «Горошина» · 40 шт</div>
+                <div class="addon-price">1060 ₴</div>
                 <button class="addon-order" type="button">Замовити</button>
             </div>
         </div>
@@ -1087,23 +1091,7 @@
 
     <div class="offer_section offer3 ">
 
-        <div class="timer_block clearfix">
-            <p>Ця пропозиція закінчиться через:</p>
-            <div class="timer clearfix">
-                <div class="timer_item">
-                    <div class="text">годин</div>
-                    <div class="count hours"><span>0</span><span>0</span></div>
-                </div>
-                <div class="timer_item">
-                    <div class="text">хвилин</div>
-                    <div class="count minutes"><span>4</span><span>5</span></div>
-                </div>
-                <div class="timer_item">
-                    <div class="text">секунд</div>
-                    <div class="count seconds"><span>4</span><span>8</span></div>
-                </div>
-            </div>
-        </div>
+        <!-- CRO: прибрано фейковий 45-хв таймер що скидався при перезавантаженні (підривав довіру) -->
 
         <div style="    height: 100%;
     /* background: url(https://www.ironflex.co.ua/image/cache/catalog/banners/baner-header/baner-header-640x40-mobile-shaker-ua-640x40.jpg); */
@@ -1115,10 +1103,7 @@
     font-weight: 900;">
 
             <div class="marquee-container">
-                <div class="marquee-text">
-                    ВСТИГНИ ЗАМОВИТИ ДО ПІДВИЩЕННЯ ЦІН, ЗАМОВЛЯЙ ВЖЕ СЬОГОДНІ ПО ЗНИЖЦІ -30% ДО <span
-                        class="date-container" id="currentDate1">28.02</span>
-                </div>
+                <div class="marquee-text">🎄 Новорічна знижка до -30% · оплата при отриманні · доставка по Україні 1–3 дні · обмін 14 днів</div>
             </div>
 
         </div>
@@ -1215,6 +1200,7 @@
                           placeholder="Коментар до замовлення (необов'язково)"></textarea>
 
                 <button type="submit" class="button">Придбати зараз</button>
+                <div class="form-reassure">🔒 Без передоплати · оплата на відділенні НП після огляду товару · обмін 14 днів</div>
                 <div style="font-style: italic; text-align: center;margin-top: 5%">🎄 Ваша ялинка чекає на вас!</div>
                 <div style="display: flex; justify-content: center; padding-top: 5%;"><img style="width: 40%"
                                                                                            src="1690309003-Nova_Poshta_2022_logo.webp"
@@ -1257,7 +1243,7 @@
     <!-- Зміна числа -->
 
     <script defer src="js/jquery.maskedinput.min.js"></script>
-    <script defer src="js/scripts.js?v=10"></script>
+    <script defer src="js/scripts.js?v=52"></script>
 
 </div>
 
@@ -1271,6 +1257,41 @@
 </div>
 
 <!-- Липка кнопка замовлення (моб) -->
-<a href="#order_form" class="sticky-cta">🎄 Замовити ялинку</a>
+<div class="sticky-cta">
+    <div class="sc-info">
+        <div class="sc-price">від <b>500 грн</b></div>
+        <div class="sc-badge"><span class="sc-disc">−30%</span> оплата при отриманні</div>
+    </div>
+    <a href="#order_form" class="sc-btn">🎄 Замовити</a>
+</div>
+
+<!-- CRO: теоретичний залишок на кожній картці товару.
+     Число ДЕТЕРМІНОВАНЕ (хеш назви) → стабільне при кожному завантаженні,
+     не випадкове — інакше scarcity читається як фейк і підриває довіру. -->
+<script>
+(function () {
+  function stockFor(name) {
+    var h = 0;
+    for (var i = 0; i < name.length; i++) { h = (h * 31 + name.charCodeAt(i)) >>> 0; }
+    return 3 + (h % 9); // стабільний діапазон 3..11 шт
+  }
+  function init() {
+    var cards = document.querySelectorAll('.cartitem');
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      var link = card.querySelector('[data-tree]');
+      var btnWrap = card.querySelector('.order-form-wrapper-btn');
+      if (!link || !btnWrap || card.querySelector('.stock-badge')) continue;
+      var n = stockFor(link.getAttribute('data-tree') || '');
+      var b = document.createElement('div');
+      b.className = 'stock-badge';
+      b.innerHTML = '🔥 Залишилось <b>' + n + '</b> шт за акційною ціною';
+      btnWrap.parentNode.insertBefore(b, btnWrap);
+    }
+  }
+  if (document.readyState !== 'loading') { init(); }
+  else { document.addEventListener('DOMContentLoaded', init); }
+})();
+</script>
 </body>
 </html>

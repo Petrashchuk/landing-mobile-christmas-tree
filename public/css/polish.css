@@ -1,0 +1,329 @@
+/* ============================================================
+   polish.css — UI-поліш лендінга (підключений ОСТАННІМ, override
+   поверх style.css). Тільки візуал: (1) картки товару, (2) сітка
+   цін у картці, (3) ритм секцій + герой.
+   Воронку / тексти / JS-хуки НЕ чіпає. Відкотити = прибрати <link>.
+   Сітка цін scoped на `.cartitem` — фіча-список у герої не зачеплено.
+   ============================================================ */
+
+:root {
+  /* Брендбук живого сайту land.yalynkahub.com.ua (глибокі червоні, крем, золото) */
+  --yl-red: #7C1A14;        /* основний маслак-бордо (хедер/кнопки) */
+  --yl-orange: #9A2016;     /* АКЦЕНТ — цегляно-червоний (ціни/CTA), НЕ помаранчевий */
+  --yl-gold: #C6A15B;       /* золото — преміум-акценти (риски під заголовками) */
+  --yl-ink: #2a211c;        /* основний текст */
+  --yl-green: #0c5a2b;      /* зелень для «оплата/довіра» */
+  --yl-card-bg: #ffffff;
+  --yl-card-border: #efe7dd;
+  --yl-chip-bg: #f6f1e9;    /* тепліший крем (під --soft/--bg живого) */
+  --yl-chip-border: #ece2d3;
+}
+
+/* ===== 1. КАРТКИ ТОВАРУ — як справжні продукт-блоки ===== */
+.cartitem {
+  box-sizing: border-box;
+  width: auto;
+  max-width: 452px;
+  margin: 0 auto 26px;
+  padding: 16px 14px 20px;
+  background: var(--yl-card-bg);
+  border: 1px solid var(--yl-card-border);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(127, 27, 21, .07);
+}
+
+/* внутрішні блоки були хардкоднуті 420px → приводимо до ширини картки */
+.cartitem > div {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto 16px;
+}
+
+/* фото в акуратній «полиці» */
+.cartitem .slider-photo {
+  background: var(--yl-chip-bg);
+  border: 1px solid var(--yl-chip-border);
+  border-radius: 14px;
+  padding: 10px;
+}
+.cartitem .slider-photo .item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.cartitem .cart-title {
+  margin-bottom: 4px;
+  min-height: 44px;
+}
+
+/* кнопка в картці — лише відступ (вигляд кнопки не чіпаємо) */
+.cartitem .order-form-wrapper-btn {
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+/* ===== 2. ЦІНИ → АКУРАТНА СІТКА РОЗМІРІВ (scoped у картці) ===== */
+.cartitem .characteristics__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 6px 0 16px;
+  padding: 0;
+  list-style: none;
+}
+.cartitem .characteristics__list li {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--yl-chip-bg);
+  border: 1px solid var(--yl-chip-border);
+  border-radius: 10px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--yl-orange);           /* ціна — акцентом */
+}
+/* прибрати смугасту заливку й квадратний маркер зі старого списку */
+.cartitem .characteristics__list li:nth-child(odd) {
+  background: var(--yl-chip-bg);
+}
+.cartitem .characteristics__list li:before {
+  display: none !important;
+}
+.cartitem .characteristics__list li b {
+  float: none;
+  color: #3a3d45;                    /* розмір — темним */
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ===== 3. РИТМ СЕКЦІЙ + ГЕРОЙ ===== */
+/* герой */
+.offer_section.offer3 { padding-bottom: 8px; }
+.hero-h1 { margin-top: 16px; }
+.gallery { margin-top: 6px; }
+.gallery img { max-width: 100%; height: auto; }
+.hero-trust { margin-top: 12px; }
+
+/* заголовок каталогу + «вибери свою ялинку» */
+.catalog-title-wrapper { padding: 30px 24px 6px; }
+h2.title.gold { margin-bottom: 2px; }
+.choose-tree { margin-top: 20px; margin-bottom: 30px; }
+
+/* рівномірні вертикальні відступи між смисловими блоками */
+.description_section { margin: 22px auto; }
+.addons { margin-top: 10px; }
+.faq { margin-top: 10px; }
+.reviews_section { margin-top: 22px; }
+.order_form.pat { margin-top: 10px; }
+
+/* нейтралізуємо випадкові <br>-прокладки між секціями (менше «стрибків») */
+.wrap > br,
+.offer_section.offer3 + br { line-height: 0.4; }
+
+/* ===== 4. БІГУЧА СТРІЧКА (marquee) — було 34px → завелике й обрізане ===== */
+.marquee-container {
+  padding: 11px 0;
+}
+.marquee-text {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+/* ===== 5. ЛИПКИЙ НИЖНІЙ БАР — у стилі живого сайту (інфо ліворуч + кнопка) ===== */
+.sticky-cta {
+  left: 50%;
+  bottom: 0;
+  width: 480px;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 10px 16px;
+  border-radius: 0;
+  background: #fff;
+  border-top: 1px solid #e6ddcf;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, .1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+  white-space: normal;
+}
+/* механіку показу/ховання лишаємо (translateY), клас .show керує JS */
+.sticky-cta { transform: translate(-50%, 140%); }
+.sticky-cta.show { transform: translate(-50%, 0); }
+
+.sticky-cta .sc-info { line-height: 1.25; }
+.sticky-cta .sc-price { font-size: 14px; color: var(--yl-ink); font-weight: 700; }
+.sticky-cta .sc-price b { color: var(--yl-orange); font-size: 16px; }
+.sticky-cta .sc-badge { font-size: 12px; color: #6b5e50; font-weight: 600; margin-top: 2px; }
+.sticky-cta .sc-disc {
+  display: inline-block;
+  background: var(--yl-orange);
+  color: #fff;
+  font-weight: 800;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 6px;
+  margin-right: 5px;
+}
+.sticky-cta .sc-btn {
+  flex: none;
+  background: var(--yl-red);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 13px 22px;
+  border-radius: 12px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(124, 26, 20, .28);
+}
+.sticky-cta .sc-btn:active { transform: scale(.98); }
+
+/* ===== 6. ФОРМА ЗАМОВЛЕННЯ — уніфікуємо під новий стиль (радіус/фон/ширина) ===== */
+.offer_section .field {
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  border: 1px solid #e6ddd0;
+  border-radius: 12px;
+  background-color: #fff;
+}
+.offer_section.offer3 .field:focus {
+  outline: none;
+  border-color: var(--yl-orange);
+  box-shadow: 0 0 0 3px rgba(154, 32, 22, .14);
+}
+.np-note,
+.np-autocomplete {
+  width: 100%;
+  max-width: 420px;
+}
+textarea.np-comment {
+  border-radius: 12px;
+}
+/* «До сплати» — вирівнюємо з брендовим акцентом + повітря */
+#priceDisplay {
+  margin: 8px auto 14px !important;
+}
+
+/* ============================================================
+   ПОЛІШ 2.0 — комплексне вилизування всіх зон (герой, каталог,
+   допродаж, відгуки, опитування, «як замовити», заголовки).
+   Тільки візуал, override поверх style.css. Воронку/JS не чіпає.
+   ============================================================ */
+
+/* ----- згладжування шрифтів (прибирає «різкий/дешевий» рендер) ----- */
+body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+/* ----- 7. КНОПКИ КАТАЛОГУ: без спам-пульсу + компактніше ----- */
+/* 18 карток із нескінченним animation:pulse = «дешевий» вигляд. Пульс
+   лишаємо тільки на головних CTA (герой «Замовити зі знижкою» + липка). */
+.cartitem .button {
+  animation: none !important;
+  height: auto;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 20px;
+  font-size: 17px;
+  line-height: 1.1;
+  letter-spacing: .2px;
+}
+
+/* ----- 8. ЗАГОЛОВКИ СЕКЦІЙ: акуратна акцент-риска під заголовком ----- */
+h2.title.gold {
+  position: relative;
+  padding-bottom: 12px;
+}
+h2.title.gold::after {
+  content: "";
+  display: block;
+  width: 54px;
+  height: 3px;
+  margin: 10px auto 0;
+  border-radius: 3px;
+  background: var(--yl-gold);          /* золота риска — преміум-акцент */
+}
+
+/* ----- 9. ЧЕРВОНА СМУГА ПЕРЕВАГ: трохи повітря, рівний текст ----- */
+.offer_section.offer3 .benefits_list { padding: 14px 10px; }
+.offer_section.offer3 .benefits_list .benefit_item { font-size: 12.5px; line-height: 1.3; }
+
+/* ----- 10. СЕКЦІЯ ДОПРОДАЖУ: полиця для фото + спокійна кнопка ----- */
+.addon-card {
+  border-color: var(--yl-card-border);
+  box-shadow: 0 6px 18px rgba(127, 27, 21, .06);
+}
+.addon-card img { height: 140px; background: var(--yl-chip-bg); }
+.addon-order { animation: none !important; border-radius: 10px; letter-spacing: .2px; }
+
+/* ----- 11. ВІДГУКИ: рамка + тінь на скрінах (а не «голі» картинки) ----- */
+.reviews_list4 .review_item img {
+  border-radius: 14px;
+  border: 1px solid var(--yl-card-border);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+  background: #fff;
+}
+
+/* ----- 12. ОПИТУВАННЯ: менше важкого падінгу на мобілці ----- */
+.vote_section .vote_block { padding: 22px 16px; border-radius: 16px; }
+
+/* ----- 13. «ЯК ЗАМОВИТИ»: рівні кроки ----- */
+.order-list { padding: 0 16px; }
+.order-list li { margin-bottom: 14px; }
+
+/* ----- 14. FAQ: м'якші роздільники ----- */
+.faq__item { border-color: #efe7dd; }
+
+/* ----- 15. ФУТЕР: повітря + кліренс під липкий бар ----- */
+footer { padding: 18px 14px 96px; }
+
+/* ============================================================
+   16. ПЕРЕФАРБОВКА ПІД БРЕНДБУК (помаранчевий #F77A1E → цегляно-
+   червоний #9A2016; зелені → #0c5a2b). Перекриває інлайн-стилі
+   у <head> та зовнішні CSS. Воронку/тексти/JS не чіпає.
+   ============================================================ */
+
+/* герой — ціновий якір «від 500 грн» */
+.hero-h1 span { color: var(--yl-orange); }
+
+/* «До сплати: N грн» у формі (інлайн-стиль → !important) */
+#priceDisplay { color: var(--yl-orange) !important; }
+
+/* допродаж — ціни та кнопка */
+.addon-price { color: var(--yl-orange); }
+.addon-order { background: var(--yl-orange); }
+.addon-popup button.addon-close { background: var(--yl-orange) !important; }
+
+/* відлік до Нового року — крем + цегляний акцент */
+.ny-countdown { background: #f8f1e8; border-color: var(--yl-orange); color: var(--yl-red); }
+.ny-countdown b { color: var(--yl-orange); }
+
+/* FAQ «плюсик» */
+.faq__q::after { color: var(--yl-orange); }
+
+/* бейдж залишку на картці */
+.stock-badge { color: var(--yl-red); }
+.stock-badge b { color: var(--yl-orange); }
+
+/* нотатка НП у формі */
+.np-note { color: var(--yl-red); }
+
+/* «гарячий» лічильник у герої */
+.products_count b { background: var(--yl-red); }
+
+/* зелені акценти довіри → глибша фірмова зелень */
+.hero-trust span,
+.form-reassure { color: var(--yl-green); }
+
+/* заголовок-«золото» каталогу — справжнє золото в тон брендбуку */
+h2.title.gold span { color: var(--yl-gold); }

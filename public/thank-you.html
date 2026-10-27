@@ -9,6 +9,15 @@
 <link rel="apple-touch-icon" href="logo-mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<!-- TikTok Pixel -->
+<script>
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u=r;ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+      ttq.load('DB6SL43C77U6POU99BRG');
+      ttq.page();
+    }(window, document, 'ttq');
+</script>
 <style>
   :root{--grn-d:#7C1A14;--gold:#C6A15B;--org:#9A2016;--bg:#F8F5F0;--soft:#efeae0;}
   *{box-sizing:border-box;}
@@ -181,8 +190,22 @@
 </div>
 
 <script>
-  var name=new URLSearchParams(location.search).get('name');
+  var qs=new URLSearchParams(location.search);
+  var name=qs.get('name');
   if(name) document.getElementById('customer-name').textContent='Дякуємо, '+name;
+
+  // TikTok Purchase (CompletePayment) — подія, на яку оптимізуємо кампанію.
+  // Фіксуємо один раз на замовлення (дедуп по event_id через sessionStorage + eventID).
+  (function(){
+    var value=Number(qs.get('value'))||0, eid=qs.get('eid')||'';
+    var fireKey='ty_cp_'+(eid||value);
+    if(window.ttq && !sessionStorage.getItem(fireKey)){
+      ttq.track('CompletePayment', {
+        content_type:'product', currency:'UAH', value:value, quantity:1
+      }, eid ? {event_id:eid} : undefined);
+      sessionStorage.setItem(fireKey,'1');
+    }
+  })();
   var ov=document.getElementById('tyOv'),pop=document.getElementById('tyPop');
   function openPop(){ov.style.display='block';pop.style.display='block';}
   function closePop(){ov.style.display='none';pop.style.display='none';}
