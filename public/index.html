@@ -280,6 +280,13 @@
       .cs-ov.show { display:block; }
       .cs-modal { display:flex; flex-direction:column; position:fixed; inset:0; width:100%; max-width:100%; height:100%; max-height:100%; overflow:hidden; background:#fff; border:none; border-radius:0; z-index:2147483647; transform:translateY(100%); pointer-events:none; transition:transform .28s ease; }
       .cs-modal.show { transform:translateY(0); pointer-events:auto; }
+      /* Десктоп: не на весь екран — кошик = права панель, крос-сел = центрована модалка */
+      @media (min-width:720px) {
+        .cart-dr { inset:auto; top:0; right:0; bottom:0; left:auto; width:440px; max-width:440px; height:100%; transform:translateX(100%); box-shadow:-8px 0 40px rgba(0,0,0,.25); }
+        .cart-dr.show { transform:translateX(0); }
+        .cs-modal { inset:auto; top:50%; left:50%; width:94%; max-width:460px; height:auto; max-height:88vh; border-radius:18px; border:2px solid var(--gold); box-shadow:0 24px 70px rgba(0,0,0,.5); transform:translate(-50%,-50%) scale(.96); }
+        .cs-modal.show { transform:translate(-50%,-50%) scale(1); }
+      }
       .cs-head { flex:none; position:relative; background:var(--grn-d); color:#fff; padding:20px 20px 22px; }
       .cs-added { display:inline-block; background:linear-gradient(180deg,#dcae6a,#b5803f); color:#241703; font-weight:800; font-size:14px; padding:7px 14px; border-radius:20px; }
       .cs-x { position:absolute; top:16px; right:16px; background:none; border:none; color:#fff; font-size:22px; cursor:pointer; line-height:1; }
@@ -341,6 +348,8 @@
       .inst-logo { height:18px; width:auto; display:block; flex:none; }
       .inst-chip.on { border-color:var(--org); background:#fbf1ef; color:var(--org); }
       .inst-note { font-size:11.5px; color:#8a7f6e; line-height:1.45; margin-top:11px; }
+      .inst-break { font-size:15px; font-weight:800; color:var(--org); margin:11px 0 0; }
+      .inst-break span { color:#6a5f54; font-weight:700; font-size:13.5px; }
       .paylogo { width:44px; height:28px; display:block; filter:drop-shadow(0 1px 2px rgba(0,0,0,.08)); }
       .co-disclaimer { margin:12px 2px 2px; font-size:11.5px; line-height:1.5; color:#8a8378; text-align:center; }
       .co-disclaimer a { color:var(--org); text-decoration:underline; }
@@ -535,7 +544,7 @@
         <a href="#garlands">Гірлянди</a>
         <a href="#reviews">Відгуки</a>
         <a href="#certs">Сертифікати якості</a>
-        <a class="hphone" href="tel:+380960968665">📞 096 096 8665</a>
+        <a class="hphone" href="tel:+380963133815">📞 096 313 3815</a>
     </nav>
 </header>
 
@@ -680,6 +689,7 @@
                 <div class="inst-picker" id="instPicker" hidden>
                     <div class="inst-row"><div class="inst-lbl">Банк</div><div class="inst-banks" id="instBanks"></div></div>
                     <div class="inst-row"><div class="inst-lbl">Кількість платежів</div><div class="inst-parts" id="instPartsEl"></div></div>
+                    <div class="inst-break" id="instBreak"></div>
                     <input type="hidden" name="installment_bank" id="instBankVal" value="mono">
                     <input type="hidden" name="installment_parts" id="instPartsVal" value="3">
                     <div class="inst-note">0% розстрочка · без переплат. Банк і кількість платежів зафіксуються на захищеній сторінці оплати.</div>
@@ -811,13 +821,14 @@
 </section>
 
 <footer class="ft">
-    <b>ІНТЕРНЕТ-МАГАЗИН ШТУЧНИХ ЯЛИНОК ВІД ВИРОБНИКА</b><br>
-    Працюємо щодня 07:00–23:00
+    <b>YALYNKA HUB — ІНТЕРНЕТ-МАГАЗИН ШТУЧНИХ ЯЛИНОК ВІД ВИРОБНИКА</b><br>
+    Працюємо щодня 07:00–23:00 · <a class="org" href="https://land.yalynkahub.com.ua/" rel="noopener">yalynkahub.com.ua</a>
     <div class="soc">
-        <a href="https://t.me/HLINSKYI" target="_blank" rel="noopener"><img src="icons/telegram.png" alt="Telegram"></a>
+        <a href="https://www.instagram.com/yalynka.hub" target="_blank" rel="noopener"><img src="icons/instagram.png" alt="Instagram"></a>
+        <a href="https://t.me/khristinagordiy" target="_blank" rel="noopener"><img src="icons/telegram.png" alt="Telegram"></a>
     </div>
     <a class="org" href="politics.html" target="_blank" rel="noopener noreferrer">Політика конфіденційності</a><br>
-    <a class="org" href="tel:+380960968665">096 096 8665</a><br>
+    <a class="org" href="tel:+380963133815">096 313 3815</a><br>
     Всі права захищено © 2023–<span id="footerYear">2026</span>
 </footer>
 
@@ -994,6 +1005,16 @@ document.addEventListener('DOMContentLoaded', function () {
   var instBankVal = document.getElementById('instBankVal');
   var instPartsVal = document.getElementById('instPartsVal');
   var curBank = INST_BANKS[0];
+  var instBreak = document.getElementById('instBreak');
+  function renderInstBreak() {
+    if (!instBreak) return;
+    var totalEl = document.getElementById('cartTotal2') || document.getElementById('cartTotal');
+    var total = totalEl ? (parseInt(String(totalEl.textContent).replace(/[^0-9]/g, ''), 10) || 0) : 0;
+    var parts = (instPartsVal && Number(instPartsVal.value)) || curBank.parts[curBank.parts.length - 1];
+    if (!total || !parts) { instBreak.textContent = ''; return; }
+    var monthly = Math.round(total / parts);
+    instBreak.innerHTML = '<b>' + monthly.toLocaleString('uk-UA') + ' грн</b> <span>/міс · разом ' + total.toLocaleString('uk-UA') + ' грн · без переплат</span>';
+  }
   function renderInstParts() {
     if (!instPartsEl) return;
     instPartsEl.innerHTML = '';
@@ -1005,10 +1026,11 @@ document.addEventListener('DOMContentLoaded', function () {
       b.textContent = p + (p === 1 ? ' платіж' : (p < 5 ? ' платежі' : ' платежів'));
       b.addEventListener('click', function () {
         instPartsEl.querySelectorAll('.inst-chip').forEach(function (x) { x.classList.remove('on'); });
-        b.classList.add('on'); if (instPartsVal) instPartsVal.value = p;
+        b.classList.add('on'); if (instPartsVal) instPartsVal.value = p; renderInstBreak();
       });
       instPartsEl.appendChild(b);
     });
+    renderInstBreak();
   }
   function renderInstBanks() {
     if (!instBanksEl) return;
@@ -1029,6 +1051,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function syncInstPicker() {
     var sel = document.querySelector('input[name="payment_method"]:checked');
     if (instPicker) instPicker.hidden = !(sel && sel.value === 'installment');
+    if (sel && sel.value === 'installment') renderInstBreak();
   }
   syncInstPicker();
 });
