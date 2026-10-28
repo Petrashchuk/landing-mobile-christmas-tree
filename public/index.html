@@ -322,8 +322,11 @@
       .np-area-wrap::after { content:""; position:absolute; right:17px; top:50%; width:8px; height:8px; border-right:2px solid #8a8378; border-bottom:2px solid #8a8378; transform:translateY(-70%) rotate(45deg); pointer-events:none; transition:transform .18s; }
       .np-area-wrap:has(.np-list.open)::after { transform:translateY(-30%) rotate(225deg); }
       /* Пошук області: липка «шапка» дропдауна — список лягає ПІД нею, а не поверх */
-      #checkoutMount .np-area-wrap .np-area-search { position:absolute; top:68px; left:0; right:0; z-index:31; margin:0 !important; border-radius:10px 10px 0 0 !important; border-color:var(--org) !important; background:#fff !important; box-shadow:0 10px 24px rgba(0,0,0,.12); }
-      #checkoutMount .np-area-wrap .np-list.open { top:119px; border-top:none; border-radius:0 0 10px 10px; box-shadow:0 14px 24px rgba(0,0,0,.12); }
+      /* Пошук області замінює саме поле (не другий стакнутий бокс) → єдиний охайний дропдаун */
+      #checkoutMount .np-area-wrap .np-area-search { position:absolute; top:0; left:0; right:0; z-index:31; margin:0 !important; border-radius:12px 12px 0 0 !important; border-color:var(--org) !important; border-bottom-color:#efe7da !important; background:#fff !important; box-shadow:0 16px 34px rgba(0,0,0,.14); }
+      #checkoutMount .np-area-wrap .np-list.open { top:51px; border-top:none; border-radius:0 0 12px 12px; box-shadow:0 18px 34px rgba(0,0,0,.14); max-height:300px; }
+      #checkoutMount .np-area-wrap:has(.np-list.open)::after { display:none; }
+      #checkoutMount .np-list li { padding:14px 18px; font-size:15px; line-height:1.3; }
       #checkoutMount .error-message { color:#d33; font-size:12px; font-weight:600; margin:-3px 0 7px 2px; display:flex; align-items:center; gap:5px; }
       #checkoutMount .error-message::before { content:"⚠"; font-size:12px; }
       .deliv-opts { display:flex; flex-direction:column; gap:9px; }

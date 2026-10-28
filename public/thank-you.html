@@ -79,6 +79,12 @@
   .ty-card{cursor:pointer;}
   .ty-badge{position:absolute;top:8px;left:8px;background:var(--org);color:#fff;font-size:11px;font-weight:800;padding:3px 8px;border-radius:20px;z-index:2;}
   .ty-ph{position:relative;}
+  /* варіації кольорів для наборів/гірлянд */
+  .ty-sw{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 6px;}
+  .ty-asw{width:20px;height:20px;border-radius:50%;border:2px solid #e2dccf;cursor:pointer;padding:0;transition:transform .1s;}
+  .ty-asw:hover{transform:scale(1.15);}
+  .ty-asw.on{border-color:var(--org);box-shadow:0 0 0 2px rgba(154,32,22,.2);}
+  .ty-pop-sel{background:#f6f2ec;border-radius:10px;padding:10px 12px;font-size:13.5px;color:#4a4038;margin:0 0 14px;line-height:1.4;}
 </style>
 </head>
 <body>
@@ -212,7 +218,8 @@
 <div class="ty-pop" id="tyPop">
   <span class="ty-pop-x" id="tyPopX">✕</span>
   <h3>Додаємо до замовлення</h3>
-  <p>Щоб додати цей товар — назвіть його оператору під час дзвінка, і він додасть його до вашого основного замовлення.</p>
+  <div class="ty-pop-sel" id="tyPopSel" style="display:none"></div>
+  <p>Назвіть цей товар і колір оператору під час дзвінка — він додасть його до вашого замовлення <b>в ту саму посилку</b>.</p>
   <button type="button" class="ty-btn ty-btn-gold" id="tyPopOk">Зрозуміло</button>
 </div>
 
@@ -261,11 +268,62 @@
       sessionStorage.setItem(fireKey,'1');
     }
   })();
+  // ─── Варіації кольорів наборів/гірлянд (дзеркало основного лендінга) ───
+  var M='conic-gradient(from 90deg,#e23b3b,#f6c343,#3ba15a,#2e6fd0,#9b59b6,#e23b3b)';
+  var TY_COLORS={
+    oksamyt:[['#c0392b','toys/oksamyt/red.webp','Червоний'],['#6e1a1a','toys/oksamyt/bordo.webp','Бордовий'],['#1f7a5a','toys/oksamyt/emerald.webp','Смарагдовий'],['#2e5fb0','toys/oksamyt/blue.webp','Синій'],['#41699b','toys/oksamyt/jeans.webp','Джинсовий'],['#5e3c22','toys/oksamyt/chocolate.webp','Шоколадний'],['#a9855c','toys/oksamyt/beige-brown.webp','Бежево-коричневий'],['#f1f1ef','toys/oksamyt/white.webp','Білий'],['#ddc9ac','toys/oksamyt/beige-nude.webp','Бежевий нюд'],['#d3bd99','toys/oksamyt/beige-solid.webp','Бежевий однотонний'],['#e0b7c2','toys/oksamyt/pink-nude.webp','Рожевий нюд'],['#d99bb0','toys/oksamyt/pink-solid.webp','Рожевий однотонний'],['#9a948c','toys/oksamyt/grey.webp','Сірий'],['#b8b2a8','toys/oksamyt/grey-nude.webp','Сірий нюд'],['#a8a299','toys/oksamyt/grey-nude-solid.webp','Сірий нюд однотонний']],
+    blysk:[['#d4af37','toys/blysk/gold.webp','Золотий'],['#c9ccd1','toys/blysk/silver.webp','Срібний'],['#c0392b','toys/blysk/red.webp','Червоний'],['linear-gradient(135deg,#c0392b 50%,#f1f1ef 50%)','toys/blysk/red-white.webp','Червоно-білий'],['#6e1a1a','toys/blysk/bordo.webp','Бордовий'],['#1f7a5a','toys/blysk/emerald.webp','Смарагдовий'],['#2e5fb0','toys/blysk/blue.webp','Синій'],['#d87aa0','toys/blysk/pink.webp','Рожевий'],['#b5852f','toys/blysk/gold-red.webp','Золото-червоний'],['#7a6a2a','toys/blysk/gold-black.webp','Золото-чорний'],['#d8c4a0','toys/blysk/beige.webp','Бежевий'],['#e6d6b0','toys/blysk/champagne.webp','Шампань'],['#f1f1ef','toys/blysk/white.webp','Білий']],
+    goroshyna:[['#c0392b','toys/goroshyna/red.webp','Червоний'],['#6e1a1a','toys/goroshyna/bordo.webp','Бордовий'],['#d4af37','toys/goroshyna/gold.webp','Золотий'],['#2e5fb0','toys/goroshyna/blue.webp','Синій'],['#c9ccd1','toys/goroshyna/silver.webp','Срібний'],['#5e3c22','toys/goroshyna/chocolate.webp','Шоколадний'],['#e6d6b0','toys/goroshyna/champagne.webp','Шампань']],
+    'rosa-20m':[['#eef2f7','garlands/rosa/20m-white.webp','Білий'],['#f6c343','garlands/rosa/20m-yellow.webp','Жовтий']],
+    'rosa-50m':[['#eef2f7','garlands/rosa/50m-white.webp','Білий'],['#f6c343','garlands/rosa/50m-yellow.webp','Жовтий'],['#2e6fd0','garlands/rosa/50m-blue.webp','Синій']],
+    'rosa-100m':[['#eef2f7','garlands/rosa/100m-white.webp','Білий'],['#f6c343','garlands/rosa/100m-yellow.webp','Жовтий']],
+    'lapa-30m':[['#eef2f7','garlands/lapa/30m-white.webp','Білий'],['#f6c343','garlands/lapa/30m-yellow.webp','Жовтий'],[M,'garlands/lapa/30m-multi.webp','Мультиколір']],
+    'lapa-50m':[['#eef2f7','garlands/lapa/50m-white.webp','Білий'],['#f6c343','garlands/lapa/50m-yellow.webp','Жовтий'],[M,'garlands/lapa/50m-multi.webp','Мультиколір']],
+    'lapa-100m':[['#eef2f7','garlands/lapa/100m-white.webp','Білий'],['#f6c343','garlands/lapa/100m-yellow.webp','Жовтий'],[M,'garlands/lapa/100m-multi.webp','Мультиколір']],
+    'hvist-2m':[['#eef2f7','garlands/hvist/2m-white.webp','Білий'],['#f6c343','garlands/hvist/2m-yellow.webp','Жовтий']]
+  };
+  function tyKey(src){
+    if(/toys\/oksamyt\//.test(src))return'oksamyt';
+    if(/toys\/blysk\//.test(src))return'blysk';
+    if(/toys\/goroshyna\//.test(src))return'goroshyna';
+    var m=src.match(/garlands\/(rosa|lapa|hvist)\/(\d+m)/);
+    return m?(m[1]+'-'+m[2]):null;
+  }
+  document.querySelectorAll('.ty-card').forEach(function(card){
+    var img=card.querySelector('.ty-ph img'); if(!img) return;
+    var cols=TY_COLORS[tyKey(img.getAttribute('src')||'')]; if(!cols||cols.length<2) return;
+    var b=card.querySelector('.ty-b'), price=card.querySelector('.ty-price'); if(!b) return;
+    var cur=img.getAttribute('src'), active=0;
+    cols.forEach(function(c,i){ if(c[1]===cur) active=i; });
+    var sw=document.createElement('div'); sw.className='ty-sw';
+    cols.forEach(function(c,i){
+      var btn=document.createElement('button'); btn.type='button'; btn.className='ty-asw'+(i===active?' on':'');
+      btn.style.background=c[0]; btn.title=c[2]; btn.setAttribute('aria-label',c[2]);
+      btn.addEventListener('click',function(e){
+        e.stopPropagation();
+        sw.querySelectorAll('.ty-asw').forEach(function(x){x.classList.remove('on');});
+        btn.classList.add('on'); img.src=c[1]; card.setAttribute('data-color',c[2]);
+      });
+      sw.appendChild(btn);
+    });
+    b.insertBefore(sw, price||b.firstChild);
+    card.setAttribute('data-color', cols[active][2]);
+  });
+
   var ov=document.getElementById('tyOv'),pop=document.getElementById('tyPop');
-  function openPop(){ov.style.display='block';pop.style.display='block';}
+  function openPop(card){
+    var sel=document.getElementById('tyPopSel');
+    if(sel){
+      var nm=card&&card.querySelector?card.querySelector('.ty-nm'):null;
+      var col=card&&card.getAttribute?card.getAttribute('data-color'):'';
+      if(nm){ sel.innerHTML='🎄 <b>'+nm.textContent+'</b>'+(col?(' · колір: <b>'+col+'</b>'):''); sel.style.display='block'; }
+      else { sel.style.display='none'; }
+    }
+    ov.style.display='block';pop.style.display='block';
+  }
   function closePop(){ov.style.display='none';pop.style.display='none';}
-  // Уся картка клікабельна (нижча тертя), не лише кнопка «Замовити».
-  document.querySelectorAll('.ty-card').forEach(function(c){c.addEventListener('click',openPop);});
+  // Уся картка клікабельна (нижча тертя); клік по свотчу кольору попап НЕ відкриває.
+  document.querySelectorAll('.ty-card').forEach(function(c){c.addEventListener('click',function(){openPop(c);});});
   document.getElementById('tyPopX').addEventListener('click',closePop);
   document.getElementById('tyPopOk').addEventListener('click',closePop);
   ov.addEventListener('click',closePop);
