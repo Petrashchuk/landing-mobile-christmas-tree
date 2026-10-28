@@ -912,6 +912,27 @@ document.querySelectorAll(".order-form-wrapper-btn .button").forEach(btn => {
     });
 })();
 
+// ───────── Лоадер створення замовлення / переходу на оплату ─────────
+// Показуємо повноекранний оверлей, поки сервер створює замовлення і (для онлайн/
+// частин) готує захищену сторінку WayForPay — як на основному сайті, щоб клієнт не
+// думав, що нічого не відбувається, і не тиснув кнопку повторно.
+function showPayLoader(title, sub) {
+    var el = document.getElementById('payLoader');
+    if (!el) return;
+    var t = el.querySelector('.pay-loader__txt');
+    var s = el.querySelector('.pay-loader__sub');
+    if (t && title) t.textContent = title;
+    if (s && sub != null) s.textContent = sub;
+    el.classList.add('show');
+    el.setAttribute('aria-hidden', 'false');
+}
+function hidePayLoader() {
+    var el = document.getElementById('payLoader');
+    if (!el) return;
+    el.classList.remove('show');
+    el.setAttribute('aria-hidden', 'true');
+}
+
 document.getElementById("order_form").addEventListener("submit", async function (e) {
     e.preventDefault();
     let isValid = true;
@@ -1064,6 +1085,9 @@ document.getElementById("order_form").addEventListener("submit", async function 
                     eventID: event_id
                 });
             }
+            // Лоадер: замовлення створюється / готується сторінка оплати.
+            showPayLoader('Створюємо замовлення…', 'Зачекайте, обробляємо дані');
+
             const response = await fetch('/order', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -1080,14 +1104,27 @@ document.getElementById("order_form").addEventListener("submit", async function 
             // якщо сервер повертає JSON з redirect
             const json = await response.json();
             if (json?.redirect) {
-                if (cartMode && window.YalCart) window.YalCart.clear();
+                // Зовнішній http(s)-лінк = сторінка оплати WayForPay (онлайн/частинами).
+                // Відносний /thank-you.html = накладений платіж (замовлення вже оформлено).
+                const isPay = /^https?:\/\//i.test(json.redirect);
+                if (isPay) {
+                    // НЕ чистимо кошик тут — лише після успішної оплати (на сторінці подяки),
+                    // щоб при скасуванні/невдачі клієнт повернувся до наповненого кошика.
+                    showPayLoader('Перенаправляємо на оплату…', 'Відкриваємо захищену сторінку WayForPay');
+                } else {
+                    // Накладений платіж: замовлення успішно оформлено → чистимо кошик.
+                    if (cartMode && window.YalCart) window.YalCart.clear();
+                    showPayLoader('Замовлення оформлено!', 'Переходимо на сторінку підтвердження');
+                }
                 window.location.href = json.redirect; // вручну робимо редірект
             } else {
-                // fallback: якщо сервер віддав 200/HTML, можна парсити або перейти вручну
+                // fallback: сервер не повернув redirect — ховаємо лоадер, даємо спробувати ще
+                hidePayLoader();
                 console.warn('No redirect url in response', json);
             }
 
         } catch (error) {
+            hidePayLoader();
             console.error('Помилка при відправці:', error);
         }
 

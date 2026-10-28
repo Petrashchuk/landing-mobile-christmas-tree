@@ -65,6 +65,20 @@
   .ty-pop p{color:#5a5047;font-size:14.5px;margin:0 0 18px;}
   .ty-pop .ty-btn{width:100%;justify-content:center;}
   .ty-pop .ty-pop-x{position:absolute;top:12px;right:14px;font-size:20px;color:#b3a890;cursor:pointer;line-height:1;}
+  /* trust strip + «що далі» кроки + стан невдалої оплати */
+  .ty-trust{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:18px;padding-top:16px;border-top:1px solid #f0e7da;}
+  .ty-trust span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#5a5047;}
+  .ty-trust b{color:var(--grn-d);}
+  .ty-paynote{display:none;background:#fff6e9;border:1.5px solid #e8b969;border-radius:12px;padding:13px 16px;margin:14px 0 2px;font-size:14px;color:#7a5618;font-weight:600;}
+  .ty-steps{max-width:720px;margin:6px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  @media(max-width:620px){.ty-steps{grid-template-columns:1fr;gap:10px;}}
+  .ty-step{background:#fff;border:1px solid #efe7da;border-radius:14px;padding:16px 14px;text-align:center;box-shadow:0 4px 14px rgba(124,26,20,.06);}
+  .ty-step .ty-step-n{width:30px;height:30px;border-radius:50%;background:var(--grn-d);color:#fff;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}
+  .ty-step h4{margin:0 0 4px;font-size:15px;font-weight:800;color:var(--grn-d);}
+  .ty-step p{margin:0;font-size:13px;color:#6a5f54;line-height:1.4;}
+  .ty-card{cursor:pointer;}
+  .ty-badge{position:absolute;top:8px;left:8px;background:var(--org);color:#fff;font-size:11px;font-weight:800;padding:3px 8px;border-radius:20px;z-index:2;}
+  .ty-ph{position:relative;}
 </style>
 </head>
 <body>
@@ -76,17 +90,30 @@
 <div class="ty-wrap">
   <div class="ty-hero">
     <div class="ty-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
-    <h1><span id="customer-name">Дякуємо</span>, замовлення прийнято! 🎄</h1>
-    <p>Оператор зв'яжеться з Вами найближчим часом за номером <span class="ty-phone-b">096 313 3815</span> для підтвердження.</p>
-    <p>Якщо сталася помилка — поверніться на сайт і оформте замовлення повторно.</p>
+    <h1 id="tyTitle"><span id="customer-name">Дякуємо</span>, замовлення прийнято! 🎄</h1>
+    <p id="tyLead">Оператор зв'яжеться з Вами найближчим часом за номером <span class="ty-phone-b">096 313 3815</span>, щоб підтвердити деталі та доставку.</p>
+    <div class="ty-paynote" id="tyPayNote"></div>
     <div class="ty-actions">
       <a class="ty-btn ty-btn-gold" href="/">← Повернутися на сайт</a>
-      <a class="ty-btn ty-btn-tg" href="https://t.me/khristinagordiy" target="_blank" rel="noopener">Наш Telegram</a>
+      <a class="ty-btn ty-btn-tg" href="https://t.me/khristinagordiy" target="_blank" rel="noopener">Написати в Telegram</a>
+    </div>
+    <div class="ty-trust">
+      <span>🚚 Відправка <b>1–3 дні</b></span>
+      <span>✅ Оплата <b>при отриманні</b></span>
+      <span>🔄 <b>Обмін 14 днів</b></span>
+      <span>🏭 Ціна <b>від виробника</b></span>
     </div>
   </div>
 
+  <div class="ty-sec-title" style="margin-top:30px;">Що буде далі?</div>
+  <div class="ty-steps">
+    <div class="ty-step"><div class="ty-step-n">1</div><h4>Підтвердження</h4><p>Менеджер телефонує, уточнює розмір ялинки, адресу та спосіб доставки.</p></div>
+    <div class="ty-step"><div class="ty-step-n">2</div><h4>Відправка</h4><p>Пакуємо й передаємо Новою Поштою протягом 1–3 днів. Надішлемо ТТН у SMS.</p></div>
+    <div class="ty-step"><div class="ty-step-n">3</div><h4>Отримання</h4><p>Забираєте у відділенні. Можна оглянути перед оплатою — оплата при отриманні.</p></div>
+  </div>
+
   <div class="ty-sec-title">✨ Додайте до замовлення зі знижкою</div>
-  <p class="ty-sec-sub">Поки замовлення не відправлене — можна додати прикраси та гірлянди за спеціальною ціною. Натисніть «Замовити» і назвіть товар оператору.</p>
+  <p class="ty-sec-sub">Найчастіше до ялинки докуповують іграшки та гірлянди. Поки замовлення не відправлене — додамо їх <b>в ту саму посилку</b> за спеціальною ціною. Натисніть на товар і назвіть його оператору під час дзвінка.</p>
   <div class="ty-timer"><span class="tt-label">⏳ Спеціальна ціна діє ще</span><span class="tt-clock" id="tyClock">15:00</span></div>
 
   <div class="ty-grid">
@@ -194,9 +221,29 @@
   var name=qs.get('name');
   if(name) document.getElementById('customer-name').textContent='Дякуємо, '+name;
 
-  // TikTok Purchase (CompletePayment) — подія, на яку оптимізуємо кампанію.
-  // Фіксуємо один раз на замовлення (дедуп по event_id через sessionStorage + eventID).
+  // ─── Статус оплати (повернення з WayForPay) + очищення кошика ───
+  // ?pay= проставляє сервер із transactionStatus WayForPay. Відсутній → накладений
+  // платіж (замовлення оформлено, кошик уже очищено на сабміті). Успіх → чистимо кошик.
+  // Невдача → лишаємо кошик наповненим (клієнт зможе оформити оплату повторно) і
+  // чесно повідомляємо, що оплата не завершилась (не брешемо «прийнято»).
+  var payStatus=qs.get('pay');
+  var paymentOk = !payStatus || /^(approved|pending|inprocessing|waitingauthcomplete)$/i.test(payStatus);
+  if(paymentOk){
+    try{ localStorage.removeItem('yalynka_cart_v1'); }catch(e){}
+  } else {
+    var _t=document.getElementById('tyTitle');
+    var _lead=document.getElementById('tyLead');
+    var _note=document.getElementById('tyPayNote');
+    if(_t) _t.innerHTML='Замовлення збережено 🎄';
+    if(_lead) _lead.innerHTML="Оплата <b>не завершилась</b>, але ваше замовлення в системі. Менеджер зателефонує за номером <span class=\"ty-phone-b\">096 313 3815</span> і допоможе завершити оплату.";
+    if(_note){ _note.style.display='block'; _note.innerHTML='💳 Бажаєте оплатити зараз? Поверніться на сайт — товари збережені у кошику, оформлення займе хвилину.'; }
+  }
+
+  // TikTok Purchase (CompletePayment) — подія, на яку оптимізуємо кампанію. Фіксуємо
+  // лише при успішному оформленні/оплаті (НЕ на невдалій оплаті), один раз на
+  // замовлення (дедуп по event_id через sessionStorage + eventID).
   (function(){
+    if(!paymentOk) return;
     var value=Number(qs.get('value'))||0, eid=qs.get('eid')||'';
     var fireKey='ty_cp_'+(eid||value);
     if(window.ttq && !sessionStorage.getItem(fireKey)){
@@ -209,7 +256,8 @@
   var ov=document.getElementById('tyOv'),pop=document.getElementById('tyPop');
   function openPop(){ov.style.display='block';pop.style.display='block';}
   function closePop(){ov.style.display='none';pop.style.display='none';}
-  document.querySelectorAll('.ty-buy').forEach(function(b){b.addEventListener('click',openPop);});
+  // Уся картка клікабельна (нижча тертя), не лише кнопка «Замовити».
+  document.querySelectorAll('.ty-card').forEach(function(c){c.addEventListener('click',openPop);});
   document.getElementById('tyPopX').addEventListener('click',closePop);
   document.getElementById('tyPopOk').addEventListener('click',closePop);
   ov.addEventListener('click',closePop);

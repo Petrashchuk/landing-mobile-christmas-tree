@@ -37,8 +37,15 @@ app.get('/index-new.html', (req, res) => res.redirect(301, '/'));
 // WayForPay повертає покупця на returnUrl через POST (авто-сабміт форми з результатом
 // оплати). Express-статика обслуговує лише GET → POST падав у «Cannot POST /thank-you.html».
 // Редіректимо POST→GET (303 See Other) зі збереженням query, щоб сторінка подяки
-// відрендерилась. Факт оплати підтверджує WFP-webhook → CRM, а не цей редірект.
-app.post('/thank-you.html', (req, res) => res.redirect(303, req.originalUrl));
+// відрендерилась. Факт оплати підтверджує WFP-webhook → CRM, а не цей редірект —
+// transactionStatus передаємо як ?pay=, щоб клієнт-сторінка знала success/fail
+// (кошик чистимо лише на успіху; на невдачі лишаємо, щоб клієнт повторив оплату).
+app.post('/thank-you.html', (req, res) => {
+    const status = (req.body && req.body.transactionStatus) ? String(req.body.transactionStatus) : '';
+    const sep = req.originalUrl.includes('?') ? '&' : '?';
+    const url = status ? `${req.originalUrl}${sep}pay=${encodeURIComponent(status)}` : req.originalUrl;
+    res.redirect(303, url);
+});
 
 // POST /order
 app.post('/order', async (req, res) => {
