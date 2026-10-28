@@ -221,29 +221,37 @@
   var name=qs.get('name');
   if(name) document.getElementById('customer-name').textContent='Дякуємо, '+name;
 
-  // ─── Статус оплати (повернення з WayForPay) + очищення кошика ───
-  // ?pay= проставляє сервер із transactionStatus WayForPay. Відсутній → накладений
-  // платіж (замовлення оформлено, кошик уже очищено на сабміті). Успіх → чистимо кошик.
-  // Невдача → лишаємо кошик наповненим (клієнт зможе оформити оплату повторно) і
-  // чесно повідомляємо, що оплата не завершилась (не брешемо «прийнято»).
+  // ─── Статус оплати/замовлення + очищення кошика ───
+  // Успіх визначаємо ЛИШЕ за ПОЗИТИВНИМ сигналом (повернення з WayForPay ненадійне:
+  // при скасуванні часто немає transactionStatus взагалі):
+  //   ?ok=1        → підтверджене COD-замовлення (кошик уже очищено на сабміті);
+  //   ?pay=Approved → успішна онлайн-оплата / схвалені частини.
+  // Усе інше (Declined/Expired/скасовано/повернення без статусу/ще обробляється) =
+  // оплата НЕ завершена → кошик НЕ чистимо (клієнт зможе повторити) і чесно це показуємо.
   var payStatus=qs.get('pay');
-  var paymentOk = !payStatus || /^(approved|pending|inprocessing|waitingauthcomplete)$/i.test(payStatus);
-  if(paymentOk){
+  var codConfirmed=qs.get('ok')==='1';
+  var success = codConfirmed || /^approved$/i.test(payStatus||'');
+  if(success){
     try{ localStorage.removeItem('yalynka_cart_v1'); }catch(e){}
   } else {
     var _t=document.getElementById('tyTitle');
     var _lead=document.getElementById('tyLead');
     var _note=document.getElementById('tyPayNote');
-    if(_t) _t.innerHTML='Замовлення збережено 🎄';
-    if(_lead) _lead.innerHTML="Оплата <b>не завершилась</b>, але ваше замовлення в системі. Менеджер зателефонує за номером <span class=\"ty-phone-b\">096 313 3815</span> і допоможе завершити оплату.";
-    if(_note){ _note.style.display='block'; _note.innerHTML='💳 Бажаєте оплатити зараз? Поверніться на сайт — товари збережені у кошику, оформлення займе хвилину.'; }
+    var _check=document.querySelector('.ty-check');
+    if(_check){
+      _check.style.background='#fff6e9';
+      _check.innerHTML='<svg viewBox="0 0 24 24" fill="none" style="stroke:#d99a2b;width:34px;height:34px" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5"/><circle cx="12" cy="16.7" r=".7" fill="#d99a2b" stroke="none"/></svg>';
+    }
+    if(_t) _t.innerHTML='Замовлення прийнято — <span style="color:var(--org)">завершіть оплату</span>';
+    if(_lead) _lead.innerHTML="Оплата <b>не завершилась</b>, але ваше замовлення вже в системі. Менеджер зателефонує за номером <span class=\"ty-phone-b\">096 313 3815</span> і допоможе завершити оплату або оформити накладеним платежем.";
+    if(_note){ _note.style.display='block'; _note.innerHTML='💳 Бажаєте оплатити зараз? Поверніться на сайт — <b>товари збережені у кошику</b>, оформлення займе хвилину.'; }
   }
 
   // TikTok Purchase (CompletePayment) — подія, на яку оптимізуємо кампанію. Фіксуємо
-  // лише при успішному оформленні/оплаті (НЕ на невдалій оплаті), один раз на
+  // лише при ПІДТВЕРДЖЕНОМУ успіху (НЕ на невдалій/незавершеній оплаті), один раз на
   // замовлення (дедуп по event_id через sessionStorage + eventID).
   (function(){
-    if(!paymentOk) return;
+    if(!success) return;
     var value=Number(qs.get('value'))||0, eid=qs.get('eid')||'';
     var fireKey='ty_cp_'+(eid||value);
     if(window.ttq && !sessionStorage.getItem(fireKey)){

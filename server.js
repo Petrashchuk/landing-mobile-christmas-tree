@@ -75,7 +75,10 @@ app.post('/order', async (req, res) => {
         // online/частинами → на захищену сторінку оплати (pay_url);
         // накладений або лінк не створено → на сторінку подяки.
         const payUrl = crm && crm.pay_url ? crm.pay_url : null;
-        const redirectUrl = payUrl || thankYouUrl;
+        // COD/без лінка → на подяку з маркером ok=1 (підтверджене оформлення, кошик чистимо).
+        // Онлайн → на pay_url; статус успіху прийде від WayForPay як ?pay=Approved (не тут),
+        // тож returnUrl навмисно БЕЗ ok=1 — інакше скасована оплата хибно виглядала б успішною.
+        const redirectUrl = payUrl || `${thankYouUrl}&ok=1`;
 
         if (req.headers['content-type']?.includes('application/json')) {
             return res.json({redirect: redirectUrl});
@@ -518,7 +521,8 @@ async function sendCrmOrder({name, first_name, last_name, phone, type, size, pri
 
 // Redirect to thank-you page
 function redirectThankYou(res, {name, price, event_id}) {
-    const queryParams = new URLSearchParams({name, value: String(price || 0), eid: event_id || ''}).toString();
+    // ok=1 — підтверджене оформлення (COD / без онлайн-оплати).
+    const queryParams = new URLSearchParams({name, value: String(price || 0), eid: event_id || '', ok: '1'}).toString();
     res.redirect(`/thank-you.html?${queryParams}`);
 }
 
