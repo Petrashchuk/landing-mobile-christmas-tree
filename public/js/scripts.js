@@ -1434,6 +1434,25 @@ function getFbClickId() {
     });
 })();
 
+// ---------- InitiateCheckout: перший дотик до форми оформлення (1× за сесію) ----------
+// «Початок оформлення» для Meta/TikTok. Fullscreen-cart тримає форму в drawer, тож
+// найточніший сигнал наміру — коли клієнт почав заповнювати форму (focus на полі),
+// а не просто відкрив кошик. Дедуп прапорцем, щоб не роздувати подію.
+(function () {
+    var form = document.getElementById("order_form");
+    if (!form) return;
+    var fired = false;
+    form.addEventListener("focusin", function () {
+        if (fired) return; fired = true;
+        var totalEl = document.getElementById("cartTotal2") || document.getElementById("cartTotal");
+        var val = totalEl ? (parseInt(String(totalEl.textContent).replace(/[^0-9]/g, ""), 10) || 0) : 0;
+        var items = 1;
+        try { if (window.YalCart && window.YalCart.items) items = window.YalCart.items().length || 1; } catch (e) {}
+        if (typeof fbq === "function") fbq("track", "InitiateCheckout", { value: val, currency: "UAH", num_items: items });
+        if (typeof ttq !== "undefined" && ttq && typeof ttq.track === "function") ttq.track("InitiateCheckout", { value: val, currency: "UAH", quantity: items, content_type: "product" });
+    });
+})();
+
 // ---------- Scroll-spy для меню в шапці ----------
 (function () {
     var links = Array.prototype.slice.call(document.querySelectorAll(".hdr-nav a"));
