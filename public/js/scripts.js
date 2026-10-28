@@ -638,6 +638,13 @@ treeSelect.addEventListener("change", function () {
     function showQvEls(isAddon) {
         [qvDescEl, qvColors, qvLabelEl, qvHeight, qvEcon].forEach(function (el) { if (el) el.style.display = isAddon ? "none" : ""; });
     }
+    // ViewContent (перегляд товару) → Meta/TikTok: ключова подія для ретаргетингу/оптимізації.
+    function fireViewContent(name, priceEl) {
+        var val = 0;
+        try { val = parseInt(String((priceEl && priceEl.textContent) || "").replace(/[^0-9]/g, ""), 10) || 0; } catch (e) {}
+        if (typeof fbq === "function") fbq("track", "ViewContent", { content_name: name || "", content_type: "product", value: val, currency: "UAH" });
+        if (typeof ttq !== "undefined" && ttq && typeof ttq.track === "function") ttq.track("ViewContent", { content_name: name || "", content_type: "product", value: val, currency: "UAH" });
+    }
     function openAddonQuickView(card) {
         if (!qv || !card) return;
         var key = card.getAttribute("data-qv"); var d = ADDON_QV[key]; if (!d) return;
@@ -674,6 +681,7 @@ treeSelect.addEventListener("change", function () {
         var pr = card.querySelector(".c-price");
         if (qvPrice) qvPrice.textContent = pr ? pr.textContent.trim() : "";
         if (qvSpecs) qvSpecs.innerHTML = '<div class="spec-hd">Характеристики</div>' + d.specs.map(function (r) { return '<div class="spec-row"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>'; }).join("");
+        fireViewContent(title, qvPrice);
         qv.classList.add("show"); qv.setAttribute("aria-hidden", "false"); if (qvOv) qvOv.classList.add("show"); document.body.classList.add("modal-open");
     }
     function openQuickView(c) {
@@ -695,6 +703,7 @@ treeSelect.addEventListener("change", function () {
         var g0 = (c.colors[0] && c.colors[0].gallery) ? c.colors[0].gallery : (c.gallery || [c.img]);
         qvSetGallery(g0);
         fillHeights(qvHeight, qvModel); qvRefresh(); renderQvSpecs();
+        fireViewContent(c.title, qvPrice);
         qv.classList.add("show"); qv.setAttribute("aria-hidden", "false"); if (qvOv) qvOv.classList.add("show"); document.body.classList.add("modal-open");
     }
     function closeQuickView() { if (qv) { qv.classList.remove("show"); qv.setAttribute("aria-hidden", "true"); } if (qvOv) qvOv.classList.remove("show"); document.body.classList.remove("modal-open"); }
