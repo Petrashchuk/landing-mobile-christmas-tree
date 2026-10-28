@@ -350,6 +350,13 @@
       .inst-logo { height:18px; width:auto; display:block; flex:none; }
       .inst-chip.on { border-color:var(--org); background:#fbf1ef; color:var(--org); }
       .inst-note { font-size:11.5px; color:#8a7f6e; line-height:1.45; margin-top:11px; }
+      /* CRO: мікрокопі довіри у формі оформлення */
+      .field-hint { font-size:12px; color:#8a7f6e; margin:-3px 0 9px 2px; display:flex; align-items:flex-start; gap:5px; line-height:1.4; }
+      .co-trust { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:20px 0 2px; }
+      .co-trust span { font-size:11.5px; font-weight:700; color:#5a5349; text-align:center; line-height:1.3; background:#f6f2ec; border-radius:10px; padding:11px 4px; }
+      .co-trust b { display:block; color:var(--grn-d); font-size:12px; }
+      .co-reassure { font-size:12.5px; color:#8a7f6e; text-align:center; line-height:1.45; margin:10px auto 0; max-width:410px; }
+      .co-reassure b { color:#5a5349; }
       .inst-break { font-size:15px; font-weight:800; color:var(--org); margin:11px 0 0; }
       .inst-break span { color:#6a5f54; font-weight:700; font-size:13.5px; }
       .paylogo { width:44px; height:28px; display:block; filter:drop-shadow(0 1px 2px rgba(0,0,0,.08)); }
@@ -651,6 +658,7 @@
                 <input class="field" type="text" name="first_name" required autocomplete="given-name" placeholder="Ім'я">
                 <input class="field" type="text" name="last_name" autocomplete="family-name" placeholder="Прізвище">
                 <input class="field mask_phone" type="tel" name="phone" required inputmode="tel" autocomplete="tel" placeholder="Введіть Ваш телефон">
+                <div class="field-hint">📞 Телефонуємо лише щоб підтвердити замовлення та доставку — жодного спаму</div>
 
                 <div class="co-label">Спосіб доставки</div>
                 <div class="deliv-opts">
@@ -711,7 +719,14 @@
 
                 <textarea class="field np-field np-comment" name="comment" id="orderComment" placeholder="Коментар до замовлення (за бажанням)"></textarea>
 
+                <div class="co-trust">
+                    <span><b>🔒</b>Захищене оформлення</span>
+                    <span><b>✅</b>Без передоплати</span>
+                    <span><b>🔄</b>Обмін 14 днів</span>
+                    <span><b>🏭</b>Ціна від виробника</span>
+                </div>
                 <button type="submit" class="button">Підтвердити замовлення</button>
+                <div class="co-reassure" id="coReassure">Менеджер <b>зателефонує для підтвердження</b> перед відправкою. Оплата при отриманні — нічого не платите наперед.</div>
             </form>
         </div>
     </div>
@@ -1071,6 +1086,23 @@ document.addEventListener('DOMContentLoaded', function () {
     var sel = document.querySelector('input[name="payment_method"]:checked');
     if (instPicker) instPicker.hidden = !(sel && sel.value === 'installment');
     if (sel && sel.value === 'installment') renderInstBreak();
+    syncCta();
+  }
+  // CRO: CTA + мікрокопі під кнопкою адаптуються під спосіб оплати — клієнт точно
+  // знає, що станеться далі (менше невизначеності = менше покинутих форм).
+  function syncCta() {
+    var sel = document.querySelector('input[name="payment_method"]:checked');
+    var v = sel ? sel.value : 'cod';
+    var btn = document.querySelector('#order_form button[type="submit"]');
+    var note = document.getElementById('coReassure');
+    if (btn) btn.textContent = v === 'online' ? 'Оформити та перейти до оплати'
+                             : v === 'installment' ? 'Оформити оплату частинами'
+                             : 'Підтвердити замовлення';
+    if (note) note.innerHTML = v === 'online'
+        ? 'Перейдете на <b>захищену сторінку WayForPay</b> — Visa / Mastercard / Apple Pay / Google Pay.'
+        : v === 'installment'
+          ? 'Банк і кількість платежів оберете на <b>захищеній сторінці</b>. 0% — без переплат.'
+          : 'Менеджер <b>зателефонує для підтвердження</b> перед відправкою. Оплата при отриманні — нічого не платите наперед.';
   }
   syncInstPicker();
 
