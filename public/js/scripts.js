@@ -1025,30 +1025,34 @@ document.getElementById("order_form").addEventListener("submit", async function 
     const dmEl = this.querySelector('input[name="delivery_method"]:checked');
     const deliveryMethod = dmEl ? dmEl.value : "warehouse";
 
-    // Нова Пошта: область → місто → (відділення | адреса кур'єра)
+    // Нова Пошта: область → місто → (відділення | адреса кур'єра).
+    // Валідуємо лише коли поля адреси є на сторінці — лід-лендінг (/lead) їх навмисно
+    // не має (максимально коротка форма; адресу уточнює менеджер по телефону).
     const npArea = document.getElementById("npArea");
-    clearError(npArea);
-    if (!npArea.value) {
-        showError(npArea, "Будь ласка, виберіть область.");
-    }
-
-    const npCity = document.getElementById("npCity");
-    clearError(npCity);
-    if (!document.getElementById("npCityRef").value) {
-        showError(npCity, "Виберіть населений пункт зі списку.");
-    }
-
-    if (deliveryMethod === "courier") {
-        const courierAddr = document.getElementById("courierAddress");
-        clearError(courierAddr);
-        if (!courierAddr || courierAddr.value.trim().length < 4) {
-            showError(courierAddr, "Вкажіть адресу доставки (вулиця, будинок).");
+    if (npArea) {
+        clearError(npArea);
+        if (!npArea.value) {
+            showError(npArea, "Будь ласка, виберіть область.");
         }
-    } else {
-        const npWarehouse = document.getElementById("npWarehouse");
-        clearError(npWarehouse);
-        if (!document.getElementById("npWarehouseRef").value) {
-            showError(npWarehouse, "Виберіть відділення зі списку.");
+
+        const npCity = document.getElementById("npCity");
+        clearError(npCity);
+        if (!document.getElementById("npCityRef").value) {
+            showError(npCity, "Виберіть населений пункт зі списку.");
+        }
+
+        if (deliveryMethod === "courier") {
+            const courierAddr = document.getElementById("courierAddress");
+            clearError(courierAddr);
+            if (!courierAddr || courierAddr.value.trim().length < 4) {
+                showError(courierAddr, "Вкажіть адресу доставки (вулиця, будинок).");
+            }
+        } else {
+            const npWarehouse = document.getElementById("npWarehouse");
+            clearError(npWarehouse);
+            if (!document.getElementById("npWarehouseRef").value) {
+                showError(npWarehouse, "Виберіть відділення зі списку.");
+            }
         }
     }
 
