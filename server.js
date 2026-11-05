@@ -198,7 +198,7 @@ function parseSizeAndPrice(str) {
 }
 
 function extractOrderData(body) {
-    const {name, first_name, last_name, phone, type, size, event_id, comment, _fbp, _fbc, _ttp, payment_method, installment_bank, installment_parts} = body;
+    const {name, first_name, last_name, phone, type, size, event_id, comment, _fbp, _fbc, _ttp, payment_method, installment_bank, installment_parts, order_source} = body;
     // Ім'я/прізвище окремими полями (краще для CRM); фолбек на старе єдине name.
     const firstName = (first_name || '').trim();
     const lastName = (last_name || '').trim();
@@ -241,6 +241,8 @@ function extractOrderData(body) {
         _fbp: _fbp || null,
         _fbc: _fbc || null,
         _ttp: _ttp || null,   // TikTok cookie для серверного match
+        // Окреме джерело для CRM (лід-лендінг /lead шле «Лендінг-ліди»); основна форма — без нього.
+        source_override: (typeof order_source === 'string' && order_source.trim()) ? order_source.trim() : null,
     };
 }
 
@@ -443,13 +445,13 @@ function crmVariantSku(type, size) {
     return (CRM_VARIANT_SKU[type] && CRM_VARIANT_SKU[type][size]) || null;
 }
 
-async function sendCrmOrder({name, first_name, last_name, phone, type, size, price, items, event_id, utm, delivery, comment, _fbp, _fbc, payment, return_url}) {
+async function sendCrmOrder({name, first_name, last_name, phone, type, size, price, items, event_id, utm, delivery, comment, _fbp, _fbc, payment, return_url, source_override}) {
     if (!process.env.CRM_API_URL || !process.env.CRM_API_KEY) return;
 
     const split = splitName(name);
     const firstName = (first_name || '').trim() || split.firstName;
     const lastName = (last_name || '').trim() || split.lastName;
-    const source = process.env.CRM_ORDER_SOURCE || 'Лендінг ялинки';
+    const source = source_override || process.env.CRM_ORDER_SOURCE || 'Лендінг ялинки';
 
     // Лише коментар клієнта. Вид/розмір товару видно в позиції замовлення
     // (SKU-прив'язка), тому в коментар їх більше не дублюємо.
