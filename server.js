@@ -445,6 +445,71 @@ function crmVariantSku(type, size) {
     return (CRM_VARIANT_SKU[type] && CRM_VARIANT_SKU[type][size]) || null;
 }
 
+// ── Доповнення (гірлянди + набори іграшок) → точний SKU варіанта в CRM ──────────
+// На лендінгу колір доклеюється у назву позиції через " — " (scripts.js addon-cart),
+// розмір/довжина — вже в базовій назві картки. Тут мапимо (база + колір) → SKU
+// КОНКРЕТНОГО варіанта (каталог головного акаунта yalynka, GET /public/products).
+// Прив'язка по артикулу: CRM підтягне товар+варіант (фото/залишок), ціну бере з
+// позиції (НЕ перебиває каталожною). Де точного кольору/розміру в CRM нема —
+// фолбек на SKU товару (ADDON_PRODUCT_SKU): позиція все одно групується в аналітиці.
+// Гірлянди Роса = серія RWM (прозорий кабель, Мікро-LED) — звірено за ціною
+// (195/595/1090) і наявністю Синього лише в RWM. Хвіст = RPFW (Водоспад).
+const ADDON_VARIANT_SKU = {
+    "Гірлянда Роса 20 м": { "Білий": "RWM-20м-Білий", "Жовтий": "RWM-20м-Жовтий" },
+    "Гірлянда Роса 50 м": { "Білий": "RWM-50м-Білий", "Жовтий": "RWM-50м-Жовтий", "Синій": "RWM-50м-Синій" },
+    "Гірлянда Роса 100 м": { "Білий": "RWM-100м-Білий", "Жовтий": "RWM-100м-Жовтий" },
+    "Гірлянда Хвойна Лапа 30 м": { "Білий": "RIS-30м-Білий", "Жовтий": "RIS-30м-Жовтий", "Мультиколір": "RIS-30м-Мультиколір" },
+    "Гірлянда Хвойна Лапа 50 м": { "Білий": "RIS-50м-Білий", "Жовтий": "RIS-50м-Жовтий", "Мультиколір": "RIS-50м-Мультиколір" },
+    "Гірлянда Хвойна Лапа 100 м": { "Мультиколір": "VTRW-26G-100м-Мультиколір" }, // Білий/Жовтий 100м у CRM нема → фолбек товар
+    "Гірлянда Кінський хвіст 2 м": { "Білий": "RPFW-2м-Білий", "Жовтий": "RPFW-2м-Жовтий" },
+    "Набір іграшок «Оксамит»": {
+        "Червоний": "MVK-1342-Червоний", "Бордовий": "MVK-1342-Бордовий", "Смарагдовий": "MVK-1342-Смарагдовий",
+        "Синій": "MVK-1342-Синій", "Джинсовий": "MVK-1342-Джинсовий", "Шоколадний": "MVK-1342-Шоколадний",
+        "Бежево-коричневий": "MVK-1342-Коричнево-Бежевий", "Білий": "MVK-1342-Білий", "Бежевий нюд": "MVK-1342-Бежевий-Нюд",
+        "Бежевий однотонний": "MVK-1342-Бежевий-Нюд-Однотонний", "Рожевий нюд": "MVK-1342-Рожевий-Нюд",
+        "Рожевий однотонний": "MVK-1342-Рожевий", "Сірий": "MVK-1342-Сірий", "Сірий нюд": "MVK-1342-Сірий-Нюд",
+        "Сірий нюд однотонний": "MVK-1342-Сірий-Нюд-Однотонний",
+    },
+    "Набір іграшок «Блиск»": {
+        "Золотий": "MVK-1345-Золотий", "Срібний": "MVK-1345-Срібний", "Червоний": "MVK-1345-Червоний",
+        "Червоно-білий": "MVK-1345-Червоно-Білий", "Бордовий": "MVK-1345-Бордовий", "Смарагдовий": "MVK-1345-Смарагдовий",
+        "Синій": "MVK-1345-Синій", "Рожевий": "MVK-1345-Рожевий", "Золото-червоний": "MVK-1345-Золото-Червоний",
+        "Золото-чорний": "MVK-1345-Золото-Чорний", "Бежевий": "MVK-1345-Бежевий",
+        // Шампань / Білий у наборі «Блиск» CRM нема → фолбек на товар MVK-1345.
+    },
+    "Набір іграшок «Горошина»": {
+        "Червоний": "MVK-1357-Червоний", "Бордовий": "MVK-1357-Бордовий", "Золотий": "MVK-1357-Золотий",
+        "Синій": "MVK-1357-Синій", "Срібний": "MVK-1357-Срібний", "Шоколадний": "MVK-1357-Шоколадний",
+        "Шампань": "MVK-1357-Шампань",
+    },
+};
+// Фолбек: SKU ТОВАРУ (не варіанта), коли точного кольору/розміру в CRM нема.
+const ADDON_PRODUCT_SKU = {
+    "Гірлянда Роса 20 м": "RW", "Гірлянда Роса 50 м": "RW", "Гірлянда Роса 100 м": "RW",
+    "Гірлянда Хвойна Лапа 30 м": "VTRW-26G", "Гірлянда Хвойна Лапа 50 м": "VTRW-26G", "Гірлянда Хвойна Лапа 100 м": "VTRW-26G",
+    "Гірлянда Кінський хвіст 2 м": "RPFW",
+    "Набір іграшок «Оксамит»": "MVK-1342", "Набір іграшок «Блиск»": "MVK-1345", "Набір іграшок «Горошина»": "MVK-1357",
+};
+
+// Лендінг кладе колір у назву як "<база> — <Колір>". Розділяємо назад.
+function splitAddonName(fullName) {
+    const s = String(fullName || '');
+    const idx = s.lastIndexOf(' — ');
+    return idx === -1 ? { base: s, color: '' } : { base: s.slice(0, idx), color: s.slice(idx + 3).trim() };
+}
+
+// Резолвер SKU для будь-якої позиції кошика: спершу ялинка (назва=модель, variant=розмір),
+// далі доповнення (колір — у назві). Повертає {sku, base, color, isAddon} або null.
+function resolveLineSku(name, variant) {
+    const tree = crmVariantSku(name, variant);
+    if (tree) return { sku: tree, base: name, color: variant || '', isAddon: false };
+    const { base, color } = splitAddonName(name);
+    const byColor = ADDON_VARIANT_SKU[base];
+    if (byColor && color && byColor[color]) return { sku: byColor[color], base, color, isAddon: true };
+    if (ADDON_PRODUCT_SKU[base]) return { sku: ADDON_PRODUCT_SKU[base], base, color, isAddon: true };
+    return null;
+}
+
 async function sendCrmOrder({name, first_name, last_name, phone, type, size, price, items, event_id, utm, delivery, comment, _fbp, _fbc, payment, return_url, source_override}) {
     if (!process.env.CRM_API_URL || !process.env.CRM_API_KEY) return;
 
@@ -458,15 +523,21 @@ async function sendCrmOrder({name, first_name, last_name, phone, type, size, pri
     const crmComment = (comment || '').trim().slice(0, 2000);
 
     // Позиції замовлення: з кошика (кілька) або одне дерево (legacy). SKU
-    // резолвиться за назвою+варіантом; доповнення без SKU — вільна позиція.
+    // резолвиться за назвою+варіантом (ялинки) або назвою+кольором (доповнення).
+    // Для доповнень колір виносимо з назви у variant → чиста назва + варіант у картці.
     const lineItems = (items && items.length)
-        ? items.map(it => ({
-            name: it.name,
-            ...(it.variant ? {variant: it.variant} : {}),
-            ...(crmVariantSku(it.name, it.variant) ? {sku: crmVariantSku(it.name, it.variant)} : {}),
-            quantity: it.qty || 1,
-            price: Number(it.price) || 0,
-        }))
+        ? items.map(it => {
+            const r = resolveLineSku(it.name, it.variant);
+            const name = r && r.isAddon ? r.base : it.name;
+            const variant = r && r.isAddon ? (r.color || it.variant || '') : (it.variant || '');
+            return {
+                name,
+                ...(variant ? {variant} : {}),
+                ...(r && r.sku ? {sku: r.sku} : {}),
+                quantity: it.qty || 1,
+                price: Number(it.price) || 0,
+            };
+        })
         : [{
             name: type || 'Ялинка',
             ...(size ? {variant: size} : {}),
