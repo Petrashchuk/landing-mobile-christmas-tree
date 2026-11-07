@@ -1091,9 +1091,17 @@ document.getElementById("order_form").addEventListener("submit", async function 
             }
             const cartItems = cartMode ? window.YalCart.items() : null;
             if (typeof fbq === 'function') {
-                fbq('track', 'Lead', {
+                // Purchase (не Lead): піксель навчається на покупки. value має збігатися з
+                // серверним CAPI (спільний event_id дедуплікує). cartMode → сума кошика;
+                // інакше → ціна обраного дерева з option «… - Nгрн» (як priceNum/сервер).
+                var _fbValue = cartMode
+                    ? (window.YalCart && window.YalCart.total ? window.YalCart.total() : 0)
+                    : (function () { var m = String((sizeSelect && sizeSelect.value) || '').match(/(\d[\d\s]*)\s*грн/i); return m ? parseInt(m[1].replace(/\s/g, ''), 10) : 0; })();
+                fbq('track', 'Purchase', {
                     content_name: cartMode ? 'Кошик' : data.type,
                     content_category: cartMode ? (cartItems.length + ' поз.') : data.size,
+                    value: _fbValue,
+                    currency: 'UAH',
                 }, {
                     eventID: event_id
                 });

@@ -302,7 +302,7 @@ async function sendFacebookCAPI({name, phone, type, size, price, event_id, ip, a
     const eventData = {
         data: [
             {
-                event_name: 'Lead',
+                event_name: 'Purchase', // піксель оптимізується на покупки (не Lead); value+currency нижче
                 event_time: Math.floor(Date.now() / 1000),
                 event_id,
                 action_source: 'website',
