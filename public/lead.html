@@ -63,10 +63,18 @@
       .lead-sw .lsw { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #cfcfcf; cursor: pointer; padding: 0; }
       .lead-sw .lsw.on { box-shadow: 0 0 0 2px #F77A1E; }
       /* Вибрані доповнення над кнопкою форми */
-      .addon-picks { margin: 4px 0 12px; text-align: left; }
-      .addon-picks__ttl { font-size: 13px; font-weight: 700; color: #333; margin-bottom: 6px; }
-      .addon-chip { display: inline-flex; align-items: center; gap: 6px; background: #fff3e8; border: 1px solid #F77A1E; color: #b85c12; border-radius: 999px; padding: 4px 8px 4px 10px; font-size: 12px; font-weight: 600; margin: 0 6px 6px 0; }
-      .addon-chip button { background: none; border: none; color: #b85c12; font-size: 15px; line-height: 1; cursor: pointer; padding: 0; }
+      .addon-picks { margin: 8px 0 16px; padding: 12px 12px 10px; background: #fff7f0; border: 1px solid #f1d5bc; border-radius: 14px; text-align: left; animation: addonPop .18s ease; }
+      @keyframes addonPop { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+      .addon-picks__ttl { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; color: #9a4e12; margin-bottom: 9px; }
+      .addon-picks__list { display: flex; flex-wrap: wrap; gap: 8px; }
+      .addon-chip { display: inline-flex; align-items: center; gap: 9px; background: #fff; border: 1px solid #F77A1E; border-radius: 999px; padding: 6px 6px 6px 13px; font-size: 12.5px; font-weight: 600; color: #7a3d0c; box-shadow: 0 1px 3px rgba(224,122,30,.14); }
+      .addon-chip__name { line-height: 1.25; }
+      .addon-chip__price { color: #F77A1E; font-weight: 800; white-space: nowrap; }
+      .addon-chip__x { width: 22px; height: 22px; flex: none; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 50%; background: #fdecd9; color: #b85c12; font-size: 15px; line-height: 1; cursor: pointer; transition: background .15s, color .15s; }
+      .addon-chip__x:hover { background: #F77A1E; color: #fff; }
+      .addon-picks__total { margin-top: 11px; padding-top: 9px; border-top: 1px dashed #f0d2b8; font-size: 13px; color: #555; }
+      .addon-picks__total b { color: #9a4e12; font-size: 15px; }
+      .addon-picks__total span { color: #999; font-weight: 500; }
       .addon-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 55; }
       .addon-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 60; background: #fff; border-radius: 14px; padding: 26px 20px 20px; max-width: 320px; width: 88%; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.3); }
       .addon-popup .x { position: absolute; top: 8px; right: 14px; font-size: 22px; line-height: 1; color: #999; cursor: pointer; }
@@ -1373,12 +1381,21 @@
         if (!picksEl) return;
         if (!picks.length) { picksEl.style.display = 'none'; picksEl.innerHTML = ''; if (commentEl) commentEl.value = ''; return; }
         picksEl.style.display = 'block';
-        picksEl.innerHTML = '<div class="addon-picks__ttl">🎁 Доповнення до замовлення:</div>' +
+        var total = picks.reduce(function (s, p) { return s + (p.price || 0); }, 0);
+        picksEl.innerHTML =
+          '<div class="addon-picks__ttl">🎁 Доповнення до замовлення</div>' +
+          '<div class="addon-picks__list">' +
           picks.map(function (p, i) {
-            return '<span class="addon-chip">' + p + '<button type="button" data-i="' + i + '" aria-label="Прибрати">×</button></span>';
-          }).join('');
-        if (commentEl) commentEl.value = 'Доповнення: ' + picks.join('; ');
-        picksEl.querySelectorAll('.addon-chip button').forEach(function (x) {
+            return '<span class="addon-chip">' +
+              '<span class="addon-chip__name">' + p.label + '</span>' +
+              (p.price ? '<span class="addon-chip__price">' + p.price + ' ₴</span>' : '') +
+              '<button type="button" class="addon-chip__x" data-i="' + i + '" aria-label="Прибрати">×</button>' +
+              '</span>';
+          }).join('') +
+          '</div>' +
+          (total ? '<div class="addon-picks__total">Разом доповнень: <b>' + total + ' ₴</b> <span>— додамо до посилки</span></div>' : '');
+        if (commentEl) commentEl.value = 'Доповнення: ' + picks.map(function (p) { return p.label; }).join('; ');
+        picksEl.querySelectorAll('.addon-chip__x').forEach(function (x) {
           x.addEventListener('click', function () { picks.splice(Number(x.getAttribute('data-i')), 1); render(); });
         });
       }
@@ -1398,7 +1415,9 @@
             var color = on ? (on.getAttribute('data-color') || on.title || '') : '';
             label = color ? (base + ' — ' + color) : base;
           }
-          if (picks.indexOf(label) === -1) picks.push(label);
+          var pe = card.querySelector('.addon-price');
+          var price = pe ? (parseInt((pe.textContent || '').replace(/\D/g, ''), 10) || 0) : 0;
+          if (!picks.some(function (p) { return p.label === label; })) picks.push({ label: label, price: price });
           render();
           if (form && form.scrollIntoView) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, true);
