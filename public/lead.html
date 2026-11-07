@@ -1344,7 +1344,15 @@
             return '<button type="button" class="lsz' + (i === state.size ? ' on' : '') + '" data-i="' + i + '">' + sz.short + '</button>';
           }).join('');
           sizesEl.querySelectorAll('.lsz').forEach(function (p) {
-            p.addEventListener('click', function () { state.size = Number(p.getAttribute('data-i')); state.color = 0; paint(); });
+            p.addEventListener('click', function () {
+              // Зберегти обраний колір при зміні розміру (перенести за назвою, якщо є)
+              var prev = g.sizes[state.size].colors[state.color];
+              state.size = Number(p.getAttribute('data-i'));
+              var nc = g.sizes[state.size].colors, idx = 0;
+              for (var i = 0; i < nc.length; i++) { if (prev && nc[i].t === prev.t) { idx = i; break; } }
+              state.color = idx;
+              paint();
+            });
           });
         } else if (sizesEl) {
           sizesEl.style.display = 'none';
