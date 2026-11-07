@@ -60,8 +60,12 @@ app.post('/order', async (req, res) => {
     try {
         const orderData = extractOrderData(req.body);
         const nameEncoded = encodeURIComponent(orderData.name || 'Гість');
+        // Звідки прийшов клієнт (/ чи /lead) — щоб «Повернутися на сайт» вело на ту саму
+        // сторінку, а не завжди на головну. Беремо з referer, дозволяємо лише локальний шлях.
+        const fromPath = safeLandingPath(req.headers.referer);
+        const fromParam = fromPath ? `&from=${encodeURIComponent(fromPath)}` : '';
         // value + eid йдуть у thank-you для TikTok CompletePayment (purchase-оптимізація + дедуп)
-        const thankYouUrl = `/thank-you.html?name=${nameEncoded}&value=${orderData.price || 0}&eid=${encodeURIComponent(orderData.event_id)}`;
+        const thankYouUrl = `/thank-you.html?name=${nameEncoded}&value=${orderData.price || 0}&eid=${encodeURIComponent(orderData.event_id)}${fromParam}`;
 
         // Абсолютний URL повернення клієнта з WayForPay на сторінку подяки (success/fail).
         const proto = String(req.headers['x-forwarded-proto'] || req.protocol || 'https').split(',')[0];
@@ -596,6 +600,22 @@ async function sendCrmOrder({name, first_name, last_name, phone, type, size, pri
     } catch (err) {
         // Логуємо тіло помилки CRM (валідація/тариф/ключ), але не кидаємо далі.
         console.error('Помилка при створенні замовлення в CRM:', err.response?.data || err.message);
+        return null;
+    }
+}
+
+// Повертає локальний шлях лендінга з referer (/ або /lead), або null.
+// Захист: лише той самий хост, без протоколо-відносних // та зовнішніх адрес.
+function safeLandingPath(referer) {
+    if (!referer) return null;
+    try {
+        const u = new URL(String(referer));
+        let p = u.pathname || '/';
+        // thank-you/службові сторінки не вважаємо «сайтом» для повернення
+        if (/thank-you/i.test(p)) return null;
+        if (!p.startsWith('/') || p.startsWith('//')) return null;
+        return p;
+    } catch {
         return null;
     }
 }

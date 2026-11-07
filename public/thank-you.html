@@ -100,7 +100,7 @@
     <p id="tyLead">Оператор зв'яжеться з Вами найближчим часом за номером <span class="ty-phone-b">096 313 3815</span>, щоб підтвердити деталі та доставку.</p>
     <div class="ty-paynote" id="tyPayNote"></div>
     <div class="ty-actions">
-      <a class="ty-btn ty-btn-gold" href="/">← Повернутися на сайт</a>
+      <a class="ty-btn ty-btn-gold" id="tyBack" href="/">← Повернутися на сайт</a>
       <a class="ty-btn ty-btn-tg" href="https://t.me/khristinagordiy" target="_blank" rel="noopener">Написати в Telegram</a>
     </div>
     <div class="ty-trust">
@@ -227,6 +227,27 @@
   var qs=new URLSearchParams(location.search);
   var name=qs.get('name');
   if(name) document.getElementById('customer-name').textContent='Дякуємо, '+name;
+
+  // «Повернутися на сайт» → на ту сторінку, з якої оформили (/ або /lead),
+  // а не завжди на головну. Джерело: ?from= (сервер), інакше document.referrer.
+  // Дозволяємо ЛИШЕ локальний шлях того ж хосту; інакше фолбек на «/».
+  (function(){
+    var back=document.getElementById('tyBack');
+    if(!back) return;
+    function localPath(v){
+      if(!v) return null;
+      try{
+        var u=new URL(v, location.origin);
+        if(u.origin!==location.origin) return null;      // лише той самий хост
+        var p=u.pathname||'/';
+        if(/thank-you/i.test(p)) return null;            // не повертати на саму подяку
+        if(p.charAt(0)!=='/' || p.charAt(1)==='/') return null;
+        return p + (u.search||'');
+      }catch(e){ return null; }
+    }
+    var dest=localPath(qs.get('from')) || localPath(document.referrer) || '/';
+    back.setAttribute('href', dest);
+  })();
 
   // ─── Статус оплати/замовлення + очищення кошика ───
   // Успіх визначаємо ЛИШЕ за ПОЗИТИВНИМ сигналом (повернення з WayForPay ненадійне:
