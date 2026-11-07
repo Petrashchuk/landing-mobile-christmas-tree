@@ -89,7 +89,7 @@
 </head>
 <body>
 <header class="ty-header">
-  <a class="logo" href="/"><img src="logo-site.png?v=2" alt="Yalynka"></a>
+  <a class="logo" id="tyLogo" href="/"><img src="logo-site.png?v=2" alt="Yalynka"></a>
   <a class="ty-phone" href="tel:+380963133815">096 313 3815</a>
 </header>
 
@@ -232,8 +232,6 @@
   // а не завжди на головну. Джерело: ?from= (сервер), інакше document.referrer.
   // Дозволяємо ЛИШЕ локальний шлях того ж хосту; інакше фолбек на «/».
   (function(){
-    var back=document.getElementById('tyBack');
-    if(!back) return;
     function localPath(v){
       if(!v) return null;
       try{
@@ -245,8 +243,13 @@
         return p + (u.search||'');
       }catch(e){ return null; }
     }
+    // і кнопка «Повернутися на сайт», і логотип ведуть на сторінку оформлення
+    // (/ або /lead): ?from= (сервер) → document.referrer → фолбек «/».
     var dest=localPath(qs.get('from')) || localPath(document.referrer) || '/';
-    back.setAttribute('href', dest);
+    ['tyBack','tyLogo'].forEach(function(id){
+      var el=document.getElementById(id);
+      if(el) el.setAttribute('href', dest);
+    });
   })();
 
   // ─── Статус оплати/замовлення + очищення кошика ───
