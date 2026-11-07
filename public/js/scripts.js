@@ -3,12 +3,26 @@ $(document).ready((function () {
         return "<span>" + (e = ("00" + e).substr(-2))[0] + "</span><span>" + e[1] + "</span>"
     }
 
+    // Скрол до внутрішнього якоря з урахуванням (а) фіксованої шапки 80px і (б) LAZY-фото:
+    // img[loading="lazy"] до завантаження має ~0 висоти, тому offset().top цілі занижений і
+    // «пливе», поки фото довантажуються під час скролу → якір влучає не туди. Форсуємо
+    // завантаження всіх lazy-зображень (стабілізує геометрію), потім скролимо — одразу і ще
+    // раз, коли розкладка усталилась.
+    function scrollToAnchor(target) {
+        var $el = $(target);
+        if (!$el.length) return;
+        document.querySelectorAll('img[loading="lazy"]').forEach(function (img) { img.loading = "eager"; });
+        var go = function () { $("html, body").stop().animate({ scrollTop: Math.max(0, $(target).offset().top - 90) }, 450); };
+        go();
+        setTimeout(go, 500); // корекція після довантаження/усталення розкладки
+    }
+
     $("a[href^='#']").click((function () {
         var e = $(this).attr("href");
         // Guard against href="#" / missing targets (empty jQuery → .offset() throws).
         if (!e || e === "#" || !$(e).length) return !1;
-        // Offset by the fixed 80px header so the section title isn't hidden behind it.
-        return $("html, body").animate({scrollTop: ($(e).offset().top - 90) + "px"}), !1
+        scrollToAnchor(e);
+        return !1
     })), function t() {
         var o = new Date, n = new Date;
         n.setHours(23), n.setMinutes(59), n.setSeconds(59), 23 === o.getHours() && 59 === o.getMinutes() && 59 === o.getSeconds && n.setDate(n.getDate() + 1);
@@ -79,8 +93,7 @@ $(document).ready((function () {
         if (!target || target === "#" || !$(target).length) return false;
         var product = $(this).parent().find("h3").text();
         $("#order_form select[name='type'] option[value='" + product + "']").prop("selected", true);
-        // Same 80px fixed-header offset as the handler above.
-        $("html, body").animate({scrollTop: ($(target).offset().top - 90) + "px"});
+        // Скрол робить загальний a[href^='#'] хендлер вище (scrollToAnchor з lazy-врахуванням).
         return false;
     });
 
@@ -953,6 +966,7 @@ document.getElementById("order_form").addEventListener("submit", async function 
 
     // функція для показу помилки
     function showError(input, message) {
+        if (!input) return; // поле може бути відсутнє у формі (напр. last_name на /lead)
         isValid = false;
         input.classList.add("error"); // додаємо червоний бордер
 
@@ -971,6 +985,7 @@ document.getElementById("order_form").addEventListener("submit", async function 
 
     // функція для очищення помилок
     function clearError(input) {
+        if (!input) return; // поле може бути відсутнє у формі (напр. last_name на /lead) → без TypeError
         input.classList.remove("error");
         let next = input.nextElementSibling;
         if (next && next.classList.contains("error-message")) {
