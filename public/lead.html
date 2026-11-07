@@ -56,6 +56,9 @@
       .addon-order { margin-top: auto; background: #F77A1E; color: #fff; border: none; border-radius: 8px; padding: 9px; font-weight: 700; font-size: 14px; cursor: pointer; }
       .addon-order:active { transform: scale(.98); }
       /* Свотчі-варіації доповнень (набори іграшок + колір Роси) */
+      .lead-sizes { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 6px; }
+      .lead-sizes .lsz { background: #fff; border: 1px solid #d5d5d5; border-radius: 7px; padding: 4px 9px; font-size: 12px; font-weight: 600; color: #444; cursor: pointer; }
+      .lead-sizes .lsz.on { border-color: #F77A1E; background: #fff3e8; color: #b85c12; }
       .lead-sw { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 8px; }
       .lead-sw .lsw { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #cfcfcf; cursor: pointer; padding: 0; }
       .lead-sw .lsw.on { box-shadow: 0 0 0 2px #F77A1E; }
@@ -925,23 +928,28 @@
         <h2 class="title gold">🎁 Доповнення до ялинки</h2>
         <p class="addons__sub">Гірлянди від 595 ₴ · Набори іграшок від 990 ₴ — зробіть ялинку завершеною</p>
         <div class="addons__grid">
-            <div class="addon-card" data-addon="Гірлянда Роса · 50 м, 500 LED">
-                <img loading="lazy" class="addon-img" src="garlands/rosa/50m-white.webp" alt="Гірлянда Роса 50 м">
-                <div class="addon-name">Гірлянда Роса · 50 м, 500 LED</div>
-                <div class="lead-sw" data-set="rosa"></div>
-                <div class="addon-price">595 ₴</div>
+            <div class="addon-card" data-garland="rosa">
+                <img loading="lazy" class="addon-img" src="garlands/rosa/50m-white.webp" alt="Гірлянда Роса">
+                <div class="addon-name" data-gname></div>
+                <div class="lead-sizes" data-gsizes></div>
+                <div class="lead-sw" data-gcolors></div>
+                <div class="addon-price" data-gprice></div>
                 <button class="addon-order" type="button">Замовити</button>
             </div>
-            <div class="addon-card" data-addon="Хвойна Лапа · 30 м">
-                <img loading="lazy" class="addon-img" src="garlands/lapa/30m-white.webp" alt="Гірлянда Хвойна Лапа 30 м">
-                <div class="addon-name">Хвойна Лапа · 30 м</div>
-                <div class="addon-price">1105 ₴</div>
+            <div class="addon-card" data-garland="lapa">
+                <img loading="lazy" class="addon-img" src="garlands/lapa/30m-white.webp" alt="Гірлянда Хвойна Лапа">
+                <div class="addon-name" data-gname></div>
+                <div class="lead-sizes" data-gsizes></div>
+                <div class="lead-sw" data-gcolors></div>
+                <div class="addon-price" data-gprice></div>
                 <button class="addon-order" type="button">Замовити</button>
             </div>
-            <div class="addon-card" data-addon="Кінський хвіст · 2 м, 1000 LED">
-                <img loading="lazy" class="addon-img" src="garlands/hvist/2m-white.webp" alt="Гірлянда Кінський хвіст 2 м">
-                <div class="addon-name">Кінський хвіст · 2 м, 1000 LED</div>
-                <div class="addon-price">1415 ₴</div>
+            <div class="addon-card" data-garland="hvist">
+                <img loading="lazy" class="addon-img" src="garlands/hvist/2m-white.webp" alt="Гірлянда Кінський хвіст">
+                <div class="addon-name" data-gname></div>
+                <div class="lead-sizes" data-gsizes></div>
+                <div class="lead-sw" data-gcolors></div>
+                <div class="addon-price" data-gprice></div>
                 <button class="addon-order" type="button">Замовити</button>
             </div>
             <div class="addon-card" data-addon="Набір «Оксамит» · 40 шт">
@@ -1196,12 +1204,8 @@
          Ізольовано від спільного scripts.js (той обслуговує мінікрамницю головної). -->
     <script>
     (function () {
-      // Палітри: колір Роси (біла/жовта) + набори іграшок (ті самі, що на головній).
+      // Палітри наборів іграшок (ті самі кольори, що на головній).
       var SW = {
-        rosa: [
-          { c: '#f1f1ef', img: 'garlands/rosa/50m-white.webp', t: 'біла' },
-          { c: '#f3c53b', img: 'garlands/rosa/50m-yellow.webp', t: 'жовта' }
-        ],
         oksamyt: [
           { c: '#c0392b', img: 'toys/oksamyt/red.webp', t: 'Червоний' },
           { c: '#6e1a1a', img: 'toys/oksamyt/bordo.webp', t: 'Бордовий' },
@@ -1245,17 +1249,114 @@
         ]
       };
 
-      // 1) Рендер свотчів у плейсхолдери .lead-sw[data-set]
+      // Гірлянди: дві осі — розмір (міняє ціну) + колір. Паритет із головним сайтом.
+      var MULTI = 'conic-gradient(from 90deg,#e23b3b,#f6c343,#3ba15a,#2e6fd0,#9b59b6,#e23b3b)';
+      function col(t, c, img) { return { t: t, c: c, img: img }; }
+      var GARLANDS = {
+        rosa: { name: 'Гірлянда Роса', def: 1, sizes: [
+          { s: '20 м, 200 LED', short: '20 м', price: 195, colors: [
+            col('Білий', '#eef2f7', 'garlands/rosa/20m-white.webp'),
+            col('Жовтий', '#f6c343', 'garlands/rosa/20m-yellow.webp') ] },
+          { s: '50 м, 500 LED', short: '50 м', price: 595, colors: [
+            col('Білий', '#eef2f7', 'garlands/rosa/50m-white.webp'),
+            col('Жовтий', '#f6c343', 'garlands/rosa/50m-yellow.webp'),
+            col('Синій', '#2e6fd0', 'garlands/rosa/50m-blue.webp') ] },
+          { s: '100 м, 1000 LED', short: '100 м', price: 1090, colors: [
+            col('Білий', '#eef2f7', 'garlands/rosa/100m-white.webp'),
+            col('Жовтий', '#f6c343', 'garlands/rosa/100m-yellow.webp') ] }
+        ] },
+        lapa: { name: 'Хвойна Лапа', def: 0, sizes: [
+          { s: '30 м', short: '30 м', price: 1105, colors: [
+            col('Білий', '#eef2f7', 'garlands/lapa/30m-white.webp'),
+            col('Жовтий', '#f6c343', 'garlands/lapa/30m-yellow.webp'),
+            col('Мультиколір', MULTI, 'garlands/lapa/30m-multi.webp') ] },
+          { s: '50 м', short: '50 м', price: 1510, colors: [
+            col('Білий', '#eef2f7', 'garlands/lapa/50m-white.webp'),
+            col('Жовтий', '#f6c343', 'garlands/lapa/50m-yellow.webp'),
+            col('Мультиколір', MULTI, 'garlands/lapa/50m-multi.webp') ] },
+          { s: '100 м', short: '100 м', price: 2600, colors: [
+            col('Білий', '#eef2f7', 'garlands/lapa/100m-white.webp'),
+            col('Жовтий', '#f6c343', 'garlands/lapa/100m-yellow.webp'),
+            col('Мультиколір', MULTI, 'garlands/lapa/100m-multi.webp') ] }
+        ] },
+        hvist: { name: 'Кінський хвіст', def: 0, sizes: [
+          { s: '2 м, 1000 LED', short: '2 м', price: 1415, colors: [
+            col('Білий', '#eef2f7', 'garlands/hvist/2m-white.webp'),
+            col('Жовтий', '#f6c343', 'garlands/hvist/2m-yellow.webp') ] }
+        ] }
+      };
+
+      // 1) Набори іграшок: рендер кольорових свотчів у .lead-sw[data-set]
       document.querySelectorAll('.lead-sw[data-set]').forEach(function (box) {
+        var card = box.closest('.addon-card');
         var arr = SW[box.getAttribute('data-set')] || [];
         box.innerHTML = arr.map(function (s, i) {
           return '<button type="button" class="lsw' + (i === 0 ? ' on' : '') +
             '" style="background:' + s.c + '" data-img="' + s.img +
             '" data-color="' + s.t + '" title="' + s.t + '"></button>';
         }).join('');
+        box.querySelectorAll('.lsw').forEach(function (sw) {
+          sw.addEventListener('click', function () {
+            var img = sw.getAttribute('data-img');
+            var im = card.querySelector('.addon-img');
+            if (im && img) im.src = img;
+            box.querySelectorAll('.lsw').forEach(function (x) { x.classList.remove('on'); });
+            sw.classList.add('on');
+          });
+        });
       });
 
-      // 2) Вибрані доповнення → чипи + прихований коментар (name="comment" → /order → CRM)
+      // 2) Гірлянди: рендер розмір-пілюль + кольорів зі станом (size/color)
+      document.querySelectorAll('.addon-card[data-garland]').forEach(function (card) {
+        var g = GARLANDS[card.getAttribute('data-garland')];
+        if (!g) return;
+        var state = { size: g.def || 0, color: 0 };
+        var nameEl = card.querySelector('[data-gname]');
+        var sizesEl = card.querySelector('[data-gsizes]');
+        var colorsEl = card.querySelector('[data-gcolors]');
+        var priceEl = card.querySelector('[data-gprice]');
+        var imgEl = card.querySelector('.addon-img');
+
+        function paintColors() {
+          var cols = g.sizes[state.size].colors;
+          colorsEl.innerHTML = cols.map(function (c, i) {
+            return '<button type="button" class="lsw' + (i === state.color ? ' on' : '') +
+              '" style="background:' + c.c + '" data-i="' + i + '" title="' + c.t + '"></button>';
+          }).join('');
+          colorsEl.querySelectorAll('.lsw').forEach(function (b) {
+            b.addEventListener('click', function () { state.color = Number(b.getAttribute('data-i')); paint(); });
+          });
+        }
+        function paint() {
+          var sz = g.sizes[state.size];
+          if (state.color >= sz.colors.length) state.color = 0;
+          var c = sz.colors[state.color];
+          if (nameEl) nameEl.textContent = g.name + ' · ' + sz.s;
+          if (priceEl) priceEl.textContent = sz.price + ' ₴';
+          if (imgEl && c) imgEl.src = c.img;
+          if (sizesEl) sizesEl.querySelectorAll('.lsz').forEach(function (p) {
+            p.classList.toggle('on', Number(p.getAttribute('data-i')) === state.size);
+          });
+          paintColors();
+        }
+        if (g.sizes.length > 1) {
+          sizesEl.innerHTML = g.sizes.map(function (sz, i) {
+            return '<button type="button" class="lsz' + (i === state.size ? ' on' : '') + '" data-i="' + i + '">' + sz.short + '</button>';
+          }).join('');
+          sizesEl.querySelectorAll('.lsz').forEach(function (p) {
+            p.addEventListener('click', function () { state.size = Number(p.getAttribute('data-i')); state.color = 0; paint(); });
+          });
+        } else if (sizesEl) {
+          sizesEl.style.display = 'none';
+        }
+        paint();
+        card._garlandLabel = function () {
+          var sz = g.sizes[state.size]; var c = sz.colors[state.color];
+          return g.name + ' · ' + sz.short + ' — ' + c.t;
+        };
+      });
+
+      // 3) Вибрані доповнення → чипи + прихований коментар (name="comment" → /order → CRM)
       var picks = [];
       var commentEl = document.getElementById('leadComment');
       var picksEl = document.getElementById('addonPicks');
@@ -1274,31 +1375,25 @@
         });
       }
 
-      // 3) Логіка карток: свотч → фото+підсвітка; «Замовити» → додати у коментар
-      document.querySelectorAll('.addon-card').forEach(function (card) {
-        card.querySelectorAll('.lead-sw .lsw').forEach(function (sw) {
-          sw.addEventListener('click', function () {
-            var img = sw.getAttribute('data-img');
-            var im = card.querySelector('.addon-img');
-            if (im && img) im.src = img;
-            card.querySelectorAll('.lead-sw .lsw').forEach(function (x) { x.classList.remove('on'); });
-            sw.classList.add('on');
-          });
-        });
-        var btn = card.querySelector('.addon-order');
-        if (btn) {
-          // capture + stopImmediatePropagation → блокуємо старий popup зі scripts.js
-          btn.addEventListener('click', function (e) {
-            e.stopImmediatePropagation();
+      // 4) «Замовити» на доповненні → додати обране у коментар + скрол до форми
+      document.querySelectorAll('.addon-card .addon-order').forEach(function (btn) {
+        var card = btn.closest('.addon-card');
+        // capture + stopImmediatePropagation → блокуємо старий popup зі scripts.js
+        btn.addEventListener('click', function (e) {
+          e.stopImmediatePropagation();
+          var label;
+          if (card._garlandLabel) {
+            label = card._garlandLabel();
+          } else {
             var base = (card.getAttribute('data-addon') || '').trim();
             var on = card.querySelector('.lead-sw .lsw.on');
             var color = on ? (on.getAttribute('data-color') || on.title || '') : '';
-            var label = color ? (base + ' — ' + color) : base;
-            if (picks.indexOf(label) === -1) picks.push(label);
-            render();
-            if (form && form.scrollIntoView) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, true);
-        }
+            label = color ? (base + ' — ' + color) : base;
+          }
+          if (picks.indexOf(label) === -1) picks.push(label);
+          render();
+          if (form && form.scrollIntoView) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, true);
       });
     })();
     </script>
