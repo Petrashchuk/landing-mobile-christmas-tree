@@ -5,7 +5,10 @@ $(document).ready((function () {
 
     $("a[href^='#']").click((function () {
         var e = $(this).attr("href");
-        return $("html, body").animate({scrollTop: $(e).offset().top + "px"}), !1
+        // Guard against href="#" / missing targets (empty jQuery → .offset() throws).
+        if (!e || e === "#" || !$(e).length) return !1;
+        // Offset by the fixed 80px header so the section title isn't hidden behind it.
+        return $("html, body").animate({scrollTop: ($(e).offset().top - 90) + "px"}), !1
     })), function t() {
         var o = new Date, n = new Date;
         n.setHours(23), n.setMinutes(59), n.setSeconds(59), 23 === o.getHours() && 59 === o.getMinutes() && 59 === o.getSeconds && n.setDate(n.getDate() + 1);
@@ -73,9 +76,11 @@ $(document).ready((function () {
 
     $("a[href^='#']").click(function () {
         var target = $(this).attr("href");
+        if (!target || target === "#" || !$(target).length) return false;
         var product = $(this).parent().find("h3").text();
         $("#order_form select[name='type'] option[value='" + product + "']").prop("selected", true);
-        $("html, body").animate({scrollTop: $(target).offset().top + "px"});
+        // Same 80px fixed-header offset as the handler above.
+        $("html, body").animate({scrollTop: ($(target).offset().top - 90) + "px"});
         return false;
     });
 
