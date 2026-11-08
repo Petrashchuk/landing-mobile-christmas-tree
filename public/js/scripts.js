@@ -126,9 +126,44 @@ $(document).ready((function () {
     update();
 
 
-    $('.mask_phone').attr("placeholder", "+38(___) ___-__-__").mask("+38(ddd) ddd-dd-dd");
+    // Телефон: надійний нормалізатор замість жорсткої маски «+38(…)». Хоч як введуть/вставлять
+    // (+380…, 380…, 0…, 00380…) — поле завжди тримає канонічний «+380 XX XXX XX XX», тож префікс
+    // НЕ дублюється (баг «383806845605») і неповний номер видно одразу. uaSubscriber/formatUaPhone
+    // — top-level, спільні з валідацією сабміту.
+    $('.mask_phone').each(function () {
+        var el = this;
+        el.setAttribute('placeholder', '+380 XX XXX XX XX');
+        el.setAttribute('inputmode', 'tel');
+        el.addEventListener('input', function () {
+            el.value = formatUaPhone(el.value);
+            try { var end = el.value.length; el.setSelectionRange(end, end); } catch (e) {}
+        });
+    });
 
 }));
+
+// ── Нормалізація українського телефону (спільна для форматера поля і валідації) ──
+// Будь-який ввід → 9 цифр абонента (код оператора 2 + номер 7). Знімає країнні/локальні
+// префікси (00380 / 380 / 80 / 0), тож «380…» чи «+380…» не задвоюється.
+function uaSubscriber(raw) {
+    var d = String(raw == null ? '' : raw).replace(/\D/g, '');
+    if (d.indexOf('00') === 0) d = d.slice(2);
+    if (d.indexOf('380') === 0) d = d.slice(3);
+    else if (d.indexOf('80') === 0) d = d.slice(2);
+    else if (d.indexOf('0') === 0) d = d.slice(1);
+    return d.slice(0, 9);
+}
+// 9 цифр абонента → дисплей «+380 XX XXX XX XX» (порожньо, якщо абонента нема).
+function formatUaPhone(raw) {
+    var s = uaSubscriber(raw);
+    if (!s) return '';
+    var out = '+380';
+    if (s.length) out += ' ' + s.slice(0, 2);
+    if (s.length > 2) out += ' ' + s.slice(2, 5);
+    if (s.length > 5) out += ' ' + s.slice(5, 7);
+    if (s.length > 7) out += ' ' + s.slice(7, 9);
+    return out;
+}
 
 function updateDate() {
     var currentDate = new Date();
@@ -1030,14 +1065,18 @@ document.getElementById("order_form").addEventListener("submit", async function 
         showError(lastName, "Прізвище може містити лише літери.");
     }
 
-    // Телефон — український мобільний (+38 0XX ...), перевірка коду оператора
+    // Телефон — український мобільний. Беремо 9 цифр абонента через uaSubscriber (знімає
+    // будь-які префікси), тож «380…»/«+380…»/«0…» нормалізуються однаково, а задвоєний префікс
+    // неможливий. Канонізуємо і сам value, щоб у CRM пішов чистий «+380 XX XXX XX XX».
     const phone = this.phone;
     clearError(phone);
-    const phoneDigits = (phone.value || "").replace(/\D/g, "");
+    const sub = uaSubscriber(phone.value);
+    const canonical = formatUaPhone(phone.value);
+    if (canonical) phone.value = canonical;
     const UA_CODES = ["39", "50", "63", "66", "67", "68", "73", "89", "91", "92", "93", "94", "95", "96", "97", "98", "99"];
-    if (phoneDigits.length !== 12 || phoneDigits.slice(0, 3) !== "380") {
+    if (sub.length !== 9) {
         showError(phone, "Введіть повний номер телефону.");
-    } else if (UA_CODES.indexOf(phoneDigits.slice(3, 5)) < 0) {
+    } else if (UA_CODES.indexOf(sub.slice(0, 2)) < 0) {
         showError(phone, "Перевірте код оператора (напр. 067, 095, 073).");
     }
 
