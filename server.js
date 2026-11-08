@@ -520,7 +520,7 @@ async function sendCrmOrder({name, first_name, last_name, phone, type, size, pri
     const split = splitName(name);
     const firstName = (first_name || '').trim() || split.firstName;
     const lastName = (last_name || '').trim() || split.lastName;
-    const source = source_override || process.env.CRM_ORDER_SOURCE || 'Лендінг ялинки';
+    const source = source_override || process.env.CRM_ORDER_SOURCE || 'Лендінг-ліди';
 
     // Лише коментар клієнта. Вид/розмір товару видно в позиції замовлення
     // (SKU-прив'язка), тому в коментар їх більше не дублюємо.
