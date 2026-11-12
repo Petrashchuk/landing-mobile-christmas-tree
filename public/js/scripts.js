@@ -355,7 +355,7 @@ treeSelect.addEventListener("change", function () {
 (function () {
     if (typeof treeSizes === "undefined") return;
     var catBox = document.getElementById("catalogCards");
-    var DISCOUNT = 30; // % «старої ціни» (анкер магазину); 0 = показувати лише поточну ціну
+    var DISCOUNT = 20; // % «старої ціни» (анкер магазину); 0 = показувати лише поточну ціну
     var CARDS = [
         { title: "Казка", img: "trees/kazka/2.webp", gallery: ["trees/kazka/2.webp", "trees/kazka/3.webp", "trees/kazka/4.webp"], cats: ["Зелена"], colors: [{ label: "Зелена", v: "Казка", sw: "#2e7d32" }] },
         { title: "Снігова Королева", img: "trees/snow-queen/2.webp", gallery: ["trees/snow-queen/2.webp", "trees/snow-queen/1.webp", "trees/snow-queen/4.webp"], cats: ["Білі кінчики"], colors: [{ label: "Білі кінчики", v: "Снігова Королева", sw: "#eaf2ff" }] },
