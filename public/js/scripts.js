@@ -213,7 +213,7 @@ const sizeSelect = document.getElementById("sizeSelect");
 // Ціни синхронізовано з каталогом CRM/сайту (джерело істини). Розміри — повний
 // діапазон з CRM по кожному виду. SKU-прив'язка робиться на бекенді (server.js).
 const treeSizes = {
-    "Снігова Королева": ["1.0 м - 540грн", "1.3 м - 750грн", "1.5 м - 980грн", "1.8 м - 1410грн", "2.0 м - 1630грн", "2.2 м - 1840грн", "2.5 м - 2730грн", "3.0 м - 3940грн"],
+    "Снігова Королева": ["1.0 м - 520грн", "1.3 м - 720грн", "1.5 м - 940грн", "1.8 м - 1360грн", "2.0 м - 1580грн", "2.2 м - 1790грн", "2.5 м - 2660грн", "3.0 м - 3840грн"],
     "Казка": ["1.0 м - 510грн", "1.3 м - 710грн", "1.5 м - 900грн", "1.8 м - 1250грн", "2.0 м - 1490грн", "2.2 м - 1610грн", "2.5 м - 2300грн", "3.0 м - 3530грн"],
     "Елітна з шишкою": ["1.3 м - 960грн", "1.5 м - 1200грн", "1.8 м - 1730грн", "2.0 м - 1940грн", "2.2 м - 2150грн", "2.5 м - 3160грн", "3.0 м - 4360грн"],
     "Кармен + сині ягідки": ["1.3 м - 1040грн", "1.5 м - 1260грн", "1.8 м - 1840грн", "2.0 м - 2060грн", "2.2 м - 2220грн", "2.5 м - 3300грн", "3.0 м - 4620грн"],
@@ -472,7 +472,10 @@ treeSelect.addEventListener("change", function () {
     };
     function priceNum(v) { var m = (v || "").match(/(\d[\d\s]*)\s*грн/i); return m ? parseInt(m[1].replace(/\s/g, ""), 10) : 0; }
     function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
-    function oldPrice(p) { return DISCOUNT > 0 ? Math.round(p / (1 - DISCOUNT / 100) / 10) * 10 : 0; }
+    // Персональна знижка моделі (інакше глобальний DISCOUNT). Снігова Королева — −30%.
+    var MODEL_DISCOUNT = { "Снігова Королева": 30 };
+    function discountFor(model) { return Object.prototype.hasOwnProperty.call(MODEL_DISCOUNT, model) ? MODEL_DISCOUNT[model] : DISCOUNT; }
+    function oldPrice(p, model) { var d = discountFor(model); return d > 0 ? Math.round(p / (1 - d / 100) / 10) * 10 : 0; }
     function fillHeights(sel, model) {
         sel.innerHTML = "";
         (treeSizes[model] || []).forEach(function (s) {
@@ -656,7 +659,7 @@ treeSelect.addEventListener("change", function () {
     function qvRefresh() {
         var p = priceNum(qvHeight.value);
         if (!p) { qvPrice.textContent = ""; qvEcon.textContent = ""; return; }
-        if (DISCOUNT > 0) { var o = oldPrice(p); qvPrice.innerHTML = fmt(p) + ' ₴ <span class="old">' + fmt(o) + ' ₴</span>'; qvEcon.textContent = "Економія " + fmt(o - p) + " ₴"; }
+        if (discountFor(qvModel) > 0) { var o = oldPrice(p, qvModel); qvPrice.innerHTML = fmt(p) + ' ₴ <span class="old">' + fmt(o) + ' ₴</span>'; qvEcon.textContent = "Економія " + fmt(o - p) + " ₴"; }
         else { qvPrice.textContent = fmt(p) + " ₴"; qvEcon.textContent = ""; }
     }
     function setQvImg(src) { qvImg.src = src; qvIdx = qvGallery.indexOf(src); if (qvIdx < 0) qvIdx = 0; if (qvThumbs) qvThumbs.querySelectorAll("img").forEach(function (t) { t.classList.toggle("on", t.getAttribute("data-src") === src); }); }
@@ -741,7 +744,7 @@ treeSelect.addEventListener("change", function () {
         if (!qv) return;
         qvMode = "tree"; qvAddon = null; showQvEls(false);
         qvImg.alt = c.title;
-        if (qvBadge) { qvBadge.textContent = DISCOUNT > 0 ? ("−" + DISCOUNT + "%") : ""; qvBadge.style.display = DISCOUNT > 0 ? "block" : "none"; }
+        if (qvBadge) { var qd = discountFor(c.colors[0].v); qvBadge.textContent = qd > 0 ? ("−" + qd + "%") : ""; qvBadge.style.display = qd > 0 ? "block" : "none"; }
         qvTitle.textContent = c.title;
         qvCardTitle = c.title;
         qvModel = c.colors[0].v;
@@ -772,7 +775,7 @@ treeSelect.addEventListener("change", function () {
         }
         var p = priceNum(qvHeight.value); if (!p) return;
         var variant = (qvHeight.value.split(" - ")[0] || "").trim();
-        cartAdd({ name: qvModel, variant: variant, price: p, old: oldPrice(p), img: qvGallery[0] || qvImg.src });
+        cartAdd({ name: qvModel, variant: variant, price: p, old: oldPrice(p, qvModel), img: qvGallery[0] || qvImg.src });
         closeQuickView(); openCart();
     });
     if (qvImg) qvImg.parentNode.addEventListener("click", function () { if (window.Lightbox && qvGallery.length) window.Lightbox.open(qvGallery, qvIdx); });
@@ -803,7 +806,7 @@ treeSelect.addEventListener("change", function () {
             ? '<div class="collabel">Колір: <b class="cl-name">' + c.colors[0].label + '</b></div><div class="swatches">' +
               c.colors.map(function (col, i) { return '<button type="button" class="sw' + (i === 0 ? " on" : "") + '" style="background:' + col.sw + '" data-v="' + col.v + '" data-label="' + col.label + '" data-img="' + (col.img || "") + '" title="' + col.label + '"></button>'; }).join("") + '</div>'
             : "";
-        var badge = DISCOUNT > 0 ? '<span class="badge">−' + DISCOUNT + '%</span>' : "";
+        var badge = discountFor(model) > 0 ? '<span class="badge">−' + discountFor(model) + '%</span>' : "";
         var card = document.createElement("div");
         card.className = "card";
         card.setAttribute("data-cat", c.cats.join("|"));
@@ -823,7 +826,7 @@ treeSelect.addEventListener("change", function () {
         function refresh() {
             var p = priceNum(hsel.value);
             if (!p) { priceEl.textContent = ""; econEl.textContent = ""; return; }
-            if (DISCOUNT > 0) { var o = oldPrice(p); priceEl.innerHTML = fmt(p) + ' ₴ <span class="old">' + fmt(o) + ' ₴</span>'; econEl.textContent = "Економія " + fmt(o - p) + " ₴"; }
+            if (discountFor(model) > 0) { var o = oldPrice(p, model); priceEl.innerHTML = fmt(p) + ' ₴ <span class="old">' + fmt(o) + ' ₴</span>'; econEl.textContent = "Економія " + fmt(o - p) + " ₴"; }
             else { priceEl.textContent = fmt(p) + " ₴"; econEl.textContent = ""; }
         }
         fillHeights(hsel, model); refresh();
@@ -878,7 +881,7 @@ treeSelect.addEventListener("change", function () {
         function addCurrent(openAfter) {
             var p = priceNum(hsel.value); if (!p) return;
             var variant = (hsel.value.split(" - ")[0] || "").trim();
-            cartAdd({ name: model, variant: variant, price: p, old: oldPrice(p), img: currentBase });
+            cartAdd({ name: model, variant: variant, price: p, old: oldPrice(p, model), img: currentBase });
             if (openAfter) openCart();
         }
         card.querySelector(".cbuy").addEventListener("click", function (e) { e.preventDefault(); addCurrent(false); });
