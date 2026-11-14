@@ -343,17 +343,6 @@
       .pay-card { display:flex; align-items:center; gap:11px; border:1.5px solid var(--org); border-radius:12px; padding:13px 14px; background:#fbf1ef; }
       .deliv-note { border-left:3px solid var(--org); background:#f6f2ec; border-radius:8px; padding:11px 13px; font-size:12.5px; line-height:1.5; color:#5a5349; }
       .deliv-note b { color:#2f2a24; }
-      .pay-logos { display:flex; gap:8px; margin-top:9px; }
-      .inst-picker { margin:6px 0 2px; padding:13px; border:1.5px solid #e0dccf; border-radius:12px; background:#fbf7f1; }
-      .inst-picker[hidden] { display:none; }
-      .inst-row { margin-bottom:11px; }
-      .inst-row:last-of-type { margin-bottom:0; }
-      .inst-lbl { font-size:12px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:#8a7f6e; margin-bottom:7px; }
-      .inst-banks, .inst-parts { display:flex; flex-wrap:wrap; gap:7px; }
-      .inst-chip { display:inline-flex; align-items:center; gap:8px; background:#fff; border:1.5px solid #e0dccf; border-radius:9px; padding:9px 13px; font-size:13.5px; font-weight:700; color:#3a2f27; cursor:pointer; }
-      .inst-logo { height:18px; width:auto; display:block; flex:none; }
-      .inst-chip.on { border-color:var(--org); background:#fbf1ef; color:var(--org); }
-      .inst-note { font-size:11.5px; color:#8a7f6e; line-height:1.45; margin-top:11px; }
       /* CRO: мікрокопі довіри у формі оформлення */
       .field-hint { font-size:12px; color:#8a7f6e; margin:-3px 0 9px 2px; display:flex; align-items:flex-start; gap:5px; line-height:1.4; }
       .co-trust { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:20px 0 2px; }
@@ -361,9 +350,6 @@
       .co-trust b { display:block; color:var(--grn-d); font-size:12px; }
       .co-reassure { font-size:12.5px; color:#8a7f6e; text-align:center; line-height:1.45; margin:10px auto 0; max-width:410px; }
       .co-reassure b { color:#5a5349; }
-      .inst-break { font-size:15px; font-weight:800; color:var(--org); margin:11px 0 0; }
-      .inst-break span { color:#6a5f54; font-weight:700; font-size:13.5px; }
-      .paylogo { width:44px; height:28px; display:block; filter:drop-shadow(0 1px 2px rgba(0,0,0,.08)); }
       .co-disclaimer { margin:12px 2px 2px; font-size:11.5px; line-height:1.5; color:#8a8378; text-align:center; }
       .co-disclaimer a { color:var(--org); text-decoration:underline; }
       #checkoutMount .button { width:100%; background:linear-gradient(135deg,#B4281B,#8E1C12); color:#fff; border:none; border-radius:14px; padding:18px; font-weight:800; font-size:17px; letter-spacing:.02em; text-transform:uppercase; cursor:pointer; margin-top:14px; box-shadow:0 10px 26px rgba(154,32,22,.4); transition:transform .12s, box-shadow .15s, filter .15s; }
@@ -659,8 +645,7 @@
                 <div id="orderCartSummary" class="order-cart-summary" style="display:none;"></div>
 
                 <div class="co-label">Оформлення замовлення</div>
-                <input class="field" type="text" name="first_name" required autocomplete="given-name" placeholder="Ім'я">
-                <input class="field" type="text" name="last_name" autocomplete="family-name" placeholder="Прізвище">
+                <input class="field" type="text" name="first_name" required autocomplete="name" placeholder="Ім'я та прізвище">
                 <input class="field mask_phone" type="tel" name="phone" required inputmode="tel" autocomplete="tel" placeholder="Введіть Ваш телефон">
                 <div class="field-hint">📞 Телефонуємо лише щоб підтвердити замовлення та доставку — жодного спаму</div>
 
@@ -706,19 +691,6 @@
                 <div class="pay-opts deliv-opts">
                     <label class="pay-opt on" data-pm="cod"><input type="radio" name="payment_method" value="cod" checked><span class="do-rb"></span><span class="do-txt"><b>Накладений платіж</b><small>Оплата при отриманні на відділенні Нової пошти</small></span></label>
                     <label class="pay-opt" data-pm="online"><input type="radio" name="payment_method" value="online"><span class="do-rb"></span><span class="do-txt"><b>Оплатити онлайн</b><small>Apple Pay, Google Pay або картка. Оплата на захищеній сторінці.</small></span></label>
-                    <label class="pay-opt pay-opt-inst" data-pm="installment"><input type="radio" name="payment_method" value="installment"><span class="do-rb"></span><span class="do-txt"><b>Оплата частинами</b><small>Від 1 000 грн · 2–3 платежі · monobank, ПриватБанк, ПУМБ, А-Банк, ОТП · 0% без переплат</small></span></label>
-                </div>
-                <div class="inst-picker" id="instPicker" hidden>
-                    <div class="inst-row"><div class="inst-lbl">Банк</div><div class="inst-banks" id="instBanks"></div></div>
-                    <div class="inst-row"><div class="inst-lbl">Кількість платежів</div><div class="inst-parts" id="instPartsEl"></div></div>
-                    <div class="inst-break" id="instBreak"></div>
-                    <input type="hidden" name="installment_bank" id="instBankVal" value="mono">
-                    <input type="hidden" name="installment_parts" id="instPartsVal" value="3">
-                    <div class="inst-note">0% розстрочка · без переплат. Банк і кількість платежів зафіксуються на захищеній сторінці оплати.</div>
-                </div>
-                <div class="pay-logos">
-                    <svg class="paylogo" viewBox="0 0 48 30" aria-label="Visa"><rect width="48" height="30" rx="4" fill="#fff" stroke="#e7e7e7"/><text x="24" y="20" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-style="italic" font-size="12" fill="#1A1F71" text-anchor="middle">VISA</text></svg>
-                    <svg class="paylogo" viewBox="0 0 48 30" aria-label="Mastercard"><rect width="48" height="30" rx="4" fill="#fff" stroke="#e7e7e7"/><circle cx="21" cy="15" r="7.5" fill="#EB001B"/><circle cx="29" cy="15" r="7.5" fill="#F79E1B" fill-opacity=".92"/></svg>
                 </div>
 
                 <textarea class="field np-field np-comment" name="comment" id="orderComment" placeholder="Коментар до замовлення (за бажанням)"></textarea>
@@ -1018,80 +990,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Спосіб оплати: online / частинами / cod — тогл .on + показ installment-пікера
+  // Спосіб оплати: online / cod — тогл .on + адаптація CTA під спосіб.
   var payOpts = Array.prototype.slice.call(document.querySelectorAll('.pay-opt'));
   payOpts.forEach(function (o) {
     o.addEventListener('click', function () {
       var r = o.querySelector('input'); if (r) r.checked = true;
       payOpts.forEach(function (x) { x.classList.toggle('on', x === o); });
-      syncInstPicker();
+      syncCta();
     });
   });
 
-  // Installment-пікер (дзеркало основного сайту: від 1000₴, parts лише 2/3).
-  // Банк→parts МУСЯТЬ збігатися з WFP-кабінетом: mono[3] privat[2,3] pumb[3] abank[2,3] otp[3].
-  var INST_BANKS = [
-    { code: 'mono', name: 'monobank', parts: [3] },
-    { code: 'privat', name: 'ПриватБанк', parts: [2, 3] },
-    { code: 'pumb', name: 'ПУМБ', parts: [3] },
-    { code: 'abank', name: 'А-Банк', parts: [2, 3] },
-    { code: 'otp', name: 'ОТП Банк', parts: [3] }
-  ];
-  var instPicker = document.getElementById('instPicker');
-  var instBanksEl = document.getElementById('instBanks');
-  var instPartsEl = document.getElementById('instPartsEl');
-  var instBankVal = document.getElementById('instBankVal');
-  var instPartsVal = document.getElementById('instPartsVal');
-  var curBank = INST_BANKS[0];
-  var instBreak = document.getElementById('instBreak');
-  function renderInstBreak() {
-    if (!instBreak) return;
-    var totalEl = document.getElementById('cartTotal2') || document.getElementById('cartTotal');
-    var total = totalEl ? (parseInt(String(totalEl.textContent).replace(/[^0-9]/g, ''), 10) || 0) : 0;
-    var parts = (instPartsVal && Number(instPartsVal.value)) || curBank.parts[curBank.parts.length - 1];
-    if (!total || !parts) { instBreak.textContent = ''; return; }
-    var monthly = Math.round(total / parts);
-    instBreak.innerHTML = '<b>' + monthly.toLocaleString('uk-UA') + ' грн</b> <span>/міс · разом ' + total.toLocaleString('uk-UA') + ' грн · без переплат</span>';
-  }
-  function renderInstParts() {
-    if (!instPartsEl) return;
-    instPartsEl.innerHTML = '';
-    var def = curBank.parts[curBank.parts.length - 1];
-    if (instPartsVal) instPartsVal.value = def;
-    curBank.parts.forEach(function (p) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'inst-chip' + (p === def ? ' on' : '');
-      b.textContent = p + (p === 1 ? ' платіж' : (p < 5 ? ' платежі' : ' платежів'));
-      b.addEventListener('click', function () {
-        instPartsEl.querySelectorAll('.inst-chip').forEach(function (x) { x.classList.remove('on'); });
-        b.classList.add('on'); if (instPartsVal) instPartsVal.value = p; renderInstBreak();
-      });
-      instPartsEl.appendChild(b);
-    });
-    renderInstBreak();
-  }
-  function renderInstBanks() {
-    if (!instBanksEl) return;
-    instBanksEl.innerHTML = '';
-    INST_BANKS.forEach(function (bank, i) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'inst-chip' + (i === 0 ? ' on' : '');
-      b.innerHTML = '<img class="inst-logo" src="img/banks/' + bank.code + '.svg" alt="" onerror="this.remove()"> ' + bank.name;
-      b.addEventListener('click', function () {
-        instBanksEl.querySelectorAll('.inst-chip').forEach(function (x) { x.classList.remove('on'); });
-        b.classList.add('on'); curBank = bank; if (instBankVal) instBankVal.value = bank.code; renderInstParts();
-      });
-      instBanksEl.appendChild(b);
-    });
-    renderInstParts();
-  }
-  if (instPicker) renderInstBanks();
-  function syncInstPicker() {
-    var sel = document.querySelector('input[name="payment_method"]:checked');
-    if (instPicker) instPicker.hidden = !(sel && sel.value === 'installment');
-    if (sel && sel.value === 'installment') renderInstBreak();
-    syncCta();
-  }
   // CRO: CTA + мікрокопі під кнопкою адаптуються під спосіб оплати — клієнт точно
   // знає, що станеться далі (менше невизначеності = менше покинутих форм).
   function syncCta() {
@@ -1100,42 +1008,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var btn = document.querySelector('#order_form button[type="submit"]');
     var note = document.getElementById('coReassure');
     if (btn) btn.textContent = v === 'online' ? 'Оформити та перейти до оплати'
-                             : v === 'installment' ? 'Оформити оплату частинами'
                              : 'Підтвердити замовлення';
     if (note) note.innerHTML = v === 'online'
         ? 'Перейдете на <b>захищену сторінку WayForPay</b> — Visa / Mastercard / Apple Pay / Google Pay.'
-        : v === 'installment'
-          ? 'Банк і кількість платежів оберете на <b>захищеній сторінці</b>. 0% — без переплат.'
-          : 'Менеджер <b>зателефонує для підтвердження</b> перед відправкою. Оплата при отриманні — нічого не платите наперед.';
+        : 'Менеджер <b>зателефонує для підтвердження</b> перед відправкою. Оплата при отриманні — нічого не платите наперед.';
   }
-  syncInstPicker();
-
-  // Частинами доступні лише від 1000₴ — ховаємо опцію, якщо сума кошика менша,
-  // і якщо вона була обрана → перемикаємо на «Накладений платіж».
-  function gateInstallment() {
-    var totalEl = document.getElementById('cartTotal2') || document.getElementById('cartTotal');
-    var total = totalEl ? (parseInt(String(totalEl.textContent).replace(/[^0-9]/g, ''), 10) || 0) : 0;
-    var instOpt = document.querySelector('.pay-opt-inst');
-    if (!instOpt) return;
-    var ok = total >= 1000;
-    instOpt.style.display = ok ? '' : 'none';
-    if (!ok) {
-      var instRadio = instOpt.querySelector('input');
-      if (instRadio && instRadio.checked) {
-        var codRadio = document.querySelector('.pay-opt[data-pm="cod"] input');
-        if (codRadio) {
-          codRadio.checked = true;
-          document.querySelectorAll('.pay-opt').forEach(function (x) { x.classList.toggle('on', x.getAttribute('data-pm') === 'cod'); });
-        }
-        syncInstPicker();
-      }
-    }
-  }
-  var totalElW = document.getElementById('cartTotal2');
-  if (totalElW && window.MutationObserver) {
-    new MutationObserver(gateInstallment).observe(totalElW, { childList: true, characterData: true, subtree: true });
-  }
-  gateInstallment();
+  syncCta();
 });
 </script>
 </body>
